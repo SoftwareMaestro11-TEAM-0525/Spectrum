@@ -18,6 +18,13 @@ const User = new Schema({
     }
 })
 
+User.statics.create = function(user_id, user_pw){
+    const user = new this({
+        user_id,
+        user_pw
+    })
+    return user.save()
+}
 User.statics.findOneByUser_id = function(user_id){
     return this.findOne({
         user_id
