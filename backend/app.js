@@ -18,6 +18,7 @@ app.use('/api', require('./routes/api'));
 // Set Sceret Key
 app.set('jwt-key',config.jwtKey)
 
+
 /**
  * Connect Mongodb
  */

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const crypto = require('crypto')
+const config = require('../config')
 
 const User = new Schema({
     user_id: {
@@ -19,9 +21,11 @@ const User = new Schema({
 })
 
 User.statics.create = function(user_id, user_pw){
+    const encrypted = crypto.createHmac('sha1',config.pwKey).update(user_pw).digest('base64')
+
     const user = new this({
         user_id,
-        user_pw
+        user_pw:encrypted
     })
     return user.save()
 }
@@ -32,7 +36,8 @@ User.statics.findOneByUser_id = function(user_id){
 }
 
 User.methods.verify = function(user_pw){
-    return this.user_pw === user_pw
+    const encrypted = crypto.createHmac('sha1',config.pwKey).update(user_pw).digest('base64')
+    return this.user_pw === encrypted
 }
 
 module.exports = mongoose.model('User',User)
