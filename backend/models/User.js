@@ -18,4 +18,14 @@ const User = new Schema({
     }
 })
 
+User.statics.findOneByUser_id = function(user_id){
+    return this.findOne({
+        user_id
+    }).exec();
+}
+
+User.methods.verify = function(user_pw){
+    return this.user_pw === user_pw
+}
+
 module.exports = mongoose.model('User',User)
