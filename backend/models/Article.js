@@ -15,7 +15,7 @@ const Article = new Schema({
   },
   type: {
     type: String,
-    enum: [experience, web_url, file_url, category],
+    enum: ["experience", "web_url", "file_url", "category"],
   },
   title: {
     type: String,
@@ -44,4 +44,10 @@ const Article = new Schema({
   },
 });
 
+Article.statics.findOneByUser_idNode_id = function (user_id, node_id) {
+  return this.findOne({
+    user_id,
+    node_id,
+  });
+};
 module.exports = mongoose.model("Article", Article);
