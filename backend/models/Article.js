@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const Article = new Schema({
@@ -12,6 +13,7 @@ const Article = new Schema({
     type: String,
     required: true,
     index: true,
+    unique: true,
   },
   type: {
     type: String,
@@ -79,5 +81,35 @@ Article.statics.create = function (
   });
 
   return article.save();
+};
+
+Article.statics.update = function (
+  user_id,
+  node_id,
+  type,
+  title,
+  start_date,
+  end_date,
+  content,
+  keyword,
+  web_url,
+  file_url,
+  secret
+) {
+  return this.findOneAndUpdate(
+    { user_id, node_id },
+    {
+      type,
+      title,
+      start_date,
+      end_date,
+      content,
+      keyword,
+      web_url,
+      file_url,
+      secret,
+    },
+    { returnNewDocument: true }
+  );
 };
 module.exports = mongoose.model("Article", Article);

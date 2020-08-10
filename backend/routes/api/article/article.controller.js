@@ -68,7 +68,7 @@ exports.write = (req, res) => {
 };
 
 /*
-    PATCH /api/article/:nodeid
+    PATCH /api/article/:user_id/:node_id
     {
         user_id,
         node_id,
@@ -84,7 +84,37 @@ exports.write = (req, res) => {
     }
 */
 
-exports.update = (req, res) => {};
+exports.update = (req, res) => {
+  const count = (article) => {
+    if (!article) {
+      throw new Error("article not found");
+    } else {
+      return res.status(200).json({
+        article,
+      });
+    }
+  };
+  const onError = (error) => {
+    res.status(500).json({
+      message: error.message,
+    });
+  };
+  Article.update(
+    req.params.user_id,
+    req.params.node_id,
+    req.body.type,
+    req.body.title,
+    req.body.start_date,
+    req.body.end_date,
+    req.body.content,
+    JSON.parse(req.body.keyword),
+    req.body.web_url,
+    req.body.file_url,
+    req.body.secret
+  )
+    .then(count)
+    .catch(onError);
+};
 
 /*
     DELETE /api/article/:user_id/:node_id
