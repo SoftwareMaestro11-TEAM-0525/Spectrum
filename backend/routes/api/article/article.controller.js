@@ -120,4 +120,17 @@ exports.update = (req, res) => {
     DELETE /api/article/:user_id/:node_id
 */
 
-exports.delete = (req, res) => {};
+exports.delete = async (req, res) => {
+  let = article = await Article.findOneByUser_idNode_id(
+    req.params.user_id,
+    req.params.node_id
+  );
+  if (article) {
+    await Article.delete(req.params.user_id, req.params.node_id);
+    return res.status(200).json({ success: true });
+  } else {
+    return res
+      .status(500)
+      .json({ success: false, message: "article not found" });
+  }
+};

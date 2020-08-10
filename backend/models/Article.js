@@ -112,4 +112,9 @@ Article.statics.update = function (
     { returnNewDocument: true }
   );
 };
+
+Article.statics.delete = function (user_id, node_id) {
+  return this.deleteOne({ user_id, node_id });
+};
+
 module.exports = mongoose.model("Article", Article);
