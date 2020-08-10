@@ -1,13 +1,12 @@
 <template>
-  <h1>This may be Home page...</h1>
+  <div></div>
 </template>
 
 <script>
 export default {
-name: "Home"
+name: "Login"
 }
 </script>
 
 <style scoped>
-
 </style>
