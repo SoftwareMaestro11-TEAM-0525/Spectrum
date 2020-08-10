@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const Article = new Schema({
@@ -12,10 +13,11 @@ const Article = new Schema({
     type: String,
     required: true,
     index: true,
+    unique: true,
   },
   type: {
     type: String,
-    enum: [experience, web_url, file_url, category],
+    enum: ["experience", "web_url", "file_url", "category"],
   },
   title: {
     type: String,
@@ -43,5 +45,76 @@ const Article = new Schema({
     type: Boolean,
   },
 });
+
+Article.statics.findOneByUser_idNode_id = function (user_id, node_id) {
+  return this.findOne({
+    user_id,
+    node_id,
+  });
+};
+
+Article.statics.create = function (
+  user_id,
+  node_id,
+  type,
+  title,
+  start_date,
+  end_date,
+  content,
+  keyword,
+  web_url,
+  file_url,
+  secret
+) {
+  const article = new this({
+    user_id,
+    node_id,
+    type,
+    title,
+    start_date,
+    end_date,
+    content,
+    keyword,
+    web_url,
+    file_url,
+    secret,
+  });
+
+  return article.save();
+};
+
+Article.statics.update = function (
+  user_id,
+  node_id,
+  type,
+  title,
+  start_date,
+  end_date,
+  content,
+  keyword,
+  web_url,
+  file_url,
+  secret
+) {
+  return this.findOneAndUpdate(
+    { user_id, node_id },
+    {
+      type,
+      title,
+      start_date,
+      end_date,
+      content,
+      keyword,
+      web_url,
+      file_url,
+      secret,
+    },
+    { returnNewDocument: true }
+  );
+};
+
+Article.statics.delete = function (user_id, node_id) {
+  return this.deleteOne({ user_id, node_id });
+};
 
 module.exports = mongoose.model("Article", Article);
