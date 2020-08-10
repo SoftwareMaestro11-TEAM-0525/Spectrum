@@ -50,4 +50,34 @@ Article.statics.findOneByUser_idNode_id = function (user_id, node_id) {
     node_id,
   });
 };
+
+Article.statics.create = function (
+  user_id,
+  node_id,
+  type,
+  title,
+  start_date,
+  end_date,
+  content,
+  keyword,
+  web_url,
+  file_url,
+  secret
+) {
+  const article = new this({
+    user_id,
+    node_id,
+    type,
+    title,
+    start_date,
+    end_date,
+    content,
+    keyword,
+    web_url,
+    file_url,
+    secret,
+  });
+
+  return article.save();
+};
 module.exports = mongoose.model("Article", Article);

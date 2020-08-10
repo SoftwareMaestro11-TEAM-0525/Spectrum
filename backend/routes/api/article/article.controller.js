@@ -41,7 +41,31 @@ exports.read = (req, res) => {
     }
 */
 
-exports.write = (req, res) => {};
+exports.write = (req, res) => {
+  const onError = (error) => {
+    res.status(500).json({
+      message: error.message,
+    });
+  };
+  const respond = () => {
+    res.status(200).json({ success: true });
+  };
+  Article.create(
+    req.body.user_id,
+    req.body.node_id,
+    req.body.type,
+    req.body.title,
+    req.body.start_date,
+    req.body.end_date,
+    req.body.content,
+    JSON.parse(req.body.keyword),
+    req.body.web_url,
+    req.body.file_url,
+    req.body.secret
+  )
+    .then(respond)
+    .catch(onError);
+};
 
 /*
     PATCH /api/article/:nodeid
