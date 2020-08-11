@@ -11,7 +11,7 @@ const routes = [
     name: "Home",
     component: Home
   },
-  auth
+  ...auth
 ];
 
 const router = new VueRouter({
