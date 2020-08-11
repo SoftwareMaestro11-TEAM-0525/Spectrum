@@ -1,6 +1,13 @@
 const path = require("path")
 
 module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "~@/assets/scss/main.scss";`
+      }
+    }
+  },
   publicPath: "/",
   devServer: {
     proxy: {
