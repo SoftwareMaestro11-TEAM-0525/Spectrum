@@ -3,6 +3,18 @@ a {
   text-decoration: none;
 }
 
+.guide {
+  text-align: center;
+  color: #363636;
+  &.small {
+    font-size: 13px;
+    a {
+      color: #524fff;
+      cursor: pointer;
+    }
+  }
+}
+
 @mixin input-text {
   width: 100%;
   height: 56px;

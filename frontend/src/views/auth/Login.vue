@@ -37,7 +37,7 @@ export default {
     typing: function(e) {
       if (e.target.name === "email") {
         this.emailString = e.target.value;
-      } else {
+      } else if (e.target.name === "password") {
         this.passwordString = e.target.value;
       }
       this.isButtonDisable =
@@ -88,12 +88,8 @@ button.disable {
     font-size: 48px;
   }
 }
-.guide {
-  text-align: center;
-  font-size: 15px;
-  color: #363636;
-}
 hr {
+  @include divider;
   margin: 71.5px 0 20px 0;
 }
 .error {
