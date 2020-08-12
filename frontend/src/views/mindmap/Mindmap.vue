@@ -1,5 +1,8 @@
 <template>
-
+  <div>
+    MindMap-Vue
+  </div>
+  
 </template>
 
 <script>
