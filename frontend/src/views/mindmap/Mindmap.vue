@@ -92,6 +92,20 @@ export default {
               console.log(ele);
               console.log(eh);
               console.log("add_node");
+              cy.add([
+                {
+                  group: "nodes",
+                  data: { id: 'asdfjksdfakljfsdajksdfa' }
+                },
+                {
+                  group: "edges",
+                  data: {
+                    id: this.count,
+                    source: ele.id(),
+                    target: 'asdfjksdfakljfsdajksdfa'
+                  }
+                }
+              ]);
             }
           },
 				
