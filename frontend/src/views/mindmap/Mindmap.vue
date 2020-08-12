@@ -34,7 +34,7 @@ export default {
         autounselectify: true,
         style: cytoscape
           .stylesheet()
-          //node css 
+          //node css
           .selector("node")
           .css({
             content: "data(id)",
@@ -60,7 +60,7 @@ export default {
             height: 12,
             shape: "ellipse",
             "overlay-opacity": 0,
-            "border-width": 12, 
+            "border-width": 12,
             "border-opacity": 0
           })
           .selector(".eh-hover")
@@ -118,7 +118,7 @@ export default {
         }
       });
       eh = cy.edgehandles();
-      eh.enabled=false;
+      eh.enabled = false;
       cy.cxtmenu({
         selector: "node",
         commands: [
@@ -131,37 +131,37 @@ export default {
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: 'asdfjksdfakljfsdajksdfa' }
+                  data: { id: "asdfjksdfakljfsdajksdfa" }
                 },
                 {
                   group: "edges",
                   data: {
                     id: this.count,
                     source: ele.id(),
-                    target: 'asdfjksdfakljfsdajksdfa'
+                    target: "asdfjksdfakljfsdajksdfa"
                   }
                 }
               ]);
             }
           },
-				
-         {
+
+          {
             content: "stop",
             select: function(ele) {
               console.log(ele.id());
               console.log(eh);
               console.log("stop_draw_edge");
-              eh.active =  false;
+              eh.active = false;
               eh.enabled = false;
             }
           },
 
           {
             content: "start",
-            
+
             select: function(ele) {
               console.log(ele);
-              console.log(eh)
+              console.log(eh);
               console.log("start_draw_edge");
               eh.enabled = true;
             }
@@ -171,7 +171,7 @@ export default {
             select: function(ele) {
               console.log(ele.id());
               console.log("delete_node");
-              cy.remove('#'+ ele.id());
+              cy.remove("#" + ele.id());
             }
           }
         ]
@@ -185,7 +185,7 @@ export default {
             select: function(ele) {
               console.log(ele.position());
               console.log("delete_edge");
-              cy.remove('#'+ ele.id());
+              cy.remove("#" + ele.id());
             }
           }
         ]
@@ -202,8 +202,8 @@ export default {
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: 'asdfjksdfakljfsdajksdfa' }
-                },
+                  data: { id: "asdfjksdfakljfsdajksdfa" }
+                }
               ]);
             }
           },
@@ -222,7 +222,7 @@ export default {
   mounted: function() {
     this.view_init();
   }
-}; 
+};
 </script>
 <style scoped>
 #cy {
