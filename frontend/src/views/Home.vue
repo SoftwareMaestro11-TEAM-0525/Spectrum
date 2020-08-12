@@ -1,5 +1,8 @@
 <template>
-  <h1>This may be Home page...</h1>
+  <div>
+    <h1>This may be Home page...</h1>
+    <router-link to="/login">로그인 페이지로</router-link>
+  </div>
 </template>
 
 <script>

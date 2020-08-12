@@ -57,11 +57,15 @@ export default {
 .wrapper {
   width: 30%;
   margin: 0 auto;
-  padding-top: 216px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 h1 {
   text-align: center;
   margin-bottom: 42px;
+  font-size: 32px;
 }
 label {
   font-size: 15px;
