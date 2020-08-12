@@ -117,6 +117,8 @@ export default {
               console.log(ele.id());
               console.log(eh);
               console.log("stop_draw_edge");
+              eh.active =  false;
+              eh.enabled = false;
             }
           },
 
@@ -127,6 +129,7 @@ export default {
               console.log(ele);
               console.log(eh)
               console.log("start_draw_edge");
+              eh.enabled = true;
             }
           },
           {
