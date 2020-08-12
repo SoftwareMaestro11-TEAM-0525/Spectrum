@@ -34,7 +34,7 @@ export default {
         autounselectify: true,
         style: cytoscape
           .stylesheet()
-          //node css
+          //node css 
           .selector("node")
           .css({
             content: "data(id)",
@@ -60,7 +60,7 @@ export default {
             height: 12,
             shape: "ellipse",
             "overlay-opacity": 0,
-            "border-width": 12,
+            "border-width": 12, 
             "border-opacity": 0
           })
           .selector(".eh-hover")
@@ -118,49 +118,49 @@ export default {
         }
       });
       eh = cy.edgehandles();
-      eh.enabled = false;
+      eh.enabled=false;
       cy.cxtmenu({
         selector: "node",
         commands: [
           {
             content: "Add",
             select: function(ele) {
+              console.log(ele);
+              console.log(eh);
+              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: "asdfjksdfakljfsdajksdfa" }
+                  data: { id: 'asdfjksdfakljfsdajksdfa' }
                 },
                 {
                   group: "edges",
                   data: {
                     id: this.count,
                     source: ele.id(),
-                    target: "asdfjksdfakljfsdajksdfa"
+                    target: 'asdfjksdfakljfsdajksdfa'
                   }
                 }
               ]);
             }
           },
-
-          {
-            content: "stop",
-            select: function() {
-              eh.active = false;
-              eh.enabled = false;
-            }
-          },
-
+			
           {
             content: "start",
-
+            
             select: function() {
               eh.enabled = true;
+              cy.on('tapdragout', 'edge', function() {
+                eh.enabled = false;
+              })
             }
           },
           {
             content: "Delete",
             select: function(ele) {
-              cy.remove("#" + ele.id());
+              console.log(ele.id());
+              console.log("delete_node");
+              cy.remove('#'+ ele.id());
             }
           }
         ]
@@ -172,7 +172,9 @@ export default {
           {
             content: "Delete",
             select: function(ele) {
-              cy.remove("#" + ele.id());
+              console.log(ele.position());
+              console.log("delete_edge");
+              cy.remove('#'+ ele.id());
             }
           }
         ]
@@ -185,18 +187,21 @@ export default {
           {
             content: "Add",
             select: function() {
+              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: "asdfjksdfakljfsdajksdfa" }
-                }
+                  data: { id: 'asdfjksdfakljfsdajksdfa' }
+                },
               ]);
             }
           },
 
           {
             content: "기타",
-            select: function() {}
+            select: function() {
+              console.log("옵션");
+            }
           }
         ]
       });
@@ -206,7 +211,7 @@ export default {
   mounted: function() {
     this.view_init();
   }
-};
+}; 
 </script>
 <style scoped>
 #cy {
