@@ -90,4 +90,15 @@ export default {
 }; 
 </script>
 <style scoped>
+#cy {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  text-align: left;
+}
+body {
+  font: 14px helvetica neue, helvetica, arial, sans-serif;
+}
 </style>
