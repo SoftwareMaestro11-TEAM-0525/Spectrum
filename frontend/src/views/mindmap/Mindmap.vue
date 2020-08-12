@@ -132,6 +132,7 @@ export default {
             select: function(ele) {
               console.log(ele.id());
               console.log("delete_node");
+              cy.remove('#'+ ele.id());
             }
           }
         ]
