@@ -1,6 +1,8 @@
 <template>
   <div>
-    MindMap-Vue
+    <div>
+      MindMap-Vue
+    </div>
     <div id="cy"></div>
   </div>
 </template>
@@ -80,6 +82,78 @@ export default {
           name: "circle",
           padding: 10
         }
+      });
+      cy.cxtmenu({
+        selector: "node",
+        commands: [
+          {
+            content: "Add",
+            select: function(ele) {
+              console.log(ele);
+              console.log(eh);
+              console.log("add_node");
+            }
+          },
+				
+         {
+            content: "stop",
+            select: function(ele) {
+              console.log(ele.id());
+              console.log(eh);
+              console.log("stop_draw_edge");
+            }
+          },
+
+          {
+            content: "start",
+            
+            select: function(ele) {
+              console.log(ele);
+              console.log(eh)
+              console.log("start_draw_edge");
+            }
+          },
+          {
+            content: "Delete",
+            select: function(ele) {
+              console.log(ele.id());
+              console.log("delete_node");
+            }
+          }
+        ]
+      });
+      cy.cxtmenu({
+        selector: "edge",
+
+        commands: [
+          {
+            content: "Delete",
+            select: function(ele) {
+              console.log(ele.position());
+              console.log("delete_edge");
+            }
+          }
+        ]
+      });
+
+      cy.cxtmenu({
+        selector: "core",
+
+        commands: [
+          {
+            content: "Add",
+            select: function() {
+              console.log("add_node");
+            }
+          },
+
+          {
+            content: "기타",
+            select: function() {
+              console.log("옵션");
+            }
+          }
+        ]
       });
     }
   },
