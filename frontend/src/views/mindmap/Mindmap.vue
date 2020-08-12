@@ -125,9 +125,6 @@ export default {
           {
             content: "Add",
             select: function(ele) {
-              console.log(ele);
-              console.log(eh);
-              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
@@ -147,10 +144,7 @@ export default {
 
           {
             content: "stop",
-            select: function(ele) {
-              console.log(ele.id());
-              console.log(eh);
-              console.log("stop_draw_edge");
+            select: function() {
               eh.active = false;
               eh.enabled = false;
             }
@@ -159,18 +153,13 @@ export default {
           {
             content: "start",
 
-            select: function(ele) {
-              console.log(ele);
-              console.log(eh);
-              console.log("start_draw_edge");
+            select: function() {
               eh.enabled = true;
             }
           },
           {
             content: "Delete",
             select: function(ele) {
-              console.log(ele.id());
-              console.log("delete_node");
               cy.remove("#" + ele.id());
             }
           }
@@ -183,8 +172,6 @@ export default {
           {
             content: "Delete",
             select: function(ele) {
-              console.log(ele.position());
-              console.log("delete_edge");
               cy.remove("#" + ele.id());
             }
           }
@@ -198,7 +185,6 @@ export default {
           {
             content: "Add",
             select: function() {
-              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
@@ -210,9 +196,7 @@ export default {
 
           {
             content: "기타",
-            select: function() {
-              console.log("옵션");
-            }
+            select: function() {}
           }
         ]
       });
