@@ -53,6 +53,40 @@ export default {
             "source-arrow-color": "black",
             "text-outline-color": "black"
           })
+          .selector(".eh-handle")
+          .css({
+            "background-color": "blue",
+            width: 12,
+            height: 12,
+            shape: "ellipse",
+            "overlay-opacity": 0,
+            "border-width": 12, 
+            "border-opacity": 0
+          })
+          .selector(".eh-hover")
+          .css({
+            "background-color": "blue"
+          })
+
+          .selector(".eh-source")
+          .css({
+            "border-width": 2,
+            "border-color": "blue"
+          })
+          .selector(".eh-target")
+          .css({
+            "border-width": 2,
+            "border-color": "blue"
+          })
+
+          .selector(".eh-preview, .eh-ghost-edge")
+          .css({
+            "background-color": "blue",
+            "line-color": "blue",
+            "target-arrow-color": "blue",
+            "source-arrow-color": "blue"
+          })
+          .selector(".eh-ghost-edge.eh-preview-active")
           .css({
             opacity: 0
           }),
