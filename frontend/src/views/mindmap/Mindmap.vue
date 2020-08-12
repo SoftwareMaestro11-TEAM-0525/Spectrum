@@ -83,6 +83,8 @@ export default {
           padding: 10
         }
       });
+      eh = cy.edgehandles();
+      eh.enabled=false;
       cy.cxtmenu({
         selector: "node",
         commands: [
