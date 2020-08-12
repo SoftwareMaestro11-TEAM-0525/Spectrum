@@ -146,6 +146,7 @@ export default {
             select: function(ele) {
               console.log(ele.position());
               console.log("delete_edge");
+              cy.remove('#'+ ele.id());
             }
           }
         ]
