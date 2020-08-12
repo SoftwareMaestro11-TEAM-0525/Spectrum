@@ -159,6 +159,12 @@ export default {
             content: "Add",
             select: function() {
               console.log("add_node");
+              cy.add([
+                {
+                  group: "nodes",
+                  data: { id: 'asdfjksdfakljfsdajksdfa' }
+                },
+              ]);
             }
           },
 
