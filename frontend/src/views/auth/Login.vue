@@ -57,7 +57,7 @@ export default {
   position: absolute;
   top: 45%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-45%, -50%);
 }
 input {
   @include input-text;

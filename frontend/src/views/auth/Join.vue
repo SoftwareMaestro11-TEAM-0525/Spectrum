@@ -8,7 +8,7 @@
       <input type="text" id="name" name="name" @input="typing" v-bind:value="nameString">
       <label for="password">비밀번호</label>
       <input type="password" id="password" name="password" @input="typing" v-bind:value="passwordString">
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">로그인</button>
+      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">가입하기</button>
     </form>
     <div class="guide small">
       등록하는 순간 Spectrum의 <a>서비스 이용 약관과 개인정보 보호 정책</a>에 동의하게 됩니다.
@@ -60,7 +60,7 @@ export default {
   position: absolute;
   top: 45%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-45%, -50%);
 }
 h1 {
   text-align: center;
