@@ -6,12 +6,16 @@ a {
 .guide {
   text-align: center;
   color: #363636;
+  font-size: 14px;
   &.small {
     font-size: 13px;
     a {
       color: #524fff;
       cursor: pointer;
     }
+  }
+  &.large {
+    font-size: 17px;
   }
 }
 
@@ -55,8 +59,7 @@ a {
   border: none;
 }
 
-@mixin error {
+.error {
   color: #ed4956;
   font-size: 13px;
-  text-align: center;
 }

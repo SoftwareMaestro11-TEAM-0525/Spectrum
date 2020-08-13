@@ -4,10 +4,12 @@
     <form>
       <label for="email">이메일</label>
       <input type="text" id="email" name="email" @input="typing" v-bind:value="emailString">
+      <div class="error" v-if="isEmailError">{{ emailErrorMsg }}</div>
       <label for="name">이름</label>
       <input type="text" id="name" name="name" @input="typing" v-bind:value="nameString">
       <label for="password">비밀번호</label>
       <input type="password" id="password" name="password" @input="typing" v-bind:value="passwordString">
+      <div class="error" v-if="isPwdError">비밀번호는 8자리 이상 입력해주세요.</div>
       <button :class="{ disable: isButtonDisable }" @click.prevent="submit">가입하기</button>
     </form>
     <div class="guide small">
@@ -26,9 +28,12 @@ export default {
   data() {
     return {
       isButtonDisable: true,
+      isEmailError: false,
+      isPwdError: false,
       emailString: "",
       nameString: "",
-      passwordString: ""
+      passwordString: "",
+      emailErrorMsg: ""
     }
   },
   methods: {
@@ -46,10 +51,36 @@ export default {
       this.isButtonDisable =
           this.emailString === "" || this.passwordString === "" || this.nameString === "";
     },
+    isEmailValid: function(s) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+    },
+    isPwdValid: function(s) {
+      return /^[\S]{8,}$/.test(s);
+    },
     submit: function() {
-      //submit event
-    }
-  }
+      // 버튼이 비활성화되어 있으면(입력 폼이 다 채워지지 않았으면) 종료
+      if (this.isButtonDisable) return;
+
+      // 이메일 주소의 형식이 올바른지 검증 (~@~.~ 형식)
+      if (!this.isEmailValid(this.emailString)) {
+        this.emailErrorMsg = "올바른 형식의 이메일 주소를 입력해주세요.";
+        this.isEmailError= true;
+        return;
+      } else{
+        this.isEmailError = false;
+      }
+
+      // 비밀번호가 8자리 이상인지 검증
+      if (!this.isPwdValid(this.passwordString)) {
+        this.isPwdError = true;
+        return;
+      } else {
+        this.isPwdError = false;
+      }
+
+      //서버 api 참조
+    },
+  },
 }
 </script>
 
@@ -58,9 +89,9 @@ export default {
   width: 30%;
   margin: 0 auto;
   position: absolute;
-  top: 45%;
+  top: 15%;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translateX(-50%);
 }
 h1 {
   text-align: center;
@@ -77,19 +108,23 @@ input {
   @include input-text;
   font-size: 15px;
   padding-left: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
   box-sizing: border-box;
 }
 button {
   @include input-button;
-  margin: 16px 0 12px 0;
+  margin: 8px 0 16px 0;
   font-size: 17px;
 }
 hr {
   @include divider;
-  margin: 71.5px 0 20px 0;
+  margin: 79.5px 0 20px 0;
 }
 button.disable {
   @include input-button(true);
+}
+.error {
+  margin: -20px 0 20px 0;
+  padding-left: 4px;
 }
 </style>

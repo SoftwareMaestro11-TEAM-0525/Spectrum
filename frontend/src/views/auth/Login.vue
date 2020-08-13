@@ -44,7 +44,8 @@ export default {
         this.emailString === "" || this.passwordString === "";
     },
     submit: function() {
-      //submit event
+      if (this.isButtonDisable) return;
+      this.isError = true;
     }
   }
 };
@@ -55,9 +56,9 @@ export default {
   width: 30%;
   margin: 0 auto;
   position: absolute;
-  top: 45%;
+  top: 15%;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translateX(-50%);
 }
 input {
   @include input-text;
@@ -94,7 +95,7 @@ hr {
   margin: 71.5px 0 20px 0;
 }
 .error {
-  @include error;
+  text-align: center;
   margin: -4px 0 16px 0;
 }
 </style>
