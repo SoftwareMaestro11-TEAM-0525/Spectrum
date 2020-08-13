@@ -56,7 +56,7 @@ export default {
   width: 30%;
   margin: 0 auto;
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
 }

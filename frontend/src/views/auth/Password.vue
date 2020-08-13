@@ -62,13 +62,13 @@ export default {
   width: 30%;
   margin: 0 auto;
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
 }
 h1 {
   text-align: center;
-  margin-bottom: 42px;
+  margin: 0 0 42px 0;
   font-size: 32px;
 }
 input {
