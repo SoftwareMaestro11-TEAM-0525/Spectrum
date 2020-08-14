@@ -1,0 +1,36 @@
+stages:
+  - backend-image-build
+  - frontend-image-build
+  - production
+
+backend-image-build:
+  stage: backend-image-build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker logout
+    - docker login -u $docker_id -p $docker_pw docker.io
+  script:
+    - cd backend
+    - docker build -t $docker_id/backend:first .
+    - docker push $docker_id/backend:first
+    - docker images
+
+frontend-image-build:
+  stage: frontend-image-build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker logout
+    - docker login -u $docker_id_2 -p $docker_pw docker.io
+  script:
+    - cd frontend
+    - docker build -t $docker_id_2/frontend:first .
+    - docker push $docker_id_2/frontend:first
+    - docker images
+
+production:
+  stage: production
+  script: echo "production stage!"
