@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "Join",
   data() {
@@ -78,7 +80,19 @@ export default {
         this.isPwdError = false;
       }
 
-      //서버 api 참조
+      //서버에 이메일, 비밀번호, 이름 전송
+      const baseURI = 'http://localhost:3000/api/auth/register';
+      let data = new URLSearchParams()
+      data.append('user_id', this.emailString)
+      data.append('user_pw', this.passwordString)
+
+      axios({
+        method: 'post',
+        url: baseURI,
+        data: data
+      }).then((res) => {
+        console.log(res)
+      })
     },
   },
 }

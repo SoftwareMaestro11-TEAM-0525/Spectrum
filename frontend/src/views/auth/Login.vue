@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
   data() {
@@ -45,7 +47,20 @@ export default {
     },
     submit: function() {
       if (this.isButtonDisable) return;
-      this.isError = true;
+
+      //서버에 로그인 요청
+      const baseURI = 'http://localhost:3000/api/auth/login';
+      let data = new URLSearchParams()
+      data.append('user_id', this.emailString)
+      data.append('user_pw', this.passwordString)
+
+      axios({
+        method: 'post',
+        url: baseURI,
+        data: data
+      }).then((res) => {
+        console.log(res)
+      })
     }
   }
 };
