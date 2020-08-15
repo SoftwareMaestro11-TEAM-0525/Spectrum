@@ -114,7 +114,11 @@ export default {
         },
         layout: {
           name: "circle",
-          padding: 10
+          padding: 10,
+          animate: false,
+          gravityRangeCompound: 1.5,
+          fit: true,
+          tile: true  
         }
       });
       eh = cy.edgehandles();
@@ -125,20 +129,17 @@ export default {
           {
             content: "Add",
             select: function(ele) {
-              console.log(ele);
-              console.log(eh);
-              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: 'asdfjksdfakljfsdajksdfa' }
+                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
                 },
                 {
                   group: "edges",
                   data: {
-                    id: this.count,
+                    id: cy.json().elements.edges.length + 1 + "edge",
                     source: ele.id(),
-                    target: 'asdfjksdfakljfsdajksdfa'
+                    target: cy.json().elements.nodes.length + 1 + "node"
                   }
                 }
               ]);
@@ -158,8 +159,6 @@ export default {
           {
             content: "Delete",
             select: function(ele) {
-              console.log(ele.id());
-              console.log("delete_node");
               cy.remove('#'+ ele.id());
             }
           }
@@ -172,8 +171,6 @@ export default {
           {
             content: "Delete",
             select: function(ele) {
-              console.log(ele.position());
-              console.log("delete_edge");
               cy.remove('#'+ ele.id());
             }
           }
@@ -187,12 +184,11 @@ export default {
           {
             content: "Add",
             select: function() {
-              console.log("add_node");
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: 'asdfjksdfakljfsdajksdfa' }
-                },
+                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
+                }
               ]);
             }
           },
@@ -200,7 +196,6 @@ export default {
           {
             content: "기타",
             select: function() {
-              console.log("옵션");
             }
           }
         ]
