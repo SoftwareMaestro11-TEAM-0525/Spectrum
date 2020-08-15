@@ -16,6 +16,7 @@ exports.read = (req, res) => {
   };
   const onError = (error) => {
     res.status(404).json({
+      success: false,
       message: error.message,
     });
   };
@@ -44,6 +45,7 @@ exports.read = (req, res) => {
 exports.write = (req, res) => {
   const onError = (error) => {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   };
@@ -90,12 +92,14 @@ exports.update = (req, res) => {
       throw new Error("article not found");
     } else {
       return res.status(200).json({
+        success: true,
         article,
       });
     }
   };
   const onError = (error) => {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   };
