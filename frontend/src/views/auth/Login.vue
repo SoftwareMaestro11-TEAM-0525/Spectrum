@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <img src="@/assets/logo.png" alt="Spectrum logo" />
+      <img src="@/assets/logo.png" alt="Logo image" />
       <h1>Spectrum</h1>
     </div>
     <form>
