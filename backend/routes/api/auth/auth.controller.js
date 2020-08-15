@@ -13,11 +13,8 @@ exports.register = (req, res) => {
   let newUser = null;
 
   const create = (user) => {
-    if (user) {
-      throw new Error("username exists");
-    } else {
-      return User.create(user_id, user_pw);
-    }
+    if (user) throw new Error("username exists");
+    else return User.create(user_id, user_pw);
   };
 
   const respond = () => {
@@ -47,9 +44,8 @@ exports.login = (req, res) => {
   const secret = req.app.get("jwt-key");
 
   const check = (user) => {
-    if (!user) {
-      throw new Error("login failed");
-    } else {
+    if (!user) throw new Error("login failed");
+    else {
       if (user.verify(user_pw)) {
         const p = new Promise((resolve, reject) => {
           jwt.sign(
@@ -70,9 +66,7 @@ exports.login = (req, res) => {
           );
         });
         return p;
-      } else {
-        throw new Error("login failed");
-      }
+      } else throw new Error("login failed");
     }
   };
 
