@@ -59,7 +59,17 @@ export default {
         url: baseURI,
         data: data
       }).then((res) => {
-        console.log(res)
+        localStorage.setItem("token", res.data.token)
+        alert("로그인 성공!")
+      }).catch((err) => {
+        if (err.response.status === 403) {
+          this.isError = true;
+        } else {
+          alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!")
+          console.log(err.response.data)
+          console.log(err.response.headers)
+          console.log(err.response.status)
+        }
       })
     }
   }
