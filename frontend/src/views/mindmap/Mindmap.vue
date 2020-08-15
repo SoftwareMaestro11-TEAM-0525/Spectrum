@@ -123,6 +123,28 @@ export default {
       });
       eh = cy.edgehandles();
       eh.enabled=false;
+      const nodeMaxSize = 50;
+      const nodeMinSize = 5;
+      const nodeActiveSize = 28;
+      const fontMaxSize = 8;
+      const fontMinSize = 5;
+      const fontActiveSize = 7;
+      // // edge & arrow 크기값
+      const edgeWidth = '2px';
+      const edgeActiveWidth = '4px';
+      const arrowScale = 0.8;
+      const arrowActiveScale = 1.2;
+      
+
+      const dimColor = '#dfe4ea';
+      const edgeColor = '#ced6e0';
+      const nodeColor = '#57606f';
+      const nodeActiveColor = '#ffa502';
+
+      // 상위 node & edge color
+      const successorColor = '#ff6348';
+      // 하위 node & edge color
+      const predecessorsColor = '#1e90ff';
       cy.cxtmenu({
         selector: "node",
         commands: [
