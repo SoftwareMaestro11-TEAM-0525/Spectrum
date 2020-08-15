@@ -6,23 +6,18 @@ const Article = require("../../../models/Article");
 
 exports.read = (req, res) => {
   const count = (article) => {
-    if (!article) {
-      throw new Error("article not found");
-    } else {
+    if (!article) throw new Error("article not found");
+    else
       return res.status(200).json({
         article,
       });
-    }
   };
-  const onError = (error) => {
-    res.status(404).json({
-      success: false,
-      message: error.message,
-    });
-  };
+
   Article.findOneByUser_idNode_id(req.params.user_id, req.params.node_id)
     .then(count)
-    .catch(onError);
+    .catch((err) =>
+      res.status(404).json({ success: false, messge: err.message })
+    );
 };
 
 /*
@@ -43,12 +38,6 @@ exports.read = (req, res) => {
 */
 
 exports.write = (req, res) => {
-  const onError = (error) => {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  };
   const respond = () => {
     res.status(200).json({ success: true });
   };
@@ -66,7 +55,9 @@ exports.write = (req, res) => {
     req.body.secret
   )
     .then(respond)
-    .catch(onError);
+    .catch((err) =>
+      res.status(404).json({ success: false, messge: err.message })
+    );
 };
 
 /*
@@ -88,14 +79,12 @@ exports.write = (req, res) => {
 
 exports.update = (req, res) => {
   const count = (article) => {
-    if (!article) {
-      throw new Error("article not found");
-    } else {
+    if (!article) throw new Error("article not found");
+    else
       return res.status(200).json({
         success: true,
         article,
       });
-    }
   };
   const onError = (error) => {
     res.status(500).json({
@@ -132,9 +121,8 @@ exports.delete = async (req, res) => {
   if (article) {
     await Article.delete(req.params.user_id, req.params.node_id);
     return res.status(200).json({ success: true });
-  } else {
+  } else
     return res
       .status(500)
       .json({ success: false, message: "article not found" });
-  }
 };
