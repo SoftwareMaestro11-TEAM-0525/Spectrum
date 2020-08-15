@@ -29,13 +29,11 @@ export default {
   methods: {
     view_init: function() {
       var cy = cytoscape({
-        //기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
         autounselectify: true,
         style: cytoscape
           .stylesheet()
-          //node css 
           .selector("node")
           .css({
             content: "data(id)",
@@ -45,7 +43,6 @@ export default {
             "text-outline-color": "#888",
             "background-color": "#888"
           })
-          //선택된 node css 설정
           .selector(":selected")
           .css({
             "background-color": "black",
@@ -91,7 +88,6 @@ export default {
           .css({
             opacity: 0
           }),
-        //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
             { data: { id: "cat", name: "test1" } },
@@ -115,7 +111,7 @@ export default {
         },
         layout: {
           name: "circle",
-          // padding: 10,
+          padding: 10,
         }
       });
       eh = cy.edgehandles();
@@ -136,7 +132,6 @@ export default {
       const fontMinSize = 5;
       const fontActiveSize = 7;
 
-      // // edge & arrow 크기값
       const edgeWidth = '2px';
       const edgeActiveWidth = '4px';
       const arrowScale = 0.8;
@@ -148,13 +143,12 @@ export default {
       const nodeColor = '#57606f';
       const nodeActiveColor = '#ffa502';
 
-      // 상위 node & edge color
       const successorColor = '#ff6348';
-      // 하위 node & edge color
+
       const predecessorsColor = '#1e90ff';
       window.addEventListener("load",function(){
         cy.json({
-          style: [ // the stylesheet for the graph
+          style: [ 
           {
             selector: 'node',
             style: {
@@ -264,7 +258,6 @@ export default {
           target_element.style('background-color', nodeActiveColor);
           target_element.style('color', nodeColor);
           target_element.successors().each(function (e) {
-              // 상위  엣지와 노드
               if (e.isEdge()) {
                   e.style('width', edgeWidth);
                   e.style('arrow-scale', arrowScale);
@@ -277,7 +270,6 @@ export default {
           }
           );
           target_element.predecessors().each(function (ele) {
-              // 하위 엣지와 노드
               if (ele.isEdge()) {
                   ele.style('width', edgeWidth);
                   ele.style('arrow-scale', arrowScale);
@@ -289,7 +281,6 @@ export default {
               setOpacityElement(ele, 0.5);
           });
           target_element.neighborhood().each(function (e) {
-              // 이웃한 엣지와 노드
               setOpacityElement(e, 1);
           }
           );
@@ -305,7 +296,6 @@ export default {
       function setResetFocus(target_cy) {
           target_cy.nodes().forEach(function (target) {
               target.style('background-color', nodeColor);
-              // var rank = pageRank.rank(target);
               target.style('width', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
               target.style('height', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
               target.style('font-size', fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id()))+ fontMinSize);
