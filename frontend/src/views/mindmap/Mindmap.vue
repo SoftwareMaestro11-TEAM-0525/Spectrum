@@ -2,8 +2,9 @@
   <div>
     <div>
       MindMap-Vue
+
+      <div id="cy"></div>
     </div>
-    <div id="cy"></div>
   </div>
 </template>
 
@@ -114,15 +115,20 @@ export default {
         },
         layout: {
           name: "circle",
-          padding: 10,
-          animate: false,
-          gravityRangeCompound: 1.5,
-          fit: true,
-          tile: true  
+          // padding: 10,
         }
       });
       eh = cy.edgehandles();
       eh.enabled=false;
+
+      let resizeTimer;
+      window.addEventListener("resize", function() {
+        this.clearTimeout(resizeTimer);
+        resizeTimer = this.setTimeout(function() {
+          cy.fit();
+        }, 200);
+      });
+
       const nodeMaxSize = 50;
       const nodeMinSize = 5;
       const nodeActiveSize = 28;
@@ -414,8 +420,8 @@ export default {
 </script>
 <style scoped>
 #cy {
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   position: absolute;
   top: 60px;
   left: 0px;
