@@ -145,6 +145,107 @@ export default {
       const successorColor = '#ff6348';
       // 하위 node & edge color
       const predecessorsColor = '#1e90ff';
+      window.addEventListener("load",function(){
+        cy.json({
+          style: [ // the stylesheet for the graph
+          {
+            selector: 'node',
+            style: {
+                content: "data(id)",
+                "text-valign": "center",
+                color: "#57606f",
+                "text-outline-width": 2,
+                "text-outline-color": "white",
+                "background-color": "#57606f",
+                "text-wrap": "wrap",
+                
+                "label": "data(id)",
+                
+                "width": function (ele) {
+                    if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
+                      return nodeMaxSize * (0.1/ cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
+                    }
+                },
+                'height': function (ele) {
+                    return nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ ele.id())) + nodeMinSize;
+                },
+                'font-size': function (ele) {
+                    return fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
+                }
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              // 변경된 부분
+                'width': edgeWidth,
+                'curve-style': 'bezier',
+                'line-color': edgeColor,
+                'target-arrow-color': edgeColor,
+                'target-arrow-shape': 'vee',
+                'arrow-scale': arrowScale
+              //
+            }
+          },
+          {
+            selector:":selected",
+            style : {
+              "background-color": "black",
+              "line-color": "black",
+              "target-arrow-color": "black",
+              "source-arrow-color": "black",
+              "text-outline-color": "black"
+            } 
+          },
+          {
+            selector:".eh-handle",
+            style : {
+              "background-color": "blue",
+              width: 12,
+              height: 12,
+              shape: "ellipse",
+              "overlay-opacity": 0,
+              "border-width": 12,
+              "border-opacity": 0
+            } 
+          },
+          {
+            selector:".eh-hover",
+            style : {
+             "background-color": "blue"
+            }
+          },
+          {
+            selector:".eh-source",
+            style : {
+             "border-width": 2,
+              "border-color": "blue"
+            }
+          },
+          {
+            selector:".eh-target",
+            style : {
+              "border-width": 2,
+              "border-color": "blue"
+            }
+          },
+          {
+            selector:".eh-preview, .eh-ghost-edge",
+            style : {
+              "background-color": "blue",
+              "line-color": "blue",
+              "target-arrow-color": "blue",
+              "source-arrow-color": "blue"
+            }
+          },
+          {
+            selector:".eh-ghost-edge.eh-preview-active",
+            style : {
+              opacity: 0
+            }
+          },
+        ]});
+      });
       cy.cxtmenu({
         selector: "node",
         commands: [
