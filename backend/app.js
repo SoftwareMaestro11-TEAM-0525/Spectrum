@@ -5,6 +5,7 @@ var logger = require("morgan");
 
 var app = express();
 var config = require("./config.js");
+var cors = require("cors");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(cors());
 app.use("/api", require("./routes/api"));
 
 // Set Sceret Key
