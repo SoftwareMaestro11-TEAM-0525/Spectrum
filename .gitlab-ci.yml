@@ -1,7 +1,7 @@
 stages:
   - backend-image-build
   - frontend-image-build
-  - production
+  - deploy
 
 backend-image-build:
   stage: backend-image-build
@@ -31,6 +31,14 @@ frontend-image-build:
     - docker push $docker_id_2/frontend:first
     - docker images
 
-production:
-  stage: production
-  script: echo "production stage!"
+deploy:
+  stage: deploy
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "mkdir awsci"
