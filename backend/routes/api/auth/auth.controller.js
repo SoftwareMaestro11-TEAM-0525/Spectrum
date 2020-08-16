@@ -9,21 +9,23 @@ const jwt = require("jsonwebtoken");
 */
 
 exports.register = (req, res) => {
-  const { user_id, user_pw } = req.body;
+  const { user_id, user_pw, user_name } = req.body;
   let newUser = null;
 
   const create = (user) => {
-    if (user) throw new Error("username exists");
-    else return User.create(user_id, user_pw);
+    if (user) throw new Error("userid exists");
+    else return User.create(user_id, user_pw, user_name);
   };
 
   const respond = () => {
     res.json({
+      success: true,
       message: "register success",
     });
   };
   const onError = (error) => {
     res.status(409).json({
+      success: false,
       message: error.message,
     });
   };
@@ -72,6 +74,7 @@ exports.login = (req, res) => {
 
   const respond = (token) => {
     res.json({
+      success: true,
       message: "login success",
       token,
     });
@@ -79,6 +82,7 @@ exports.login = (req, res) => {
 
   const onError = (error) => {
     res.status(403).json({
+      success: false,
       message: error.message,
     });
   };
