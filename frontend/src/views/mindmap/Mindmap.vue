@@ -29,11 +29,14 @@ export default {
   methods: {
     view_init: function() {
       var cy = cytoscape({
+        // 기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
         autounselectify: true,
+        // cytoscape style 코드
         style: cytoscape
           .stylesheet()
+          //node 스타일
           .selector("node")
           .css({
             content: "data(id)",
@@ -43,6 +46,7 @@ export default {
             "text-outline-color": "#888",
             "background-color": "#888"
           })
+          //선택된 node css 설정
           .selector(":selected")
           .css({
             "background-color": "black",
@@ -51,6 +55,7 @@ export default {
             "source-arrow-color": "black",
             "text-outline-color": "black"
           })
+          //edgehandle(노드에서 엣지 추가할 때 사용하는 function)스타일
           .selector(".eh-handle")
           .css({
             "background-color": "blue",
@@ -88,6 +93,7 @@ export default {
           .css({
             opacity: 0
           }),
+        //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
             { data: { id: "cat", name: "test1" } },
@@ -109,14 +115,17 @@ export default {
             { data: { source: "aphid", target: "rose" } }
           ]
         },
+        //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
         layout: {
           name: "circle",
           padding: 10,
         }
       });
+      //edgehandles 선언
       eh = cy.edgehandles();
       eh.enabled=false;
 
+      //mind map 자동 크기 조절 코드(아마 나중에 바꿔야 될 수도?)
       let resizeTimer;
       window.addEventListener("resize", function() {
         this.clearTimeout(resizeTimer);
@@ -125,6 +134,7 @@ export default {
         }, 200);
       });
 
+      //mouseOn, mouseOut 등등의 관련 상수들
       const nodeMaxSize = 50;
       const nodeMinSize = 5;
       const nodeActiveSize = 28;
@@ -132,6 +142,7 @@ export default {
       const fontMinSize = 5;
       const fontActiveSize = 7;
 
+      //엣지, 화살표 크기 값
       const edgeWidth = '2px';
       const edgeActiveWidth = '4px';
       const arrowScale = 0.8;
@@ -143,9 +154,13 @@ export default {
       const nodeColor = '#57606f';
       const nodeActiveColor = '#ffa502';
 
+      //상위 노드, 엣지 색
       const successorColor = '#ff6348';
-
+      //하위 노드, 엣지 색
       const predecessorsColor = '#1e90ff';
+
+      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서 
+      //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
       window.addEventListener("load",function(){
         cy.json({
           style: [ 
@@ -245,6 +260,7 @@ export default {
           },
         ]});
       });
+      //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
         target_cy.nodes().forEach(function (target) {
             target.style(style);
@@ -270,6 +286,7 @@ export default {
           }
           );
           target_element.predecessors().each(function (ele) {
+            //하위 엣지와 노드
               if (ele.isEdge()) {
                   ele.style('width', edgeWidth);
                   ele.style('arrow-scale', arrowScale);
@@ -281,6 +298,7 @@ export default {
               setOpacityElement(ele, 0.5);
           });
           target_element.neighborhood().each(function (e) {
+            //이웃한 엣지와 노드
               setOpacityElement(e, 1);
           }
           );
@@ -310,6 +328,7 @@ export default {
               target.style('opacity', 1);
           });
       }
+      
       cy.on('tapstart mouseover', 'node', function (ele) {
         setDimStyle(cy, {
             'background-color': dimColor,
@@ -323,6 +342,9 @@ export default {
       cy.on('tapend mouseout', 'node', function (ele) {
         setResetFocus(ele.cy);
       });
+
+      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때 
+      //-> 설정 버튼 나오게 해주는 라이브러리 관련 function
       cy.cxtmenu({
         selector: "node",
         commands: [
