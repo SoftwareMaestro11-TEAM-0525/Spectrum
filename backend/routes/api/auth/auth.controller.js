@@ -9,12 +9,12 @@ const jwt = require("jsonwebtoken");
 */
 
 exports.register = (req, res) => {
-  const { user_id, user_pw, user_name } = req.body;
+  const { user_id, user_pw, user_name, user_email } = req.body;
   let newUser = null;
 
   const create = (user) => {
     if (user) throw new Error("userid exists");
-    else return User.create(user_id, user_pw, user_name);
+    else return User.create(user_id, user_pw, user_name, user_email);
   };
 
   const respond = () => {
