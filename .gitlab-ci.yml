@@ -1,38 +1,22 @@
 stages:
-  - backend-image-build
-  - frontend-image-build
+  - docker-image-build
   - deploy
 
-backend-image-build:
-  stage: backend-image-build
+docker-image-build:
+  stage: docker-image-build
   image: docker:latest
-  services:
-    - docker:dind
   before_script:
-    - docker logout
-    - docker login -u $docker_id -p $docker_pw docker.io
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - cd backend
-    - docker build -t $docker_id/backend:first .
-    - docker push $docker_id/backend:first
-    - docker images
-
-frontend-image-build:
-  stage: frontend-image-build
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - docker logout
-    - docker login -u $docker_id_2 -p $docker_pw docker.io
-  script:
-    - cd frontend
-    - docker build -t $docker_id_2/frontend:first .
-    - docker push $docker_id_2/frontend:first
-    - docker images
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "bash .gitlab-build-image.sh"
 
 deploy:
   stage: deploy
+  image: docker:latest
   before_script:
     - mkdir -p ~/.ssh
     - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
@@ -41,4 +25,4 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "mkdir awsci"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd 0525 && docker-compose up -d"
