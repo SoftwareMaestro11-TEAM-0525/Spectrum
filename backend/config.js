@@ -1,5 +1,5 @@
 module.exports = {
-  mongodbUri: "mongodb://localhost/spectrum",
+  mongodbUri: "mongodb://mongo/spectrum",
   jwtKey: "sPeCtRuM-jWt-KeY",
   pwKey: "password-secreat-key",
 };
