@@ -12,8 +12,10 @@
 var cytoscape = require("cytoscape");
 var cxtmenu = require("cytoscape-cxtmenu");
 var eh = require("cytoscape-edgehandles");
+
 cytoscape.use(cxtmenu);
 cytoscape.use(eh);
+
 export default {
   name: "Mindmap",
   components: {},

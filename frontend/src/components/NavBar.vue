@@ -6,8 +6,15 @@
         Spectrum
       </div>
     </router-link>
-    <div class="item">내 정보</div>
-    <div class="item">공유하기</div>
+    <div class="item">
+      <button>내 정보</button>
+      <div class="dropdown">
+
+      </div>
+    </div>
+    <div class="item">
+      <button>공유하기</button>
+    </div>
   </nav>
 </template>
 
@@ -26,6 +33,7 @@ export default {
   background-color: white;
   line-height: 64px;
   box-sizing: border-box;
+  border-bottom: 1px solid #e5e5e5;
   &:after {
     content: "";
     display: block;
@@ -44,9 +52,19 @@ export default {
   .item {
     width: 115px;
     float: right;
-    text-align: center;
-    font-size: 18px;
-    cursor: pointer;  
+    button {
+      width: 100%;
+      height: 63px;
+      text-align: center;
+      font-size: 18px;
+      border: none;
+      background-color: white;
+      outline: none;
+      cursor: pointer;
+      &:hover {
+        font-weight: bold;
+      }
+    }
   }
 }
 </style>

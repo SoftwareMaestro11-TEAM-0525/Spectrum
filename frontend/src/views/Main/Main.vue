@@ -1,16 +1,19 @@
 <template>
   <div class="container">
     <nav-bar></nav-bar>
+    <mindmap></mindmap>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar"
+import mindmap from "@/views/Main/Mindmap.vue";
 
 export default {
   name: "Main",
   components: {
-    NavBar
+    NavBar,
+    mindmap
   }
 }
 </script>
