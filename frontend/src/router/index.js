@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import auth from "./auth";
-import Mindmap from "@/views/mindmap/Mindmap";
+import Main from "@/views/Main/Main";
 
 Vue.use(VueRouter);
 
@@ -13,9 +13,9 @@ const routes = [
     component: Home
   },
   {
-    path: "/mindmap",
-    name: "Mindmap",
-    component: Mindmap
+    path: "/main",
+    name: "Main",
+    component: Main
   },
   ...auth
 ];

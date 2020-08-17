@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     view_init: function() {
-      var cy = cytoscape({
+      let cy = cytoscape({
         // 기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
@@ -63,7 +63,7 @@ export default {
             height: 12,
             shape: "ellipse",
             "overlay-opacity": 0,
-            "border-width": 12, 
+            "border-width": 12,
             "border-opacity": 0
           })
           .selector(".eh-hover")
@@ -147,7 +147,7 @@ export default {
       const edgeActiveWidth = '4px';
       const arrowScale = 0.8;
       const arrowActiveScale = 1.2;
-      
+
 
       const dimColor = '#dfe4ea';
       const edgeColor = '#ced6e0';
@@ -159,11 +159,11 @@ export default {
       //하위 노드, 엣지 색
       const predecessorsColor = '#1e90ff';
 
-      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서 
+      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
       //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
       window.addEventListener("load",function(){
         cy.json({
-          style: [ 
+          style: [
           {
             selector: 'node',
             style: {
@@ -174,9 +174,9 @@ export default {
                 "text-outline-color": "white",
                 "background-color": "#57606f",
                 "text-wrap": "wrap",
-                
+
                 "label": "data(id)",
-                
+
                 "width": function (ele) {
                     if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
                       return nodeMaxSize * (0.1/ cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
@@ -209,7 +209,7 @@ export default {
               "target-arrow-color": "black",
               "source-arrow-color": "black",
               "text-outline-color": "black"
-            } 
+            }
           },
           {
             selector:".eh-handle",
@@ -221,7 +221,7 @@ export default {
               "overlay-opacity": 0,
               "border-width": 12,
               "border-opacity": 0
-            } 
+            }
           },
           {
             selector:".eh-hover",
@@ -328,7 +328,7 @@ export default {
               target.style('opacity', 1);
           });
       }
-      
+
       cy.on('tapstart mouseover', 'node', function (ele) {
         setDimStyle(cy, {
             'background-color': dimColor,
@@ -343,7 +343,7 @@ export default {
         setResetFocus(ele.cy);
       });
 
-      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때 
+      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때
       //-> 설정 버튼 나오게 해주는 라이브러리 관련 function
       cy.cxtmenu({
         selector: "node",
@@ -367,10 +367,10 @@ export default {
               ]);
             }
           },
-			
+
           {
             content: "start",
-            
+
             select: function() {
               eh.enabled = true;
               cy.on('tapdragout', 'edge', function() {
@@ -428,7 +428,7 @@ export default {
   mounted: function() {
     this.view_init();
   }
-}; 
+};
 </script>
 <style scoped>
 #cy {
