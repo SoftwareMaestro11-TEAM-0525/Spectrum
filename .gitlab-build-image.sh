@@ -1,6 +1,10 @@
 #!/bin/bash
 
-#pull develop branch
+#stpo and rm all container
+docker stop ${docker ps -a -q}
+docker rm ${docker ps -a -q}
+
+#pull cicd branch
 cd 0525
 git checkout cicd
 git pull
