@@ -2,7 +2,7 @@
 
 #pull develop branch
 cd 0525
-git checkout develop
+git checkout cicd
 git pull
 
 #docker login for backend image repo
