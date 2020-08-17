@@ -13,6 +13,9 @@ const User = new Schema({
   user_pw: {
     type: String,
   },
+  user_name: {
+    type: String,
+  },
   user_email: {
     type: String,
     index: true,
@@ -20,7 +23,7 @@ const User = new Schema({
   },
 });
 
-User.statics.create = function (user_id, user_pw) {
+User.statics.create = function (user_id, user_pw, user_name, user_email) {
   const encrypted = crypto
     .createHmac("sha1", config.pwKey)
     .update(user_pw)
@@ -29,6 +32,8 @@ User.statics.create = function (user_id, user_pw) {
   const user = new this({
     user_id,
     user_pw: encrypted,
+    user_name,
+    user_email,
   });
   return user.save();
 };

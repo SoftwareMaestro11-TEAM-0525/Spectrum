@@ -1,0 +1,65 @@
+a {
+  color: #363636;
+  text-decoration: none;
+}
+
+.guide {
+  text-align: center;
+  color: #363636;
+  font-size: 14px;
+  &.small {
+    font-size: 13px;
+    a {
+      color: #524fff;
+      cursor: pointer;
+    }
+  }
+  &.large {
+    font-size: 17px;
+  }
+}
+
+@mixin input-text {
+  width: 100%;
+  height: 52px;
+  border: solid 1px #e5e5e5;
+  border-radius: 6px;
+  padding:0 0 0 16px;
+  font-size: 15px;
+  &:focus {
+    border: solid 1px #838788;
+    caret-color: #f65c6c;
+    outline: none;
+  }
+}
+
+@mixin input-button($isDisable: false) {
+  @if $isDisable {
+    background-color: #d7d7d9;
+    cursor: default;
+  } @else {
+    background-color: #524fff;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(82, 79, 255, 0.65);
+    }
+  }
+  width: 100%;
+  height: 52px;
+  border-radius: 8px;
+  color: white;
+  border: 0;
+  outline: none;
+}
+
+@mixin divider {
+  width: 100%;
+  height: 0.5px;
+  background-color: #cbcbcb;
+  border: none;
+}
+
+.error {
+  color: #ed4956;
+  font-size: 13px;
+}

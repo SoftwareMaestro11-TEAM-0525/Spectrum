@@ -9,24 +9,23 @@ const jwt = require("jsonwebtoken");
 */
 
 exports.register = (req, res) => {
-  const { user_id, user_pw } = req.body;
+  const { user_id, user_pw, user_name, user_email } = req.body;
   let newUser = null;
 
   const create = (user) => {
-    if (user) {
-      throw new Error("username exists");
-    } else {
-      return User.create(user_id, user_pw);
-    }
+    if (user) throw new Error("userid exists");
+    else return User.create(user_id, user_pw, user_name, user_email);
   };
 
   const respond = () => {
     res.json({
+      success: true,
       message: "register success",
     });
   };
   const onError = (error) => {
     res.status(409).json({
+      success: false,
       message: error.message,
     });
   };
@@ -47,9 +46,8 @@ exports.login = (req, res) => {
   const secret = req.app.get("jwt-key");
 
   const check = (user) => {
-    if (!user) {
-      throw new Error("login failed");
-    } else {
+    if (!user) throw new Error("login failed");
+    else {
       if (user.verify(user_pw)) {
         const p = new Promise((resolve, reject) => {
           jwt.sign(
@@ -70,14 +68,13 @@ exports.login = (req, res) => {
           );
         });
         return p;
-      } else {
-        throw new Error("login failed");
-      }
+      } else throw new Error("login failed");
     }
   };
 
   const respond = (token) => {
     res.json({
+      success: true,
       message: "login success",
       token,
     });
@@ -85,6 +82,7 @@ exports.login = (req, res) => {
 
   const onError = (error) => {
     res.status(403).json({
+      success: false,
       message: error.message,
     });
   };
