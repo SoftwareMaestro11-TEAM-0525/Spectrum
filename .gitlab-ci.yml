@@ -12,7 +12,7 @@ docker-image-build:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin cicd && git fetch && git pull && bash .gitlab-build-image.sh"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull && bash .gitlab-build-image.sh"
 
 deploy:
   stage: deploy
