@@ -9,7 +9,7 @@
     <div class="item">
       <button>내 정보</button>
       <div class="dropdown">
-        <div class="wrap_rect">
+        <div class="wrap_rect short">
           <div></div>
         </div>
         <div class="options">
@@ -27,6 +27,15 @@
     </div>
     <div class="item">
       <button>공유하기</button>
+      <div class="dropdown">
+        <div class="wrap_rect long">
+          <div></div>
+        </div>
+        <div class="share">
+          <input type="text" value="https://wizardly-pasteur-8018f7.net" readonly>
+          <button>복사</button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -73,7 +82,7 @@ export default {
     width: 115px;
     float: right;
     line-height: normal;
-    button {
+    > button {
       width: 100%;
       height: 63px;
       text-align: center;
@@ -140,16 +149,63 @@ export default {
           }
         }
       }
+      .share {
+        width: 360px;
+        height: 80px;
+        box-sizing: border-box;
+        margin: 0 0 0 -232px;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 0 12px 0 rgba(134, 134, 134, 0.15);
+        padding: 18px 14px;
+        input {
+          width: 244px;
+          height: 44px;
+          box-sizing: border-box;
+          margin-right: 12px;
+          background-color: #f6f6f6;
+          border: none;
+          border-radius: 8px;
+          outline: none;
+          padding-left: 8px;
+          color: #363636;
+          font-size: 14px;
+        }
+        button {
+          width: 76px;
+          height: 44px;
+          box-sizing: border-box;
+          vertical-align: middle;
+          border: none;
+          border-radius: 8px;
+          outline: none;
+          background-color: #524fff;
+          cursor: pointer;
+          color: white;
+          font-size: 15px;
+        }
+      }
     }
   }
   .wrap_rect {
-    width: 232px;
-    margin: 0 0 0 -116px;
+    &.short {
+      width: 232px;
+      margin-left: -116px;
+      div {
+        margin: 1px 0 0 168px;
+      }
+    }
+    &.long {
+      width: 360px;
+      margin-left: -232.5px;
+      div {
+        margin: 1px 0 0 280px;
+      }
+    }
     div {
       position: relative;
       width: 0;
       height: 0;
-      margin: 1px 0 0 168px;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
       border-bottom: 12px solid white;
