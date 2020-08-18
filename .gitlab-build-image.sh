@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #stpo and rm all container
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
+docker stop nodejs vuejs
+docker rm nodejs vuejs
 
 #pull cicd branch
 cd ~/0525
