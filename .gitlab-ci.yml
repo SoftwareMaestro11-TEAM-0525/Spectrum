@@ -1,18 +1,5 @@
 stages:
-  - docker-image-build
   - deploy
-
-docker-image-build:
-  stage: docker-image-build
-  image: docker:latest
-  before_script:
-    - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh
-    - chmod 400 ~/.ssh/id_rsa
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
-  script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && ls -al && bash .gitlab-build-image.sh"
 
 deploy:
   stage: deploy
@@ -25,4 +12,5 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd 0525 && docker-compose up -d"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && docker-compose up -d --build"
+    
