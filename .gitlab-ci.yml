@@ -13,7 +13,7 @@ docker-image-build:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
     - ls /builds/swmaestro/0525/
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "bash /builds/swmaestro/0525/gitlab-build-image.sh"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "bash /builds/swmaestro/0525/.gitlab-build-image.sh"
 
 deploy:
   stage: deploy
