@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div>
-      MindMap-Vue
-
-      <div id="cy"></div>
-    </div>
-  </div>
+  <div id="cy"></div>
 </template>
 
 <script>
@@ -416,7 +410,6 @@ export default {
               ]);
             }
           },
-
           {
             content: "기타",
             select: function() {
@@ -434,12 +427,7 @@ export default {
 </script>
 <style scoped>
 #cy {
-  width: 90%;
-  height: 90%;
-  position: absolute;
-  top: 60px;
-  left: 0px;
-  text-align: left;
+  height: 100%
 }
 body {
   font: 14px helvetica neue, helvetica, arial, sans-serif;
