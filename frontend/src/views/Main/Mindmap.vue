@@ -30,65 +30,6 @@ export default {
         boxSelectionEnabled: false,
         autounselectify: true,
         // cytoscape style 코드
-        style: cytoscape
-          .stylesheet()
-          //node 스타일
-          .selector("node")
-          .css({
-            content: "data(id)",
-            "text-valign": "center",
-            color: "white",
-            "text-outline-width": 2,
-            "text-outline-color": "#888",
-            "background-color": "#888"
-          })
-          //선택된 node css 설정
-          .selector(":selected")
-          .css({
-            "background-color": "black",
-            "line-color": "black",
-            "target-arrow-color": "black",
-            "source-arrow-color": "black",
-            "text-outline-color": "black"
-          })
-          //edgehandle(노드에서 엣지 추가할 때 사용하는 function)스타일
-          .selector(".eh-handle")
-          .css({
-            "background-color": "blue",
-            width: 12,
-            height: 12,
-            shape: "ellipse",
-            "overlay-opacity": 0,
-            "border-width": 12,
-            "border-opacity": 0
-          })
-          .selector(".eh-hover")
-          .css({
-            "background-color": "blue"
-          })
-
-          .selector(".eh-source")
-          .css({
-            "border-width": 2,
-            "border-color": "blue"
-          })
-          .selector(".eh-target")
-          .css({
-            "border-width": 2,
-            "border-color": "blue"
-          })
-
-          .selector(".eh-preview, .eh-ghost-edge")
-          .css({
-            "background-color": "blue",
-            "line-color": "blue",
-            "target-arrow-color": "blue",
-            "source-arrow-color": "blue"
-          })
-          .selector(".eh-ghost-edge.eh-preview-active")
-          .css({
-            opacity: 0
-          }),
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
@@ -427,7 +368,8 @@ export default {
 </script>
 <style scoped>
 #cy {
-  height: 100%
+  height: calc(100% - 64px);
+  margin-top: 64px;
 }
 body {
   font: 14px helvetica neue, helvetica, arial, sans-serif;
