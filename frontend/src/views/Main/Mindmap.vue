@@ -92,23 +92,9 @@ export default {
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
-            { data: { id: "cat", name: "test1" } },
-            { data: { id: "bird", name: "test2" } },
-            { data: { id: "ladybug", name: "test1" } },
-            { data: { id: "aphid", name: "test1" } },
-            { data: { id: "rose", name: "test1" } },
-            { data: { id: "grasshopper", name: "test1" } },
-            { data: { id: "plant", name: "test1" } },
-            { data: { id: "wheat", name: "test1" } }
+            { data: { id: "0", name: "user"} },
           ],
           edges: [
-            { data: { source: "cat", target: "bird" } },
-            { data: { source: "bird", target: "ladybug" } },
-            { data: { source: "bird", target: "grasshopper" } },
-            { data: { source: "grasshopper", target: "plant" } },
-            { data: { source: "grasshopper", target: "wheat" } },
-            { data: { source: "ladybug", target: "aphid" } },
-            { data: { source: "aphid", target: "rose" } }
           ]
         },
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
@@ -347,20 +333,46 @@ export default {
           {
             content: "Add",
             select: function(ele) {
+              let min=1;
+              let max=0;
+              cy.nodes().forEach(function(target){
+                console.log("노드 아이디 값:"+target.id());
+                if(target.id()<min){
+                  min = Number(target.id());
+                  console.log("id, min : "+target.id()+" "+min);
+                }
+              })
+              cy.edges().forEach(function(target){
+                if(target.id()>max){
+                  max = Number(target.id());
+                }
+              })
+              min = Number(min)-1;
+              max = Number(max)+1;
+              console.log(min);
+              let x = cy.$('#'+ ele.id()).position('x')-100;
+              let y = cy.$('#'+ ele.id()).position('y')-100;
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
+                  data: { 
+                    id: min, 
+                  },
+                  position:{
+                      x,
+                      y
+                    }
                 },
                 {
                   group: "edges",
                   data: {
-                    id: cy.json().elements.edges.length + 1 + "edge",
+                    id: max,
                     source: ele.id(),
-                    target: cy.json().elements.nodes.length + 1 + "node"
+                    target: min
                   }
                 }
               ]);
+              cy.fit();
             }
           },
 
