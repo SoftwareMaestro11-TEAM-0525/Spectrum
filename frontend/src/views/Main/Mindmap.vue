@@ -416,12 +416,28 @@ export default {
           {
             content: "Add",
             select: function() {
+              let x = 1000;
+              let y = 500; 
+              let min=0;
+              cy.nodes().forEach(function(target){
+                console.log("노드 아이디 값:"+target.id());
+                if(target.id()<min){
+                  min = Number(target.id());
+                  console.log("id, min : "+target.id()+" "+min);
+                }
+              })
+              min = Number(min)-1;
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
+                  data: { id: min},
+                  position:{
+                      x,
+                      y
+                    }
                 }
               ]);
+              cy.fit();
             }
           },
           {
