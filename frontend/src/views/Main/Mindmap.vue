@@ -380,10 +380,12 @@ export default {
             content: "start",
 
             select: function() {
-              eh.enabled = true;
-              cy.on('tapdragout', 'edge', function() {
-                eh.enabled = false;
-              })
+              if(cy.json().elements.nodes.length>1){
+                eh.enabled = true;
+                cy.on('tapdragout', 'edge', function() {
+                  eh.enabled = false;
+                })
+              }
             }
           },
           {
