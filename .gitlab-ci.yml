@@ -12,5 +12,5 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && docker stop nodejs vuejs && docker rm nodejs vuejs && docker-compose up -d --build"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && docker stop nodejs vuejs && docker rm nodejs vuejs && docker rmi $(docker images -a -q) && docker-compose up -d --build"
     
