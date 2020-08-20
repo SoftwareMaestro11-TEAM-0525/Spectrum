@@ -1,19 +1,15 @@
 <template>
-  <div>
-    <div>
-      MindMap-Vue
-
-      <div id="cy"></div>
-    </div>
-  </div>
+  <div id="cy"></div>
 </template>
 
 <script>
 var cytoscape = require("cytoscape");
 var cxtmenu = require("cytoscape-cxtmenu");
 var eh = require("cytoscape-edgehandles");
+
 cytoscape.use(cxtmenu);
 cytoscape.use(eh);
+
 export default {
   name: "Mindmap",
   components: {},
@@ -28,91 +24,18 @@ export default {
   },
   methods: {
     view_init: function() {
-      var cy = cytoscape({
+      let cy = cytoscape({
         // 기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
         autounselectify: true,
         // cytoscape style 코드
-        style: cytoscape
-          .stylesheet()
-          //node 스타일
-          .selector("node")
-          .css({
-            content: "data(id)",
-            "text-valign": "center",
-            color: "white",
-            "text-outline-width": 2,
-            "text-outline-color": "#888",
-            "background-color": "#888"
-          })
-          //선택된 node css 설정
-          .selector(":selected")
-          .css({
-            "background-color": "black",
-            "line-color": "black",
-            "target-arrow-color": "black",
-            "source-arrow-color": "black",
-            "text-outline-color": "black"
-          })
-          //edgehandle(노드에서 엣지 추가할 때 사용하는 function)스타일
-          .selector(".eh-handle")
-          .css({
-            "background-color": "blue",
-            width: 12,
-            height: 12,
-            shape: "ellipse",
-            "overlay-opacity": 0,
-            "border-width": 12, 
-            "border-opacity": 0
-          })
-          .selector(".eh-hover")
-          .css({
-            "background-color": "blue"
-          })
-
-          .selector(".eh-source")
-          .css({
-            "border-width": 2,
-            "border-color": "blue"
-          })
-          .selector(".eh-target")
-          .css({
-            "border-width": 2,
-            "border-color": "blue"
-          })
-
-          .selector(".eh-preview, .eh-ghost-edge")
-          .css({
-            "background-color": "blue",
-            "line-color": "blue",
-            "target-arrow-color": "blue",
-            "source-arrow-color": "blue"
-          })
-          .selector(".eh-ghost-edge.eh-preview-active")
-          .css({
-            opacity: 0
-          }),
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
-            { data: { id: "cat", name: "test1" } },
-            { data: { id: "bird", name: "test2" } },
-            { data: { id: "ladybug", name: "test1" } },
-            { data: { id: "aphid", name: "test1" } },
-            { data: { id: "rose", name: "test1" } },
-            { data: { id: "grasshopper", name: "test1" } },
-            { data: { id: "plant", name: "test1" } },
-            { data: { id: "wheat", name: "test1" } }
+            { data: { id: "0", name: "user"} },
           ],
           edges: [
-            { data: { source: "cat", target: "bird" } },
-            { data: { source: "bird", target: "ladybug" } },
-            { data: { source: "bird", target: "grasshopper" } },
-            { data: { source: "grasshopper", target: "plant" } },
-            { data: { source: "grasshopper", target: "wheat" } },
-            { data: { source: "ladybug", target: "aphid" } },
-            { data: { source: "aphid", target: "rose" } }
           ]
         },
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
@@ -147,7 +70,7 @@ export default {
       const edgeActiveWidth = '4px';
       const arrowScale = 0.8;
       const arrowActiveScale = 1.2;
-      
+
 
       const dimColor = '#dfe4ea';
       const edgeColor = '#ced6e0';
@@ -159,11 +82,11 @@ export default {
       //하위 노드, 엣지 색
       const predecessorsColor = '#1e90ff';
 
-      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서 
+      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
       //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
       window.addEventListener("load",function(){
         cy.json({
-          style: [ 
+          style: [
           {
             selector: 'node',
             style: {
@@ -174,9 +97,9 @@ export default {
                 "text-outline-color": "white",
                 "background-color": "#57606f",
                 "text-wrap": "wrap",
-                
+
                 "label": "data(id)",
-                
+
                 "width": function (ele) {
                     if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
                       return nodeMaxSize * (0.1/ cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
@@ -209,7 +132,7 @@ export default {
               "target-arrow-color": "black",
               "source-arrow-color": "black",
               "text-outline-color": "black"
-            } 
+            }
           },
           {
             selector:".eh-handle",
@@ -221,7 +144,7 @@ export default {
               "overlay-opacity": 0,
               "border-width": 12,
               "border-opacity": 0
-            } 
+            }
           },
           {
             selector:".eh-hover",
@@ -328,7 +251,7 @@ export default {
               target.style('opacity', 1);
           });
       }
-      
+
       cy.on('tapstart mouseover', 'node', function (ele) {
         setDimStyle(cy, {
             'background-color': dimColor,
@@ -343,7 +266,7 @@ export default {
         setResetFocus(ele.cy);
       });
 
-      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때 
+      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때
       //-> 설정 버튼 나오게 해주는 라이브러리 관련 function
       cy.cxtmenu({
         selector: "node",
@@ -351,31 +274,59 @@ export default {
           {
             content: "Add",
             select: function(ele) {
+              let min=1;
+              let max=0;
+              cy.nodes().forEach(function(target){
+                console.log("노드 아이디 값:"+target.id());
+                if(target.id()<min){
+                  min = Number(target.id());
+                  console.log("id, min : "+target.id()+" "+min);
+                }
+              })
+              cy.edges().forEach(function(target){
+                if(target.id()>max){
+                  max = Number(target.id());
+                }
+              })
+              min = Number(min)-1;
+              max = Number(max)+1;
+              console.log(min);
+              let x = cy.$('#'+ ele.id()).position('x')-100;
+              let y = cy.$('#'+ ele.id()).position('y')-100;
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
+                  data: { 
+                    id: min, 
+                  },
+                  position:{
+                      x,
+                      y
+                    }
                 },
                 {
                   group: "edges",
                   data: {
-                    id: cy.json().elements.edges.length + 1 + "edge",
+                    id: max,
                     source: ele.id(),
-                    target: cy.json().elements.nodes.length + 1 + "node"
+                    target: min
                   }
                 }
               ]);
+              cy.fit();
             }
           },
-			
+
           {
             content: "start",
-            
+
             select: function() {
-              eh.enabled = true;
-              cy.on('tapdragout', 'edge', function() {
-                eh.enabled = false;
-              })
+              if(cy.json().elements.nodes.length>1){
+                eh.enabled = true;
+                cy.on('tapdragout', 'edge', function() {
+                  eh.enabled = false;
+                })
+              }
             }
           },
           {
@@ -406,15 +357,30 @@ export default {
           {
             content: "Add",
             select: function() {
+              let x = 1000;
+              let y = 500; 
+              let min=0;
+              cy.nodes().forEach(function(target){
+                console.log("노드 아이디 값:"+target.id());
+                if(target.id()<min){
+                  min = Number(target.id());
+                  console.log("id, min : "+target.id()+" "+min);
+                }
+              })
+              min = Number(min)-1;
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: cy.json().elements.nodes.length + 1 + "node" }
+                  data: { id: min},
+                  position:{
+                      x,
+                      y
+                    }
                 }
               ]);
+              cy.fit();
             }
           },
-
           {
             content: "기타",
             select: function() {
@@ -428,16 +394,12 @@ export default {
   mounted: function() {
     this.view_init();
   }
-}; 
+};
 </script>
 <style scoped>
 #cy {
-  width: 90%;
-  height: 90%;
-  position: absolute;
-  top: 60px;
-  left: 0px;
-  text-align: left;
+  height: calc(100% - 64px);
+  margin-top: 64px;
 }
 body {
   font: 14px helvetica neue, helvetica, arial, sans-serif;
