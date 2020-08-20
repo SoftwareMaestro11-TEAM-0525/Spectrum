@@ -6,7 +6,7 @@
         Spectrum
       </div>
     </router-link>
-    <div class="item">
+    <div class="item" v-if="isMain">
       <button>내 정보</button>
       <div class="dropdown">
         <div class="wrap_rect short">
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="item">
+    <div class="item" v-if="isMain">
       <button>공유하기</button>
       <div class="dropdown">
         <div class="wrap_rect long">
@@ -48,6 +48,9 @@ export default {
       userName: "최현석",
       expCount: -100,
     }
+  },
+  props: {
+    isMain: Boolean
   }
 }
 </script>

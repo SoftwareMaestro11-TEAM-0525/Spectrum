@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar></nav-bar>
+    <nav-bar :isMainpage="true"></nav-bar>
     <mindmap></mindmap>
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .container {
   width: 100%;
   height: 100vh;
