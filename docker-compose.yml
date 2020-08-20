@@ -10,8 +10,8 @@ services:
     container_name: mongo
     volumes:
       - type: bind
-      source: /var/lib/mongodb
-      target: /var/lib/mongodb
+        source: /var/lib/mongodb
+        target: /var/lib/mongodb
 networks:
   default:
     external:
