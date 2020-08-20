@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import auth from "./auth";
 import Main from "@/views/Main/Main";
+import Input from "@/views/Main/Input"
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ const routes = [
     path: "/main",
     name: "Main",
     component: Main
+  },
+  {
+    path: "/input",
+    name: "Input",
+    component: Input
   },
   ...auth
 ];
