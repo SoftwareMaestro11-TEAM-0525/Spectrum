@@ -5,11 +5,6 @@ services:
     build: ~/0525/backend/
     ports:
       - "3000:3000"
-  vuejs:
-    container_name: vuejs
-    build: ~/0525/frontend/
-    ports:
-      - "8080:8080"
   mongo:
     image: mongo
     container_name: mongo
