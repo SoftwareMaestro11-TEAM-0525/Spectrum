@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+build:
+  only:
+    - master
+    - develop
+  stage: build
+  image: docker:latest
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && cd frontend && npm install && npm run build"
+
+
+deploy:
+  only:
+    - master
+    - develop
+  stage: deploy
+  image: docker:latest
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "docker stop nodejs && docker rm nodejs && docker rmi 0525_nodejs && ls && cd 0525 && docker-compose up -d --build"
