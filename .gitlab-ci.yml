@@ -26,4 +26,4 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "docker stop nodejs && docker rm nodejs && docker rmi 0525_nodejs && docker-compose up -d --build"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "docker stop nodejs && docker rm nodejs && docker rmi 0525_nodejs && ls && cd 0525 && docker-compose up -d --build"
