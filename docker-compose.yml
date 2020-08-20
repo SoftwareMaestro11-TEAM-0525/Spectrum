@@ -4,14 +4,14 @@ services:
     container_name: nodejs
     build: ~/0525/backend/
     ports:
-      - "3000:3000"
+      - "3000:3000"  
   mongo:
     image: mongo
     container_name: mongo
     volumes:
       - type: bind
-        source: /var/lib/mongodb
-        target: /var/lib/mongodb
+      source: /var/lib/mongodb
+      target: /var/lib/mongodb
 networks:
   default:
     external:
