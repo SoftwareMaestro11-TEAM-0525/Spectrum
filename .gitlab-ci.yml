@@ -3,6 +3,9 @@ stages:
   - deploy
 
 build:
+  only:
+    - master
+    - develop
   stage: build
   image: docker:latest
   before_script:
@@ -16,6 +19,9 @@ build:
 
 
 deploy:
+  only:
+    - master
+    - develop
   stage: deploy
   image: docker:latest
   before_script:
