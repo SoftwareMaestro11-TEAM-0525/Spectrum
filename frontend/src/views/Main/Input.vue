@@ -39,6 +39,13 @@
         <div><b>내용</b></div>
         <div class="editor" ref="editor"></div>
       </div>
+      <div class="attach">
+        <div><b>첨부파일</b></div>
+        <div>
+          <input type="text" readonly value="그림.jpg">
+          <button @click="attachFile"><b>파일 추가</b></button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +75,8 @@ export default {
           ['link', 'image']
         ]
       },
-      theme: "snow"
+      theme: "snow",
+      bounds: ".editor"
     }
     this.editor = new Quill(this.$refs.editor, options)
   },
@@ -99,6 +107,9 @@ export default {
     },
     removeTagItem: function(idx) {
       this.tags.splice(idx, 1)
+    },
+    attachFile: function () {
+
     },
     tagTyping: function(e) {
       this.tagString = e.target.value
@@ -249,6 +260,7 @@ export default {
       }
     }
     .content {
+      margin-bottom: 54px;
       > div {
         margin-bottom: 10px;
         > b {
@@ -263,6 +275,39 @@ export default {
         border: 1px solid #ededed;
         color: #363636;
         overflow-y: scroll;
+      }
+    }
+    .attach {
+      display: flex;
+      justify-content: space-between;
+      div:nth-child(1) {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+      }
+      div:nth-child(2) {
+        font-size: 13px;
+        input {
+          width: 294px;
+          height: 36px;
+          box-sizing: border-box;
+          outline: none;
+          padding: 0 0 0 16px;
+          border-radius: 6px;
+          border: solid 1px #ededed;
+          margin-right: 12px;
+          color: #363636;
+        }
+        button {
+          width: 72px;
+          height: 36px;
+          vertical-align: middle;
+          border-radius: 6px;
+          border: none;
+          background-color: #f0f0f0;
+          outline: none;
+          cursor: pointer;
+        }
       }
     }
   }
