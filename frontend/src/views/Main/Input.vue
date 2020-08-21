@@ -64,7 +64,8 @@ export default {
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
 
           [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-          [{ 'align': [] }],           // remove formatting button
+          [{ 'align': [] }],
+          ['link', 'image']
         ]
       },
       theme: "snow"
