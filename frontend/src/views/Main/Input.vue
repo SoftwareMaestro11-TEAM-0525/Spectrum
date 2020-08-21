@@ -37,6 +37,7 @@
       </div>
       <div class="content">
         <div><b>내용</b></div>
+        <div class="editor" ref="editor"></div>
       </div>
     </div>
   </div>
@@ -44,11 +45,31 @@
 
 <script>
 import NavBar from '@/components/NavBar'
+import Quill from 'quill'
 
 export default {
   name: "input.vue",
   components: {
     NavBar
+  },
+  mounted() {
+    let options = {
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, false] }],
+
+          ['bold', 'italic', 'underline'],        // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'align': [] }],           // remove formatting button
+        ]
+      },
+      theme: "snow"
+    }
+    this.editor = new Quill(this.$refs.editor, options)
   },
   data() {
     return {
@@ -58,7 +79,8 @@ export default {
         { text: "떡볶이" },
         { text: "순대"}
       ],
-      tagString: ""
+      tagString: "",
+      editor: null
     }
   },
   methods: {
@@ -85,6 +107,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "~quill/dist/quill.snow.css";
+
   .wrapper {
     width: 786px;
     margin: 64px auto;
@@ -224,9 +248,29 @@ export default {
       }
     }
     .content {
-      > div > b {
-        font-size: 15px;
+      > div {
+        margin-bottom: 10px;
+        > b {
+          font-size: 15px;
+        }
+      }
+      .editor {
+        height: 150px;
+        background-color: white;
+        border-radius: 0 0 6px 6px;
+        font-size: 14px;
+        border: 1px solid #ededed;
+        color: #363636;
+        overflow-y: scroll;
       }
     }
+  }
+</style>
+
+<style lang="scss">
+  .ql-toolbar {
+    background-color: white;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #ededed !important;
   }
 </style>
