@@ -1,6 +1,44 @@
 <template>
   <div class="container">
-    <nav-bar :isMainpage="true"></nav-bar>
+    <nav-bar :isMainpage="false"></nav-bar>
+    <div class="wrapper">
+      <input type="text" name="title" placeholder="제목을 입력해 주세요.">
+      <div class="date">
+        <div>
+          <div><b>날짜 등록</b></div>
+          <div>수행한 날짜를 입력해주세요.</div>
+        </div>
+        <div>
+          <div>
+            <label for="start-date">시작일</label>
+            <input type="text" id="start-date" name="start-date">
+          </div>
+          <span>~</span>
+          <div>
+            <label for="end-date">종료일</label>
+            <input type="text" id="end-date" name="end-date">
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <div class="date-error">
+        종료일이 시작일보다 이전입니다.
+      </div>
+      <div class="tag">
+        <div><b>태그</b></div>
+        <div class="tagInput" :class="{ focus: isTagFocus }">
+          <ul><li v-for="(tag, index) in tags" :key="tag.text">{{ tag.text }}<span @click="removeTagItem(index)">&#x2715;</span></li></ul>
+          <input type="text" placeholder="Add tag..."
+                 @focus="tagInputFocus()" @blur="tagInputBlur()" v-on:input="tagTyping" @keypress.enter="addTagItem">
+        </div>
+        <div>
+          <b>Create</b>{{ tagString }}
+        </div>
+      </div>
+      <div class="content">
+        <div><b>내용</b></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,10 +49,184 @@ export default {
   name: "input.vue",
   components: {
     NavBar
+  },
+  data() {
+    return {
+      tagMsg: "",
+      isTagFocus: false,
+      tags: [
+        { text: "떡볶이" },
+        { text: "순대"}
+      ],
+      tagString: ""
+    }
+  },
+  methods: {
+    tagInputFocus: function() {
+      this.isTagFocus = true;
+    },
+    tagInputBlur: function() {
+      if (this.tagString) return;
+      this.isTagFocus = false;
+    },
+    addTagItem: function(e) {
+      this.tags.push({text : this.tagString})
+      this.tagString = ""
+      e.target.value = ""
+    },
+    removeTagItem: function(idx) {
+      this.tags.splice(idx, 1)
+    },
+    tagTyping: function(e) {
+      this.tagString = e.target.value
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .wrapper {
+    width: 786px;
+    margin: 64px auto;
+    height: calc(100% - 64px);
+    padding-top: 100px;
+    input[name="title"] {
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #ededed;
+      font-size: 30px;
+      padding: 15px 0;
+      outline: none;
+      margin-bottom: 48px;
+    }
+    .date {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      > div:nth-child(1) {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        > div:nth-child(1) {
+          font-size: 15px;
+          color: #363636;
+        }
+        > div:nth-child(2) {
+          font-size: 12px;
+          color: #a3a3a3;
+        }
+      }
+      > div:nth-child(2) {
+        > div {
+          display: inline-block;
+          label {
+            display: block;
+            font-size: 12px;
+            color: #363636;
+            margin-bottom: 4px;
+          }
+          input {
+            width: 172px;
+            height: 36px;
+            border: 1px solid #ededed;
+            outline: none;
+            font-size: 15px;
+            text-align: center;
+          }
+        }
+        span {
+          margin: 0 10px;
+          font-size: 15px;
+        }
+      }
+    }
+    .date-error {
+      width: 100%;
+      text-align: right;
+      font-size: 12px;
+      color: #ed4956;
+      margin: 4px 0 32px 0;
+    }
+    .tag {
+      margin-bottom: 54px;
+      > div > b{
+        font-size: 15px;
+      }
+      .tagInput {
+        width: 100%;
+        height: 46px;
+        border: solid 1px #ededed;
+        margin: 10px 0 0 0;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 8px;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        align-items: center;
+        ul{
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: row;
+          list-style: none;
+          li {
+            height: 30px;
+            border-radius: 6px;
+            background-color: #424242;
+            margin-right: 10px;
+            color: #ffffff;
+            padding: 0 10px;
+            font-size: 13px;
+            line-height: 30px;
+            span {
+              margin-left: 4px;
+              font-size: 13px;
+              cursor: pointer;
+            }
+          }
+        }
+        input {
+          height: 100%;
+          border: none;
+          outline: none;
+          caret-color: #f65c6c;
+          background-color: transparent;
+          padding: 0;
+          font-size: 13px;
+          flex: 1;
+        }
+      }
+      .focus {
+        box-shadow: 0 -1px 10px 0 rgba(54, 54, 54, 0.15);
+        background-color: #f7f7f5;
+        border: 1px solid transparent;
+        border-bottom: 1px solid #ededed;
+        border-radius: 6px 6px 0 0;
+      }
+      .tagInput+div {
+        display: none;
+        width: 100%;
+        height: 46px;
+        box-shadow: 0 6px 10px 0 rgba(54, 54, 54, 0.15);
+        padding-left: 12px;
+        background-color: #ffffff;
+        border-radius: 0 0 6px 6px;
+        box-sizing: border-box;
+        align-items: center;
+        b {
+          margin-right: 6px;
+        }
+      }
+      .focus+div {
+        display: flex;
+      }
+    }
+    .content {
+      > div > b {
+        font-size: 15px;
+      }
+    }
+  }
 </style>
