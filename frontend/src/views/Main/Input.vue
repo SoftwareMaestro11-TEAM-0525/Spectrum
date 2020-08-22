@@ -46,6 +46,9 @@
           <button @click="attachFile"><b>파일 추가</b></button>
         </div>
       </div>
+      <div>
+        <button>입력 완료</button>
+      </div>
     </div>
   </div>
 </template>
@@ -125,7 +128,7 @@ export default {
     width: 786px;
     margin: 64px auto;
     height: calc(100% - 64px);
-    padding-top: 100px;
+    padding-top: 50px;
     input[name="title"] {
       width: 100%;
       background-color: transparent;
@@ -135,6 +138,10 @@ export default {
       padding: 15px 0;
       outline: none;
       margin-bottom: 48px;
+      &::placeholder:after {
+        content: '*';
+        color: #ed4956;
+      }
     }
     .date {
       width: 100%;
@@ -280,6 +287,7 @@ export default {
     .attach {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 54px;
       div:nth-child(1) {
         display: flex;
         align-items: center;
@@ -307,6 +315,24 @@ export default {
           background-color: #f0f0f0;
           outline: none;
           cursor: pointer;
+        }
+      }
+    }
+    >div:last-child {
+      button {
+        margin: 0 auto;
+        width: 105px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: #524fff;
+        outline: none;
+        cursor: pointer;
+        color: white;
+        border: none;
+        font-size: 15px;
+        display: block;
+        &:hover {
+
         }
       }
     }
