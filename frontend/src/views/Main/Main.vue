@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar :isMainpage="true"></nav-bar>
+    <nav-bar :isMain="true"></nav-bar>
     <mindmap></mindmap>
   </div>
 </template>

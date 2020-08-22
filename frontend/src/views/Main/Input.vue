@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar :isMainpage="false"></nav-bar>
+    <nav-bar :isMain="false"></nav-bar>
     <div class="wrapper">
       <input type="text" name="title" placeholder="제목을 입력해 주세요.">
       <div class="date">
