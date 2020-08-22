@@ -1,5 +1,7 @@
 <template>
-  <div id="cy"></div>
+  <div id="cy">
+    <button>테스트용 추가버튼</button>
+  </div>
 </template>
 
 <script>
@@ -296,8 +298,8 @@ export default {
               cy.add([
                 {
                   group: "nodes",
-                  data: { 
-                    id: min, 
+                  data: {
+                    id: min,
                   },
                   position:{
                       x,
@@ -358,7 +360,7 @@ export default {
             content: "Add",
             select: function() {
               let x = 1000;
-              let y = 500; 
+              let y = 500;
               let min=0;
               cy.nodes().forEach(function(target){
                 console.log("노드 아이디 값:"+target.id());
@@ -396,12 +398,19 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 #cy {
   height: calc(100% - 64px);
   margin-top: 64px;
-}
-body {
-  font: 14px helvetica neue, helvetica, arial, sans-serif;
+  button {
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    top: 30px;
+    left: 50%;
+    margin-left: -50px;
+    cursor: pointer;
+    z-index: 1;
+  }
 }
 </style>

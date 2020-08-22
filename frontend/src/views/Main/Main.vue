@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <input-popup></input-popup>
     <nav-bar :isMain="true"></nav-bar>
     <mindmap></mindmap>
   </div>
@@ -8,12 +9,14 @@
 <script>
 import NavBar from "@/components/NavBar"
 import mindmap from "@/views/Main/Mindmap.vue";
+import InputPopup from "@/components/InputPopup"
 
 export default {
   name: "Main",
   components: {
     NavBar,
-    mindmap
+    mindmap,
+    InputPopup
   }
 }
 </script>
