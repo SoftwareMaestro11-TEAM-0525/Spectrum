@@ -54,11 +54,13 @@ export default {
       this.isChecked = !this.isChecked;
     },
     selectType: function (e) {
+      console.log(e.target)
+
       this.nowSelected.isGeneralSelected = false;
       this.nowSelected.isLinkSelected = false;
       this.nowSelected.isFileSelected = false;
 
-      const itemData = e.target.getAttribute('data-item')
+      const itemData = e.currentTarget.getAttribute('data-item')
       eval('this.nowSelected.is' + itemData + 'Selected = true;');
     }
   }
