@@ -33,9 +33,17 @@ export default {
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
-            { data: { id: "0", name: "user"} },
+            { data: { id: "0", name: "김현우"} },
+            { data: { id: "-1", name: "멋쟁이 사자처럼"} },
+            { data: { id: "-2", name: "컨트리뷰톤"} },
+            { data: { id: "-3", name: "교내"} },
+            { data: { id: "-4", name: "소프트웨어마에스트로"} },
+            { data: { id: "-5", name: "어학"} },
+            { data: { id: "-6", name: "7기"} },
+            { data: { id: "-6", name: "8기"} },
           ],
           edges: [
+            { data: { id: "1", source:"0", target:"-1"}}
           ]
         },
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
@@ -90,7 +98,7 @@ export default {
           {
             selector: 'node',
             style: {
-                content: "data(id)",
+                content: "data(name)",
                 "text-valign": "center",
                 color: "#57606f",
                 "text-outline-width": 2,
@@ -98,7 +106,7 @@ export default {
                 "background-color": "#57606f",
                 "text-wrap": "wrap",
 
-                "label": "data(id)",
+                "label": "data(name)",
 
                 "width": function (ele) {
                     if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
@@ -137,7 +145,7 @@ export default {
           {
             selector:".eh-handle",
             style : {
-              "background-color": "blue",
+              "background-color": "red",
               width: 12,
               height: 12,
               shape: "ellipse",
@@ -156,14 +164,14 @@ export default {
             selector:".eh-source",
             style : {
              "border-width": 2,
-              "border-color": "blue"
+              "border-color": "green"
             }
           },
           {
             selector:".eh-target",
             style : {
               "border-width": 2,
-              "border-color": "blue"
+              "border-color": "purple"
             }
           },
           {
@@ -298,6 +306,7 @@ export default {
                   group: "nodes",
                   data: { 
                     id: min, 
+                    name : min+"node",
                   },
                   position:{
                       x,
