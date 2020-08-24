@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <input-popup></input-popup>
+    <input-popup v-if="showPopup" @cancelPopup="showPopup = false"></input-popup>
     <nav-bar :isMain="true"></nav-bar>
-    <mindmap></mindmap>
+    <mindmap @popupEvent="showPopup = true"></mindmap>
   </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
     NavBar,
     mindmap,
     InputPopup
+  },
+  data() {
+    return {
+      showPopup: false,
+    }
   }
 }
 </script>

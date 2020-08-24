@@ -1,6 +1,6 @@
 <template>
   <div id="cy">
-    <button>테스트용 추가버튼</button>
+    <button @click="popupEvent">테스트용 추가버튼</button>
   </div>
 </template>
 
@@ -25,6 +25,9 @@ export default {
     };
   },
   methods: {
+    popupEvent: function () {
+      this.$emit('popupEvent')
+    },
     view_init: function() {
       let cy = cytoscape({
         // 기본 cytoscape 설정

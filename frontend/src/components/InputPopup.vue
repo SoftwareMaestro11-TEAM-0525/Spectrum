@@ -31,7 +31,8 @@
       </div>
     </div>
     <div class="buttons">
-
+      <button class="cancel" @click="cancel">취소</button>
+      <button class="confirm">확인</button>
     </div>
   </div>
 </template>
@@ -62,6 +63,9 @@ export default {
 
       const itemData = e.currentTarget.getAttribute('data-item')
       eval('this.nowSelected.is' + itemData + 'Selected = true;');
+    },
+    cancel: function () {
+      this.$emit('cancelPopup')
     }
   }
 }
@@ -115,7 +119,7 @@ export default {
   .select {
     display: flex;
     justify-content: space-around;
-    margin: 0 64px 0 64px;
+    margin: 0 64px 72px 64px;
     .item {
       width: 170px;
       height: 170px;
@@ -140,6 +144,28 @@ export default {
     .selected {
       background-color: #363636;
       color: white;
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    button {
+      width: 76px;
+      height: 44px;
+      border-radius: 8px;
+      color: white;
+      font-size: 15px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .cancel {
+      background-color: #d7d7d9;
+      margin-right: 12px;
+    }
+    .confirm {
+      background-color: #524fff;
     }
   }
 }
