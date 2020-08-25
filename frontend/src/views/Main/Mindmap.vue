@@ -148,7 +148,7 @@ export default {
 
       //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
       //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
-      window.addEventListener("load", function() {
+      window.addEventListener("load",function(){
         cy.json({
           style: [
           {
@@ -175,75 +175,6 @@ export default {
                 'font-size': function (ele) {
                     return fontMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
                 }
-              }
-            },
-            {
-              selector: "edge",
-              style: {
-                width: edgeWidth,
-                "curve-style": "bezier",
-                "line-color": edgeColor,
-                "target-arrow-color": edgeColor,
-                "target-arrow-shape": "vee",
-                "arrow-scale": arrowScale
-              }
-            },
-            {
-              selector: ":selected",
-              style: {
-                "background-color": "black",
-                "line-color": "black",
-                "target-arrow-color": "black",
-                "source-arrow-color": "black",
-                "text-outline-color": "black"
-              }
-            },
-            {
-              selector: ".eh-handle",
-              style: {
-                "background-color": "blue",
-                width: 12,
-                height: 12,
-                shape: "ellipse",
-                "overlay-opacity": 0,
-                "border-width": 12,
-                "border-opacity": 0
-              }
-            },
-            {
-              selector: ".eh-hover",
-              style: {
-                "background-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-source",
-              style: {
-                "border-width": 2,
-                "border-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-target",
-              style: {
-                "border-width": 2,
-                "border-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-preview, .eh-ghost-edge",
-              style: {
-                "background-color": "blue",
-                "line-color": "blue",
-                "target-arrow-color": "blue",
-                "source-arrow-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-ghost-edge.eh-preview-active",
-              style: {
-                opacity: 0
-              }
             }
           },
           {
