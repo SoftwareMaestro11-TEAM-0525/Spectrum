@@ -1,21 +1,32 @@
 <template>
   <div class="container">
-    <nav-bar :isMainpage="true"></nav-bar>
-    <mindmap></mindmap>
+    <input-popup
+      v-if="showPopup"
+      @cancelPopup="showPopup = false"
+    ></input-popup>
+    <nav-bar :isMain="true"></nav-bar>
+    <mindmap @popupEvent="showPopup = true"></mindmap>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/NavBar"
+import NavBar from "@/components/NavBar";
 import mindmap from "@/views/Main/Mindmap.vue";
+import InputPopup from "@/components/InputPopup";
 
 export default {
   name: "Main",
   components: {
     NavBar,
-    mindmap
+    mindmap,
+    InputPopup
+  },
+  data() {
+    return {
+      showPopup: false
+    };
   }
-}
+};
 </script>
 
 <style lang="scss">

@@ -3,27 +3,52 @@
     <h1>회원가입</h1>
     <form>
       <label for="email">이메일</label>
-      <input type="text" id="email" name="email" @input="typing" v-bind:value="emailString">
+      <input
+        type="text"
+        id="email"
+        name="email"
+        @input="typing"
+        v-bind:value="emailString"
+      />
       <div class="error" v-if="isEmailError">{{ emailErrorMsg }}</div>
       <label for="name">이름</label>
-      <input type="text" id="name" name="name" @input="typing" v-bind:value="nameString">
+      <input
+        type="text"
+        id="name"
+        name="name"
+        @input="typing"
+        v-bind:value="nameString"
+      />
       <label for="password">비밀번호</label>
-      <input type="password" id="password" name="password" @input="typing" v-bind:value="passwordString">
-      <div class="error" v-if="isPwdError">비밀번호는 8자리 이상 입력해주세요.</div>
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">가입하기</button>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        @input="typing"
+        v-bind:value="passwordString"
+      />
+      <div class="error" v-if="isPwdError">
+        비밀번호는 8자리 이상 입력해주세요.
+      </div>
+      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">
+        가입하기
+      </button>
     </form>
     <div class="guide small">
-      등록하는 순간 Spectrum의 <a>서비스 이용 약관과 개인정보 보호 정책</a>에 동의하게 됩니다.
+      등록하는 순간 Spectrum의 <a>서비스 이용 약관과 개인정보 보호 정책</a>에
+      동의하게 됩니다.
     </div>
-    <hr>
+    <hr />
     <div class="guide">
-      <router-link to="/login">이미 계정이 있으신가요? <b>로그인</b></router-link>
+      <router-link to="/login"
+        >이미 계정이 있으신가요? <b>로그인</b></router-link
+      >
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "Join",
@@ -36,7 +61,7 @@ export default {
       nameString: "",
       passwordString: "",
       emailErrorMsg: ""
-    }
+    };
   },
   methods: {
     typing: function(e) {
@@ -45,13 +70,15 @@ export default {
 
       if (targetName === "email") {
         this.emailString = targetValue;
-      } else if (targetName === "name"){
+      } else if (targetName === "name") {
         this.nameString = targetValue;
-      } else if (targetName === "password"){
+      } else if (targetName === "password") {
         this.passwordString = targetValue;
       }
       this.isButtonDisable =
-          this.emailString === "" || this.passwordString === "" || this.nameString === "";
+        this.emailString === "" ||
+        this.passwordString === "" ||
+        this.nameString === "";
     },
     isEmailValid: function(s) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
@@ -66,9 +93,9 @@ export default {
       // 이메일 주소의 형식이 올바른지 검증 (~@~.~ 형식)
       if (!this.isEmailValid(this.emailString)) {
         this.emailErrorMsg = "올바른 형식의 이메일 주소를 입력해주세요.";
-        this.isEmailError= true;
+        this.isEmailError = true;
         return;
-      } else{
+      } else {
         this.isEmailError = false;
       }
 
@@ -81,31 +108,33 @@ export default {
       }
 
       //서버에 이메일, 비밀번호, 이름 전송
-      const baseURI = 'http://localhost:3000/api/auth/register';
-      let data = new URLSearchParams()
-      data.append('user_id', this.emailString)
-      data.append('user_pw', this.passwordString)
+      const baseURI = "http://localhost:3000/api/auth/register";
+      let data = new URLSearchParams();
+      data.append("user_id", this.emailString);
+      data.append("user_pw", this.passwordString);
 
       axios({
-        method: 'post',
+        method: "post",
         url: baseURI,
         data: data
-      }).then((res) => {
-          console.log(res)
-      }).catch((err) => {
-        if (err.response.status === 409) {
-          this.emailErrorMsg = "이미 가입된 이메일 주소입니다."
-          this.isEmailError = true;
-        } else {
-          alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!")
-          console.log(err.response.data)
-          console.log(err.response.headers)
-          console.log(err.response.status)
-        }
       })
-    },
-  },
-}
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          if (err.response.status === 409) {
+            this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
+            this.isEmailError = true;
+          } else {
+            alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
+            console.log(err.response.data);
+            console.log(err.response.headers);
+            console.log(err.response.status);
+          }
+        });
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">

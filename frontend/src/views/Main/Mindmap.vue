@@ -1,5 +1,7 @@
 <template>
-  <div id="cy"></div>
+  <div id="cy">
+    <button @click="popupEvent">테스트용 추가버튼</button>
+  </div>
 </template>
 
 <script>
@@ -26,6 +28,9 @@ export default {
     };
   },
   methods: {
+    popupEvent: function() {
+      this.$emit("popupEvent");
+    },
     view_init: function() {
       let cy = cytoscape({
         // 기본 cytoscape 설정
@@ -100,7 +105,7 @@ export default {
       });
       //edgehandles 선언
       eh = cy.edgehandles();
-      eh.enabled=false;
+      eh.enabled = false;
 
       //mind map 자동 크기 조절 코드(아마 나중에 바꿔야 될 수도?)
       let resizeTimer;
@@ -131,20 +136,19 @@ export default {
       // const arrowActiveScale = 1.2;
       const arrowActiveScale = 1.4;
 
-
-      const dimColor = '#dfe4ea';
-      const edgeColor = '#ced6e0';
-      const nodeColor = '#57606f';
-      const nodeActiveColor = '#ffa502';
+      const dimColor = "#dfe4ea";
+      const edgeColor = "#ced6e0";
+      const nodeColor = "#57606f";
+      const nodeActiveColor = "#ffa502";
 
       //상위 노드, 엣지 색
-      const successorColor = '#ff6348';
+      const successorColor = "#ff6348";
       //하위 노드, 엣지 색
-      const predecessorsColor = '#1e90ff';
+      const predecessorsColor = "#1e90ff";
 
       //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
       //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
-      window.addEventListener("load",function(){
+      window.addEventListener("load", function() {
         cy.json({
           style: [
           {
@@ -171,6 +175,75 @@ export default {
                 'font-size': function (ele) {
                     return fontMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
                 }
+              }
+            },
+            {
+              selector: "edge",
+              style: {
+                width: edgeWidth,
+                "curve-style": "bezier",
+                "line-color": edgeColor,
+                "target-arrow-color": edgeColor,
+                "target-arrow-shape": "vee",
+                "arrow-scale": arrowScale
+              }
+            },
+            {
+              selector: ":selected",
+              style: {
+                "background-color": "black",
+                "line-color": "black",
+                "target-arrow-color": "black",
+                "source-arrow-color": "black",
+                "text-outline-color": "black"
+              }
+            },
+            {
+              selector: ".eh-handle",
+              style: {
+                "background-color": "blue",
+                width: 12,
+                height: 12,
+                shape: "ellipse",
+                "overlay-opacity": 0,
+                "border-width": 12,
+                "border-opacity": 0
+              }
+            },
+            {
+              selector: ".eh-hover",
+              style: {
+                "background-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-source",
+              style: {
+                "border-width": 2,
+                "border-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-target",
+              style: {
+                "border-width": 2,
+                "border-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-preview, .eh-ghost-edge",
+              style: {
+                "background-color": "blue",
+                "line-color": "blue",
+                "target-arrow-color": "blue",
+                "source-arrow-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-ghost-edge.eh-preview-active",
+              style: {
+                opacity: 0
+              }
             }
           },
           {
@@ -245,84 +318,133 @@ export default {
       });
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
-        target_cy.nodes().forEach(function (target) {
-            target.style(style);
+        target_cy.nodes().forEach(function(target) {
+          target.style(style);
         });
-        target_cy.edges().forEach(function (target) {
-            target.style(style);
+        target_cy.edges().forEach(function(target) {
+          target.style(style);
         });
       }
 
-      function setFocus(target_element, successorColor, predecessorsColor, edgeWidth, arrowScale) {
-          target_element.style('background-color', nodeActiveColor);
-          target_element.style('color', nodeColor);
-          target_element.successors().each(function (e) {
-              if (e.isEdge()) {
-                  e.style('width', edgeWidth);
-                  e.style('arrow-scale', arrowScale);
-              }
-              e.style('color', nodeColor);
-              e.style('background-color', successorColor);
-              e.style('line-color', successorColor);
-              e.style('target-arrow-color', successorColor);
-              setOpacityElement(e, 0.5);
+      function setFocus(
+        target_element,
+        successorColor,
+        predecessorsColor,
+        edgeWidth,
+        arrowScale
+      ) {
+        target_element.style("background-color", nodeActiveColor);
+        target_element.style("color", nodeColor);
+        target_element.successors().each(function(e) {
+          if (e.isEdge()) {
+            e.style("width", edgeWidth);
+            e.style("arrow-scale", arrowScale);
           }
-          );
-          target_element.predecessors().each(function (ele) {
-            //하위 엣지와 노드
-              if (ele.isEdge()) {
-                  ele.style('width', edgeWidth);
-                  ele.style('arrow-scale', arrowScale);
-              }
-              ele.style('color', nodeColor);
-              ele.style('background-color', predecessorsColor);
-              ele.style('line-color', predecessorsColor);
-              ele.style('target-arrow-color', predecessorsColor);
-              setOpacityElement(ele, 0.5);
-          });
-          target_element.neighborhood().each(function (e) {
-            //이웃한 엣지와 노드
-              setOpacityElement(e, 1);
+          e.style("color", nodeColor);
+          e.style("background-color", successorColor);
+          e.style("line-color", successorColor);
+          e.style("target-arrow-color", successorColor);
+          setOpacityElement(e, 0.5);
+        });
+        target_element.predecessors().each(function(ele) {
+          //하위 엣지와 노드
+          if (ele.isEdge()) {
+            ele.style("width", edgeWidth);
+            ele.style("arrow-scale", arrowScale);
           }
-          );
-          target_element.style('width', Math.max(parseFloat(target_element.style('width')), nodeActiveSize));
-          target_element.style('height', Math.max(parseFloat(target_element.style('height')), nodeActiveSize));
-          target_element.style('font-size', Math.max(parseFloat(target_element.style('font-size')), fontActiveSize));
+          ele.style("color", nodeColor);
+          ele.style("background-color", predecessorsColor);
+          ele.style("line-color", predecessorsColor);
+          ele.style("target-arrow-color", predecessorsColor);
+          setOpacityElement(ele, 0.5);
+        });
+        target_element.neighborhood().each(function(e) {
+          //이웃한 엣지와 노드
+          setOpacityElement(e, 1);
+        });
+        target_element.style(
+          "width",
+          Math.max(parseFloat(target_element.style("width")), nodeActiveSize)
+        );
+        target_element.style(
+          "height",
+          Math.max(parseFloat(target_element.style("height")), nodeActiveSize)
+        );
+        target_element.style(
+          "font-size",
+          Math.max(
+            parseFloat(target_element.style("font-size")),
+            fontActiveSize
+          )
+        );
       }
 
       function setOpacityElement(target_element, degree) {
-          target_element.style('opacity', degree);
+        target_element.style("opacity", degree);
       }
 
       function setResetFocus(target_cy) {
-          target_cy.nodes().forEach(function (target) {
-              target.style('background-color', nodeColor);
-              target.style('width', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
-              target.style('height', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
-              target.style('font-size', fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id()))+ fontMinSize);
-              target.style('color', nodeColor);
-              target.style('opacity', 1);
-          });
-          target_cy.edges().forEach(function (target) {
-              target.style('line-color', edgeColor);
-              target.style('target-arrow-color', edgeColor);
-              target.style('width', edgeWidth);
-              target.style('arrow-scale', arrowScale);
-              target.style('opacity', 1);
-          });
+        target_cy.nodes().forEach(function(target) {
+          target.style("background-color", nodeColor);
+          target.style(
+            "width",
+            nodeMaxSize *
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              nodeMinSize
+          );
+          target.style(
+            "height",
+            nodeMaxSize *
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              nodeMinSize
+          );
+          target.style(
+            "font-size",
+            fontMaxSize *
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              fontMinSize
+          );
+          target.style("color", nodeColor);
+          target.style("opacity", 1);
+        });
+        target_cy.edges().forEach(function(target) {
+          target.style("line-color", edgeColor);
+          target.style("target-arrow-color", edgeColor);
+          target.style("width", edgeWidth);
+          target.style("arrow-scale", arrowScale);
+          target.style("opacity", 1);
+        });
       }
 
-      cy.on('tapstart mouseover', 'node', function (ele) {
+      cy.on("tapstart mouseover", "node", function(ele) {
         setDimStyle(cy, {
-            'background-color': dimColor,
-            'line-color': dimColor,
-            'target-arrow-color': dimColor,
-            'color': dimColor
+          "background-color": dimColor,
+          "line-color": dimColor,
+          "target-arrow-color": dimColor,
+          color: dimColor
         });
-        setFocus(ele.target, successorColor, predecessorsColor, edgeActiveWidth, arrowActiveScale);
+        setFocus(
+          ele.target,
+          successorColor,
+          predecessorsColor,
+          edgeActiveWidth,
+          arrowActiveScale
+        );
       });
 
-      cy.on('tapend mouseout', 'node', function (ele) {
+      cy.on("tapend mouseout", "node", function(ele) {
         setResetFocus(ele.cy);
       });
 
@@ -334,25 +456,25 @@ export default {
           {
             content: "Add",
             select: function(ele) {
-              let min=1;
-              let max=0;
-              cy.nodes().forEach(function(target){
-                console.log("노드 아이디 값:"+target.id());
-                if(target.id()<min){
+              let min = 1;
+              let max = 0;
+              cy.nodes().forEach(function(target) {
+                console.log("노드 아이디 값:" + target.id());
+                if (target.id() < min) {
                   min = Number(target.id());
-                  console.log("id, min : "+target.id()+" "+min);
+                  console.log("id, min : " + target.id() + " " + min);
                 }
-              })
-              cy.edges().forEach(function(target){
-                if(target.id()>max){
+              });
+              cy.edges().forEach(function(target) {
+                if (target.id() > max) {
                   max = Number(target.id());
                 }
-              })
-              min = Number(min)-1;
-              max = Number(max)+1;
+              });
+              min = Number(min) - 1;
+              max = Number(max) + 1;
               console.log(min);
-              let x = cy.$('#'+ ele.id()).position('x')-100;
-              let y = cy.$('#'+ ele.id()).position('y')-100;
+              let x = cy.$("#" + ele.id()).position("x") - 100;
+              let y = cy.$("#" + ele.id()).position("y") - 100;
               cy.add([
                 {
                   group: "nodes",
@@ -360,10 +482,10 @@ export default {
                     id: min, 
                     name : min+"node",
                   },
-                  position:{
-                      x,
-                      y
-                    }
+                  position: {
+                    x,
+                    y
+                  }
                 },
                 {
                   group: "edges",
@@ -382,18 +504,18 @@ export default {
             content: "start",
 
             select: function() {
-              if(cy.json().elements.nodes.length>1){
+              if (cy.json().elements.nodes.length > 1) {
                 eh.enabled = true;
-                cy.on('tapdragout', 'edge', function() {
+                cy.on("tapdragout", "edge", function() {
                   eh.enabled = false;
-                })
+                });
               }
             }
           },
           {
             content: "Delete",
             select: function(ele) {
-              cy.remove('#'+ ele.id());
+              cy.remove("#" + ele.id());
             }
           }
         ]
@@ -405,7 +527,7 @@ export default {
           {
             content: "Delete",
             select: function(ele) {
-              cy.remove('#'+ ele.id());
+              cy.remove("#" + ele.id());
             }
           }
         ]
@@ -419,24 +541,24 @@ export default {
             content: "Add",
             select: function() {
               let x = 1000;
-              let y = 500; 
-              let min=0;
-              cy.nodes().forEach(function(target){
-                console.log("노드 아이디 값:"+target.id());
-                if(target.id()<min){
+              let y = 500;
+              let min = 0;
+              cy.nodes().forEach(function(target) {
+                console.log("노드 아이디 값:" + target.id());
+                if (target.id() < min) {
                   min = Number(target.id());
-                  console.log("id, min : "+target.id()+" "+min);
+                  console.log("id, min : " + target.id() + " " + min);
                 }
-              })
-              min = Number(min)-1;
+              });
+              min = Number(min) - 1;
               cy.add([
                 {
                   group: "nodes",
-                  data: { id: min},
-                  position:{
-                      x,
-                      y
-                    }
+                  data: { id: min },
+                  position: {
+                    x,
+                    y
+                  }
                 }
               ]);
               cy.fit();
@@ -444,8 +566,7 @@ export default {
           },
           {
             content: "기타",
-            select: function() {
-            }
+            select: function() {}
           }
         ]
       });
@@ -457,12 +578,19 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 #cy {
   height: calc(100% - 64px);
   margin-top: 64px;
-}
-body {
-  font: 14px helvetica neue, helvetica, arial, sans-serif;
+  button {
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    top: 30px;
+    left: 50%;
+    margin-left: -50px;
+    cursor: pointer;
+    z-index: 1;
+  }
 }
 </style>

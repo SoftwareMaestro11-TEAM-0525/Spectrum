@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import auth from "./auth";
 import Main from "@/views/Main/Main";
-import Input from "@/views/Main/Input"
+import Input from "@/views/Main/Input";
 
 Vue.use(VueRouter);
 
