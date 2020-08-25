@@ -53,7 +53,9 @@
     </div>
     <div class="buttons">
       <button class="cancel" @click="cancel">취소</button>
-      <button class="confirm">확인</button>
+      <router-link to="/input">
+        <button class="confirm">확인</button>
+      </router-link>
     </div>
   </div>
 </template>
