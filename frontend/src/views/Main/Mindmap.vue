@@ -8,7 +8,7 @@
 let cytoscape = require("cytoscape");
 let cxtmenu = require("cytoscape-cxtmenu");
 let eh = require("cytoscape-edgehandles");
-let coseBilkent = require('cytoscape-cose-bilkent');
+let coseBilkent = require("cytoscape-cose-bilkent");
 
 cytoscape.use(coseBilkent);
 
@@ -41,66 +41,64 @@ export default {
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
-            { data: { id: "0", name: "김현우"} },
-            { data: { id: "-1", name: "멋쟁이 사자처럼"} },
-            { data: { id: "-2", name: "컨트리뷰톤"} },
-            { data: { id: "-3", name: "교내"} },
-            { data: { id: "-4", name: "소프트웨어마에스트로"} },
-            { data: { id: "-5", name: "어학"} },
-            { data: { id: "-6", name: "7기"} },
-            { data: { id: "-7", name: "8기"} },
-            { data: { id: "-8", name: "HSK 2급"} },
-            { data: { id: "-9", name: "TOEIC"} },
-            { data: { id: "-10", name: "개인블로그"} },
-            { data: { id: "-11", name: "여기거기"} },
-            { data: { id: "-12", name: "빌리언즈"} },
-            { data: { id: "-13", name: "제페토"} },
-            { data: { id: "-14", name: "똑똑"} },
-            { data: { id: "-15", name: "디지스트 아이디어톤"} },
-            { data: { id: "-16", name: "sPetcial"} },
-            { data: { id: "-17", name: "운영진"} },
-            { data: { id: "-18", name: "영상녹화"} },
-            { data: { id: "-19", name: "django"} },
-            { data: { id: "-20", name: "대경권프로그래밍대회"} },
-            { data: { id: "-21", name: "미국 연수"} },
-            { data: { id: "-22", name: "산호세대학"} },
-            { data: { id: "-23", name: "CES2018"} },
+            { data: { id: "0", name: "김현우" } },
+            { data: { id: "-1", name: "멋쟁이 사자처럼" } },
+            { data: { id: "-2", name: "컨트리뷰톤" } },
+            { data: { id: "-3", name: "교내" } },
+            { data: { id: "-4", name: "소프트웨어마에스트로" } },
+            { data: { id: "-5", name: "어학" } },
+            { data: { id: "-6", name: "7기" } },
+            { data: { id: "-7", name: "8기" } },
+            { data: { id: "-8", name: "HSK 2급" } },
+            { data: { id: "-9", name: "TOEIC" } },
+            { data: { id: "-10", name: "개인블로그" } },
+            { data: { id: "-11", name: "여기거기" } },
+            { data: { id: "-12", name: "빌리언즈" } },
+            { data: { id: "-13", name: "제페토" } },
+            { data: { id: "-14", name: "똑똑" } },
+            { data: { id: "-15", name: "디지스트 아이디어톤" } },
+            { data: { id: "-16", name: "sPetcial" } },
+            { data: { id: "-17", name: "운영진" } },
+            { data: { id: "-18", name: "영상녹화" } },
+            { data: { id: "-19", name: "django" } },
+            { data: { id: "-20", name: "대경권프로그래밍대회" } },
+            { data: { id: "-21", name: "미국 연수" } },
+            { data: { id: "-22", name: "산호세대학" } },
+            { data: { id: "-23", name: "CES2018" } }
           ],
           edges: [
-            { data: { id: "1", source:"0", target:"-1"}},
-            { data: { id: "2", source:"0", target:"-3"}},
-            { data: { id: "3", source:"0", target:"-2"}},
-            { data: { id: "4", source:"0", target:"-4"}},
-            { data: { id: "5", source:"-3", target:"-21"}},
-            { data: { id: "6", source:"-21", target:"-22"}},
-            { data: { id: "7", source:"-21", target:"-23"}},
-            { data: { id: "8", source:"-3", target:"-20"}},
-            { data: { id: "9", source:"-5", target:"-8"}},
-            { data: { id: "10", source:"-5", target:"-9"}},
-            { data: { id: "11", source:"0", target:"-5"}},
-            { data: { id: "12", source:"-1", target:"-6"}},
-            { data: { id: "13", source:"-1", target:"-7"}},
-            { data: { id: "14", source:"-7", target:"-16"}},
-            { data: { id: "15", source:"-14", target:"-15"}},
-            { data: { id: "16", source:"-6", target:"-10"}},
-            { data: { id: "17", source:"-6", target:"-11"}},
-            { data: { id: "18", source:"-6", target:"-12"}},
-            { data: { id: "19", source:"-6", target:"-13"}},
-            { data: { id: "20", source:"-10", target:"-19"}},
-            { data: { id: "21", source:"-11", target:"-19"}},
-            { data: { id: "22", source:"-12", target:"-19"}},
-            { data: { id: "23", source:"-13", target:"-19"}},
-            { data: { id: "24", source:"-7", target:"-18"}},
-            { data: { id: "25", source:"-7", target:"-17"}},
-            { data: { id: "26", source:"-7", target:"-14"}},
-           
-            
+            { data: { id: "1", source: "0", target: "-1" } },
+            { data: { id: "2", source: "0", target: "-3" } },
+            { data: { id: "3", source: "0", target: "-2" } },
+            { data: { id: "4", source: "0", target: "-4" } },
+            { data: { id: "5", source: "-3", target: "-21" } },
+            { data: { id: "6", source: "-21", target: "-22" } },
+            { data: { id: "7", source: "-21", target: "-23" } },
+            { data: { id: "8", source: "-3", target: "-20" } },
+            { data: { id: "9", source: "-5", target: "-8" } },
+            { data: { id: "10", source: "-5", target: "-9" } },
+            { data: { id: "11", source: "0", target: "-5" } },
+            { data: { id: "12", source: "-1", target: "-6" } },
+            { data: { id: "13", source: "-1", target: "-7" } },
+            { data: { id: "14", source: "-7", target: "-16" } },
+            { data: { id: "15", source: "-14", target: "-15" } },
+            { data: { id: "16", source: "-6", target: "-10" } },
+            { data: { id: "17", source: "-6", target: "-11" } },
+            { data: { id: "18", source: "-6", target: "-12" } },
+            { data: { id: "19", source: "-6", target: "-13" } },
+            { data: { id: "20", source: "-10", target: "-19" } },
+            { data: { id: "21", source: "-11", target: "-19" } },
+            { data: { id: "22", source: "-12", target: "-19" } },
+            { data: { id: "23", source: "-13", target: "-19" } },
+            { data: { id: "24", source: "-7", target: "-18" } },
+            { data: { id: "25", source: "-7", target: "-17" } },
+            { data: { id: "26", source: "-7", target: "-14" } }
           ]
         },
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
         layout: {
           name: "cose-bilkent",
-          padding: 100,
+          padding: 100
         }
       });
       //edgehandles 선언
@@ -123,14 +121,14 @@ export default {
       const nodeMinSize = 1;
       const nodeActiveSize = 22;
       // const fontMaxSize = 8;
-      const fontMaxSize=3;
+      const fontMaxSize = 3;
       // const fontMinSize = 5;
       const fontMinSize = 1;
       const fontActiveSize = 7;
 
       //엣지, 화살표 크기 값
-      const edgeWidth = '2px';
-      const edgeActiveWidth = '4px';
+      const edgeWidth = "2px";
+      const edgeActiveWidth = "4px";
       // const arrowScale = 0.8;
       const arrowScale = 1.2;
       // const arrowActiveScale = 1.2;
@@ -151,9 +149,9 @@ export default {
       window.addEventListener("load", function() {
         cy.json({
           style: [
-          {
-            selector: 'node',
-            style: {
+            {
+              selector: "node",
+              style: {
                 content: "data(name)",
                 "text-valign": "center",
                 color: "#57606f",
@@ -162,18 +160,44 @@ export default {
                 "background-color": "#57606f",
                 "text-wrap": "wrap",
 
-                "label": "data(name)",
+                label: "data(name)",
 
-                "width": function (ele) {
-                    if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
-                      return nodeMaxSize + (cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
-                    }
+                width: function(ele) {
+                  if (
+                    cy
+                      .elements()
+                      .pageRank()
+                      .rank("#" + ele.id()) !== undefined
+                  ) {
+                    return (
+                      nodeMaxSize +
+                      cy
+                        .elements()
+                        .pageRank()
+                        .rank("#" + ele.id()) +
+                      nodeMinSize
+                    );
+                  }
                 },
-                'height': function (ele) {
-                    return nodeMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + nodeMinSize;
+                height: function(ele) {
+                  return (
+                    nodeMaxSize +
+                    cy
+                      .elements()
+                      .pageRank()
+                      .rank("#" + ele.id()) +
+                    nodeMinSize
+                  );
                 },
-                'font-size': function (ele) {
-                    return fontMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
+                "font-size": function(ele) {
+                  return (
+                    fontMaxSize +
+                    cy
+                      .elements()
+                      .pageRank()
+                      .rank("#" + ele.id()) +
+                    fontMinSize
+                  );
                 }
               }
             },
@@ -201,7 +225,7 @@ export default {
             {
               selector: ".eh-handle",
               style: {
-                "background-color": "blue",
+                "background-color": "red",
                 width: 12,
                 height: 12,
                 shape: "ellipse",
@@ -220,14 +244,14 @@ export default {
               selector: ".eh-source",
               style: {
                 "border-width": 2,
-                "border-color": "blue"
+                "border-color": "green"
               }
             },
             {
               selector: ".eh-target",
               style: {
                 "border-width": 2,
-                "border-color": "blue"
+                "border-color": "purple"
               }
             },
             {
@@ -245,76 +269,8 @@ export default {
                 opacity: 0
               }
             }
-          },
-          {
-            selector: 'edge',
-            style: {
-              'width': edgeWidth,
-              'curve-style': 'bezier',
-              'line-color': edgeColor,
-              'target-arrow-color': edgeColor,
-              'target-arrow-shape': 'vee',
-              'arrow-scale': arrowScale
-            }
-          },
-          {
-            selector:":selected",
-            style : {
-              "background-color": "black",
-              "line-color": "black",
-              "target-arrow-color": "black",
-              "source-arrow-color": "black",
-              "text-outline-color": "black"
-            }
-          },
-          {
-            selector:".eh-handle",
-            style : {
-              "background-color": "red",
-              width: 12,
-              height: 12,
-              shape: "ellipse",
-              "overlay-opacity": 0,
-              "border-width": 12,
-              "border-opacity": 0
-            }
-          },
-          {
-            selector:".eh-hover",
-            style : {
-             "background-color": "blue"
-            }
-          },
-          {
-            selector:".eh-source",
-            style : {
-             "border-width": 2,
-              "border-color": "green"
-            }
-          },
-          {
-            selector:".eh-target",
-            style : {
-              "border-width": 2,
-              "border-color": "purple"
-            }
-          },
-          {
-            selector:".eh-preview, .eh-ghost-edge",
-            style : {
-              "background-color": "blue",
-              "line-color": "blue",
-              "target-arrow-color": "blue",
-              "source-arrow-color": "blue"
-            }
-          },
-          {
-            selector:".eh-ghost-edge.eh-preview-active",
-            style : {
-              opacity: 0
-            }
-          },
-        ]});
+          ]
+        });
       });
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
@@ -478,9 +434,9 @@ export default {
               cy.add([
                 {
                   group: "nodes",
-                  data: { 
-                    id: min, 
-                    name : min+"node",
+                  data: {
+                    id: min,
+                    name: min + "node"
                   },
                   position: {
                     x,
