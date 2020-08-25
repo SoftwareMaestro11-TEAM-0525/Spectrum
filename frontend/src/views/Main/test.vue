@@ -3,12 +3,12 @@
 </template>
 
 <script>
-let cytoscape = require("cytoscape");
-let cxtmenu = require("cytoscape-cxtmenu");
-let eh = require("cytoscape-edgehandles");
-let coseBilkent = require('cytoscape-cose-bilkent');
+var cytoscape = require("cytoscape");
+var cxtmenu = require("cytoscape-cxtmenu");
+var eh = require("cytoscape-edgehandles");
+var cola = require('cytoscape-cola');
 
-cytoscape.use(coseBilkent);
+cytoscape.use( cola );
 
 cytoscape.use(cxtmenu);
 cytoscape.use(eh);
@@ -62,40 +62,39 @@ export default {
             { data: { id: "-23", name: "CES2018"} },
           ],
           edges: [
-            { data: { id: "1", source:"0", target:"-1"}},
-            { data: { id: "2", source:"0", target:"-3"}},
-            { data: { id: "3", source:"0", target:"-2"}},
-            { data: { id: "4", source:"0", target:"-4"}},
-            { data: { id: "5", source:"-3", target:"-21"}},
-            { data: { id: "6", source:"-21", target:"-22"}},
-            { data: { id: "7", source:"-21", target:"-23"}},
-            { data: { id: "8", source:"-3", target:"-20"}},
-            { data: { id: "9", source:"-5", target:"-8"}},
-            { data: { id: "10", source:"-5", target:"-9"}},
-            { data: { id: "11", source:"0", target:"-5"}},
-            { data: { id: "12", source:"-1", target:"-6"}},
-            { data: { id: "13", source:"-1", target:"-7"}},
-            { data: { id: "14", source:"-7", target:"-16"}},
-            { data: { id: "15", source:"-14", target:"-15"}},
-            { data: { id: "16", source:"-6", target:"-10"}},
-            { data: { id: "17", source:"-6", target:"-11"}},
-            { data: { id: "18", source:"-6", target:"-12"}},
-            { data: { id: "19", source:"-6", target:"-13"}},
-            { data: { id: "20", source:"-10", target:"-19"}},
-            { data: { id: "21", source:"-11", target:"-19"}},
-            { data: { id: "22", source:"-12", target:"-19"}},
-            { data: { id: "23", source:"-13", target:"-19"}},
-            { data: { id: "24", source:"-7", target:"-18"}},
-            { data: { id: "25", source:"-7", target:"-17"}},
-            { data: { id: "26", source:"-7", target:"-14"}},
-           
+            { data: { id: "1", target:"0", source:"-1"}},
+            { data: { id: "2", target:"0", source:"-3"}},
+            { data: { id: "3", target:"0", source:"-2"}},
+            { data: { id: "4", target:"0", source:"-4"}},
+            { data: { id: "5", target:"-3", source:"-21"}},
+            { data: { id: "6", target:"-21", source:"-22"}},
+            { data: { id: "7", target:"-21", source:"-23"}},
+            { data: { id: "8", target:"-3", source:"-20"}},
+            { data: { id: "9", target:"-5", source:"-8"}},
+            { data: { id: "10", target:"-5", source:"-9"}},
+            { data: { id: "11", target:"0", source:"-5"}},
+            { data: { id: "12", target:"-1", source:"-6"}},
+            { data: { id: "13", target:"-1", source:"-7"}},
+            { data: { id: "14", target:"-7", source:"-16"}},
+            { data: { id: "15", target:"-14", source:"-15"}},
+            { data: { id: "16", target:"-6", source:"-10"}},
+            { data: { id: "17", target:"-6", source:"-11"}},
+            { data: { id: "18", target:"-6", source:"-12"}},
+            { data: { id: "19", target:"-6", source:"-13"}},
+            { data: { id: "20", target:"-10", source:"-19"}},
+            { data: { id: "21", target:"-11", source:"-19"}},
+            { data: { id: "22", target:"-12", source:"-19"}},
+            { data: { id: "23", target:"-13", source:"-19"}},
+            { data: { id: "24", target:"-7", source:"-18"}},
+            { data: { id: "25", target:"-7", source:"-17"}},
+            { data: { id: "26", target:"-7", source:"-14"}},
             
           ]
         },
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
         layout: {
-          name: "cose-bilkent",
-          padding: 100,
+          name: "concentric",
+          padding: 10,
         }
       });
       //edgehandles 선언
@@ -112,24 +111,18 @@ export default {
       });
 
       //mouseOn, mouseOut 등등의 관련 상수들
-      // const nodeMaxSize = 50;
-      const nodeMaxSize = 15;
-      // const nodeMinSize = 5;
-      const nodeMinSize = 1;
-      const nodeActiveSize = 22;
-      // const fontMaxSize = 8;
-      const fontMaxSize=3;
-      // const fontMinSize = 5;
-      const fontMinSize = 1;
+      const nodeMaxSize = 50;
+      const nodeMinSize = 5;
+      const nodeActiveSize = 28;
+      const fontMaxSize = 8;
+      const fontMinSize = 5;
       const fontActiveSize = 7;
 
       //엣지, 화살표 크기 값
       const edgeWidth = '2px';
       const edgeActiveWidth = '4px';
-      // const arrowScale = 0.8;
-      const arrowScale = 1.2;
-      // const arrowActiveScale = 1.2;
-      const arrowActiveScale = 1.4;
+      const arrowScale = 0.8;
+      const arrowActiveScale = 1.2;
 
 
       const dimColor = '#dfe4ea';
@@ -162,14 +155,14 @@ export default {
 
                 "width": function (ele) {
                     if(cy.elements().pageRank().rank('#'+ ele.id())!=undefined){
-                      return nodeMaxSize + (cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
+                      return nodeMaxSize * (0.1/ cy.elements().pageRank().rank('#'+ ele.id()))  + nodeMinSize;
                     }
                 },
                 'height': function (ele) {
-                    return nodeMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + nodeMinSize;
+                    return nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ ele.id())) + nodeMinSize;
                 },
                 'font-size': function (ele) {
-                    return fontMaxSize + (cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
+                    return fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ ele.id())) + fontMinSize;
                 }
             }
           },
@@ -179,8 +172,8 @@ export default {
               'width': edgeWidth,
               'curve-style': 'bezier',
               'line-color': edgeColor,
-              'target-arrow-color': edgeColor,
-              'target-arrow-shape': 'vee',
+              'source-arrow-color': edgeColor,
+              'source-arrow-shape': 'vee',
               'arrow-scale': arrowScale
             }
           },
@@ -189,8 +182,8 @@ export default {
             style : {
               "background-color": "black",
               "line-color": "black",
-              "target-arrow-color": "black",
               "source-arrow-color": "black",
+              "target-arrow-color": "black",
               "text-outline-color": "black"
             }
           },
@@ -213,14 +206,14 @@ export default {
             }
           },
           {
-            selector:".eh-source",
+            selector:".eh-target",
             style : {
              "border-width": 2,
               "border-color": "green"
             }
           },
           {
-            selector:".eh-target",
+            selector:".eh-source",
             style : {
               "border-width": 2,
               "border-color": "purple"
@@ -231,8 +224,8 @@ export default {
             style : {
               "background-color": "blue",
               "line-color": "blue",
-              "target-arrow-color": "blue",
-              "source-arrow-color": "blue"
+              "source-arrow-color": "blue",
+              "target-arrow-color": "blue"
             }
           },
           {
@@ -245,11 +238,11 @@ export default {
       });
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
-        target_cy.nodes().forEach(function (target) {
-            target.style(style);
+        target_cy.nodes().forEach(function (source) {
+            source.style(style);
         });
-        target_cy.edges().forEach(function (target) {
-            target.style(style);
+        target_cy.edges().forEach(function (source) {
+            source.style(style);
         });
       }
 
@@ -264,7 +257,7 @@ export default {
               e.style('color', nodeColor);
               e.style('background-color', successorColor);
               e.style('line-color', successorColor);
-              e.style('target-arrow-color', successorColor);
+              e.style('source-arrow-color', successorColor);
               setOpacityElement(e, 0.5);
           }
           );
@@ -277,7 +270,7 @@ export default {
               ele.style('color', nodeColor);
               ele.style('background-color', predecessorsColor);
               ele.style('line-color', predecessorsColor);
-              ele.style('target-arrow-color', predecessorsColor);
+              ele.style('source-arrow-color', predecessorsColor);
               setOpacityElement(ele, 0.5);
           });
           target_element.neighborhood().each(function (e) {
@@ -295,20 +288,20 @@ export default {
       }
 
       function setResetFocus(target_cy) {
-          target_cy.nodes().forEach(function (target) {
-              target.style('background-color', nodeColor);
-              target.style('width', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
-              target.style('height', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id())) + nodeMinSize);
-              target.style('font-size', fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ target.id()))+ fontMinSize);
-              target.style('color', nodeColor);
-              target.style('opacity', 1);
+          target_cy.nodes().forEach(function (source) {
+              source.style('background-color', nodeColor);
+              source.style('width', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ source.id())) + nodeMinSize);
+              source.style('height', nodeMaxSize * (0.1/cy.elements().pageRank().rank('#'+ source.id())) + nodeMinSize);
+              source.style('font-size', fontMaxSize * (0.1/cy.elements().pageRank().rank('#'+ source.id()))+ fontMinSize);
+              source.style('color', nodeColor);
+              source.style('opacity', 1);
           });
-          target_cy.edges().forEach(function (target) {
-              target.style('line-color', edgeColor);
-              target.style('target-arrow-color', edgeColor);
-              target.style('width', edgeWidth);
-              target.style('arrow-scale', arrowScale);
-              target.style('opacity', 1);
+          target_cy.edges().forEach(function (source) {
+              source.style('line-color', edgeColor);
+              source.style('source-arrow-color', edgeColor);
+              source.style('width', edgeWidth);
+              source.style('arrow-scale', arrowScale);
+              source.style('opacity', 1);
           });
       }
 
@@ -316,10 +309,10 @@ export default {
         setDimStyle(cy, {
             'background-color': dimColor,
             'line-color': dimColor,
-            'target-arrow-color': dimColor,
+            'source-arrow-color': dimColor,
             'color': dimColor
         });
-        setFocus(ele.target, successorColor, predecessorsColor, edgeActiveWidth, arrowActiveScale);
+        setFocus(ele.source, successorColor, predecessorsColor, edgeActiveWidth, arrowActiveScale);
       });
 
       cy.on('tapend mouseout', 'node', function (ele) {
@@ -336,16 +329,16 @@ export default {
             select: function(ele) {
               let min=1;
               let max=0;
-              cy.nodes().forEach(function(target){
-                console.log("노드 아이디 값:"+target.id());
-                if(target.id()<min){
-                  min = Number(target.id());
-                  console.log("id, min : "+target.id()+" "+min);
+              cy.nodes().forEach(function(source){
+                console.log("노드 아이디 값:"+source.id());
+                if(source.id()<min){
+                  min = Number(source.id());
+                  console.log("id, min : "+source.id()+" "+min);
                 }
               })
-              cy.edges().forEach(function(target){
-                if(target.id()>max){
-                  max = Number(target.id());
+              cy.edges().forEach(function(source){
+                if(source.id()>max){
+                  max = Number(source.id());
                 }
               })
               min = Number(min)-1;
@@ -369,8 +362,8 @@ export default {
                   group: "edges",
                   data: {
                     id: max,
-                    source: ele.id(),
-                    target: min
+                    target: ele.id(),
+                    source: min
                   }
                 }
               ]);
@@ -421,11 +414,11 @@ export default {
               let x = 1000;
               let y = 500; 
               let min=0;
-              cy.nodes().forEach(function(target){
-                console.log("노드 아이디 값:"+target.id());
-                if(target.id()<min){
-                  min = Number(target.id());
-                  console.log("id, min : "+target.id()+" "+min);
+              cy.nodes().forEach(function(source){
+                console.log("노드 아이디 값:"+source.id());
+                if(source.id()<min){
+                  min = Number(source.id());
+                  console.log("id, min : "+source.id()+" "+min);
                 }
               })
               min = Number(min)-1;
