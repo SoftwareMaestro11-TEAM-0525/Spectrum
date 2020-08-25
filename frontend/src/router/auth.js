@@ -1,7 +1,7 @@
 import Login from "@/views/auth/Login";
 import Join from "@/views/auth/Join";
 import Password from "@/views/auth/Password";
-import Auth from "@/views/auth/Auth"
+import Auth from "@/views/auth/Auth";
 
 export default [
   {

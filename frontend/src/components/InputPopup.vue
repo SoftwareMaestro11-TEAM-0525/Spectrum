@@ -5,25 +5,46 @@
       <div class="checkbox-wrapper">
         <div>
           <div>시작 노드로 설정</div>
-          <div class="tooltip">이 노드를 경험이 시작되는 노드로 설정합니다.</div>
+          <div class="tooltip">
+            이 노드를 경험이 시작되는 노드로 설정합니다.
+          </div>
         </div>
-        <div class="checkbox" :class="{ checked: isChecked }" @click="toggleCheckbox"></div>
+        <div
+          class="checkbox"
+          :class="{ checked: isChecked }"
+          @click="toggleCheckbox"
+        ></div>
       </div>
     </div>
     <div class="select">
-      <div class="item" data-item="General" :class="{ selected: nowSelected.isGeneralSelected }" @click="selectType">
+      <div
+        class="item"
+        data-item="General"
+        :class="{ selected: nowSelected.isGeneralSelected }"
+        @click="selectType"
+      >
         <div>
           <i class="icon-general"></i>
           <div>일반</div>
         </div>
       </div>
-      <div class="item" data-item="Link" :class="{ selected: nowSelected.isLinkSelected }" @click="selectType">
+      <div
+        class="item"
+        data-item="Link"
+        :class="{ selected: nowSelected.isLinkSelected }"
+        @click="selectType"
+      >
         <div>
           <i class="icon-link"></i>
           <div>링크</div>
         </div>
       </div>
-      <div class="item" data-item="File" :class="{ selected: nowSelected.isFileSelected }" @click="selectType">
+      <div
+        class="item"
+        data-item="File"
+        :class="{ selected: nowSelected.isFileSelected }"
+        @click="selectType"
+      >
         <div>
           <i class="icon-file"></i>
           <div>파일</div>
@@ -40,7 +61,7 @@
 <script>
 export default {
   name: "InputPopup",
-  data () {
+  data() {
     return {
       isChecked: false,
       nowSelected: {
@@ -48,27 +69,27 @@ export default {
         isLinkSelected: false,
         isGeneralSelected: false
       }
-    }
+    };
   },
   methods: {
-    toggleCheckbox: function () {
+    toggleCheckbox: function() {
       this.isChecked = !this.isChecked;
     },
-    selectType: function (e) {
-      console.log(e.target)
+    selectType: function(e) {
+      console.log(e.target);
 
       this.nowSelected.isGeneralSelected = false;
       this.nowSelected.isLinkSelected = false;
       this.nowSelected.isFileSelected = false;
 
-      const itemData = e.currentTarget.getAttribute('data-item')
-      eval('this.nowSelected.is' + itemData + 'Selected = true;');
+      const itemData = e.currentTarget.getAttribute("data-item");
+      eval("this.nowSelected.is" + itemData + "Selected = true;");
     },
-    cancel: function () {
-      this.$emit('cancelPopup')
+    cancel: function() {
+      this.$emit("cancelPopup");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -2,15 +2,24 @@
   <div class="wrapper">
     <h1>비밀번호 찾기</h1>
     <div class="guide large">
-      기존에 가입한 이메일 주소를 입력해주세요.<br>
+      기존에 가입한 이메일 주소를 입력해주세요.<br />
       해당 이메일 주소로 비밀번호 변경 메일을 보내드립니다.
     </div>
     <form>
-      <input type="text" id="email" name="email" @input="typing" v-bind:value="emailString" placeholder="이메일">
+      <input
+        type="text"
+        id="email"
+        name="email"
+        @input="typing"
+        v-bind:value="emailString"
+        placeholder="이메일"
+      />
       <div class="error" v-if="isEmailError">{{ emailErrorMsg }}</div>
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">이메일 전송</button>
+      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">
+        이메일 전송
+      </button>
     </form>
-    <hr>
+    <hr />
     <div class="guide">
       <router-link to="/login"><b>로그인</b> 하러가기</router-link>
     </div>
@@ -26,7 +35,7 @@ export default {
       emailString: "",
       emailErrorMsg: "",
       isEmailError: false
-    }
+    };
   },
   methods: {
     typing: function(e) {
@@ -45,16 +54,16 @@ export default {
       // 이메일 주소의 형식이 올바른지 검증 (~@~.~ 형식)
       if (!this.isEmailValid(this.emailString)) {
         this.emailErrorMsg = "올바른 형식의 이메일 주소를 입력해주세요.";
-        this.isEmailError= true;
+        this.isEmailError = true;
         return;
-      } else{
+      } else {
         this.isEmailError = false;
       }
 
       //서버 api 참조
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -83,7 +92,7 @@ button {
   margin: 20px 0 12px 0;
   font-size: 17px;
   &.disable {
-    @include input-button(true)
+    @include input-button(true);
   }
 }
 hr {

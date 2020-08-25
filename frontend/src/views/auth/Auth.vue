@@ -16,13 +16,13 @@ export default {
   data() {
     return {
       isLoginPage: true
-    }
+    };
   },
   watch: {
     "$route.name": function(newVal) {
       if (newVal === "Join" || newVal === "Password") {
         this.isLoginPage = false;
-      } else if (newVal === "Login"){
+      } else if (newVal === "Login") {
         this.isLoginPage = true;
       }
     }

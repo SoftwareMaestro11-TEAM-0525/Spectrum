@@ -1,15 +1,18 @@
 <template>
   <div class="container">
-    <input-popup v-if="showPopup" @cancelPopup="showPopup = false"></input-popup>
+    <input-popup
+      v-if="showPopup"
+      @cancelPopup="showPopup = false"
+    ></input-popup>
     <nav-bar :isMain="true"></nav-bar>
     <mindmap @popupEvent="showPopup = true"></mindmap>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/NavBar"
+import NavBar from "@/components/NavBar";
 import mindmap from "@/views/Main/Mindmap.vue";
-import InputPopup from "@/components/InputPopup"
+import InputPopup from "@/components/InputPopup";
 
 export default {
   name: "Main",
@@ -20,10 +23,10 @@ export default {
   },
   data() {
     return {
-      showPopup: false,
-    }
+      showPopup: false
+    };
   }
-}
+};
 </script>
 
 <style lang="scss">
