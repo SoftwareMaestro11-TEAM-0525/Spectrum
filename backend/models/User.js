@@ -22,24 +22,25 @@ const User = new Schema({
   },
 });
 
-User.statics.create = function (user_id, user_pw, user_name, user_email) {
-  const encrypted = crypto
-    .createHmac("sha1", process.env.PASSWORD_KEY)
-    .update(user_pw)
-    .digest("base64");
-
+User.statics.create = function (req) {
   const user = new this({
-    user_id,
-    user_pw: encrypted,
-    user_name,
-    user_email,
-  });
+    user_id : req.user_id,
+    user_pw : req.user_pw,
+    user_email : req.user_email,
+    user_name : req.user_name
+});
   return user.save();
 };
-User.statics.findOneByUser_id = function (user_id) {
+User.statics.findOneByUserId = function (user_id) {
   return this.findOne({
     user_id,
-  }).exec();
+  });
+};
+
+User.statics.findOneByUserEmail = function (user_email) {
+  return this.findOne({
+    user_email,
+  });
 };
 
 User.methods.verify = function (user_pw) {
