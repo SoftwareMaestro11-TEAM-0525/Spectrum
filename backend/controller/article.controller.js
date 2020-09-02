@@ -114,7 +114,7 @@ exports.update = (req, res) => {
 */
 
 exports.delete = async (req, res) => {
-  let = article = await Article.findOneByUser_idNode_id(
+  let article = await Article.findOneByUser_idNode_id(
     req.params.user_id,
     req.params.node_id
   );
