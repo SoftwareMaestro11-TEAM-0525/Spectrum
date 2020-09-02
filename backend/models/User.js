@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const crypto = require("crypto");
-const config = require("../config");
+import mongoose from "mongoose"
+import crypto from "crypto"
 
+const Schema = mongoose.Schema;
 const User = new Schema({
   user_id: {
     type: String,
@@ -25,7 +24,7 @@ const User = new Schema({
 
 User.statics.create = function (user_id, user_pw, user_name, user_email) {
   const encrypted = crypto
-    .createHmac("sha1", config.pwKey)
+    .createHmac("sha1", process.env.PASSWORD_KEY)
     .update(user_pw)
     .digest("base64");
 
@@ -45,7 +44,7 @@ User.statics.findOneByUser_id = function (user_id) {
 
 User.methods.verify = function (user_pw) {
   const encrypted = crypto
-    .createHmac("sha1", config.pwKey)
+    .createHmac("sha1", process.env.PASSWORD_KEY)
     .update(user_pw)
     .digest("base64");
   return this.user_pw === encrypted;
