@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const controller = require("./article.controller");
+const controller = require("../controller/article.controller");
 
 router.get("/:user_id/:node_id", controller.read);
 router.post("/", controller.write);

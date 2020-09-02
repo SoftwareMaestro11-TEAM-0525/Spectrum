@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const controller = require("./cytoscape_info.controller");
+const controller = require("../controller/cytoscape_info.controller");
 
 router.put("/:user_id/:cyjson", controller.update);
 router.post("/", controller.write);

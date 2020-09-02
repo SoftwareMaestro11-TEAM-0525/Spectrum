@@ -1,4 +1,4 @@
-const Cytoscape_info = require("../../../models/Cytoscape_info");
+const Cytoscape_info = require("../models/Cytoscape_info");
 
 /*
     GET /api/cytoscape_info/:user_id

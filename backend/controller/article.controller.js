@@ -1,4 +1,4 @@
-const Article = require("../../../models/Article");
+const Article = require("../models/Article");
 
 /*
     GET /api/article/:user_id/:node_id
