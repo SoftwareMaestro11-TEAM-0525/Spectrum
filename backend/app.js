@@ -1,11 +1,14 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-
-var app = express();
-var config = require("./config.js");
-var cors = require("cors");
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import config from "./config.js"
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import indexRoute from "./routes/index.route.js";
+let app = express();
+dotenv.config()
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -14,23 +17,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
-app.use("/api", require("./routes/index.route"));
+app.use("/api", require(indexRoute));
 
-// Set Sceret Key
-app.set("jwt-key", config.jwtKey);
+// Set jwt-sceret Key
+app.set("jwt-key", process.env.jwtKey);
 
-/**
- * Connect Mongodb
- */
-
-var mongoose = require("mongoose");
-
-var db = mongoose.connection;
+// Connect Mongodb
+const db = mongoose.connection;
 db.on("error", console.error);
 db.once("open", function () {
   console.log("Connected to mongod server");
 });
-
 mongoose.connect(config.mongodbUri);
 
-module.exports = app;
+
+export default app;
