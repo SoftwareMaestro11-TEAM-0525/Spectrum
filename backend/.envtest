@@ -1,4 +1,5 @@
-  // mongodbUri: "mongodb://mongo/spectrum"
-  mongodbUri:"mongodb://localhost:27017/spectrum"
-  jwtKey: "secret-jwt-key"
-  pwKey: "password-secret-key"
+MONGO_URI = "mongodb://localhost:27017/spectrum"
+JWT_KEY = "secret-jwt-key"
+PASSWORD_KEY = "password-secret-key"
+PORT = 3000
+//mongodbUri = "mongodb://mongo/spectrum"
