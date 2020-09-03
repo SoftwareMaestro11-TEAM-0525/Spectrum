@@ -43,7 +43,7 @@ User.statics.findOneByUserEmail = function (user_email) {
   });
 };
 
-User.methods.verify = function (user_pw) {
+User.statics.verify = function (user_pw) {
   const encrypted = crypto
     .createHmac("sha1", process.env.PASSWORD_KEY)
     .update(user_pw)

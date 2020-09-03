@@ -1,102 +1,27 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-/*
-    POST /api/auth
-    {
-        user_id,
-        usre_pw
-    }
-*/
+import {AuthService} from "../service/auth.service"
+import {UserService} from "../service/user.service"
 
-exports.register = (req, res) => {
-  const { user_id, user_pw, user_name, user_email } = req.body;
-  let newUser = null;
+export class AuthController{
 
-  const create = (user) => {
-    if (user) throw new Error("userid exists");
-    else return User.create(user_id, user_pw, user_name, user_email);
-  };
+  static login = async (req,res,next)=>{
+    
+    const {user_id,user_pw} = req.body;
 
-  const respond = () => {
-    res.json({
-      success: true,
-      message: "register success",
-    });
-  };
-  const onError = (error) => {
-    res.status(409).json({
-      success: false,
-      message: error.message,
-    });
-  };
+    try{
+      const User = await UserService.findOneByUserId(user_id)
 
-  User.findOneByUser_id(user_id).then(create).then(respond).catch(onError);
-};
+      const input_pw = User.user_pw;
+      await AuthService.verifyUserPw({user_pw,input_pw})
 
-/*
-    POST /api/auth/login
-    {
-        user_id,
-        usre_pw
-    }
-*/
+      const token = await AuthService.createToken(req.body);
+      return res.status(200).json({
+        "success":true,
+        "message":"login success",
+        "token":token
+      })
 
-exports.login = (req, res) => {
-  const { user_id, user_pw } = req.body;
-  const secret = req.app.get("jwt-key");
-
-  const check = (user) => {
-    if (!user) throw new Error("login failed");
-    else {
-      if (user.verify(user_pw)) {
-        const p = new Promise((resolve, reject) => {
-          jwt.sign(
-            {
-              _id: user._id,
-              user_id: user.user_id,
-            },
-            secret,
-            {
-              expiresIn: "7d",
-              issuer: "spectrum.com",
-              subject: "userInfo",
-            },
-            (err, token) => {
-              if (err) reject(err);
-              resolve(token);
-            }
-          );
-        });
-        return p;
-      } else throw new Error("login failed");
+    }catch(err){
+      next(err);
     }
   };
-
-  const respond = (token) => {
-    res.json({
-      success: true,
-      message: "login success",
-      token,
-    });
-  };
-
-  const onError = (error) => {
-    res.status(403).json({
-      success: false,
-      message: error.message,
-    });
-  };
-
-  User.findOneByUser_id(user_id).then(check).then(respond).catch(onError);
-};
-
-/*
-    GET /api/auth/check
-*/
-
-exports.check = (req, res) => {
-  res.json({
-    success: true,
-    info: req.decoded,
-  });
-};
+}

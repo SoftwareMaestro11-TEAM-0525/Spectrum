@@ -1,5 +1,5 @@
 import crypto from "crypto"
-const User = require("../models/User")
+import User from "../models/User";
 
 export class UserService{
     static register = async (req)=>{
@@ -30,7 +30,7 @@ export class UserService{
            .digest("base64");
         
         user.user_pw = encrypted;
-        
+
         try{
             await User.create(user);
         }catch(err){
@@ -39,4 +39,21 @@ export class UserService{
             throw err;
         }
     }
+
+    static findOneByUserId = async (req)=>{
+        const user_id = req;
+
+        const existed = await User.findOneByUserId(user_id);
+        
+        if(existed==null){
+            let err = new Error();
+            err.message = "User_Id not Found";
+            err.status = 400;
+            throw err;
+        }
+
+        return existed;
+    }
+
+    
 }
