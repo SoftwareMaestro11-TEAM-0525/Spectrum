@@ -6,12 +6,25 @@ export class ArticleController{
         const result = await ArticleService.read(req.params);
 
         return res.status(200).json({
-          "success":true,
-          "message":"Get Article success",
-          "result":result
+            "success":true,
+            "message":"Get Article success",
+            "result":result
         })
     }catch(err){
         next(err);
+    }
+  };
+  static write = async (req,res,next)=>{
+    try{
+      const result = await ArticleService.write(req.body);
+
+      return res.status(201).json({
+          "success":true,
+          "message":"Write Article success",
+          "result":result
+      });
+    }catch(err){
+      next(err);
     }
   };
 }
