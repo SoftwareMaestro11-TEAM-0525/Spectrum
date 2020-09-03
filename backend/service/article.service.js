@@ -47,4 +47,18 @@ export class ArticleService{
         
         return await Article.update(params,body);
     }
+
+    static delete = async(req)=>{
+
+        const existed = await Article.findOneByUserIdNodeId(req.user_id,req.node_id);
+
+         if(existed == null){
+            let err = new Error();
+            err.message = "Article not Found";
+            err.status = 400;
+            throw err;
+        }
+
+        return await Article.delete(req.user_id,req.node_id);
+    }
 }

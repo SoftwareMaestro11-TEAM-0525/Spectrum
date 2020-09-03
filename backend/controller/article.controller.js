@@ -41,5 +41,19 @@ export class ArticleController{
     }catch(err){
       next(err);
     }
+  };
+
+  static delete = async(req,res,next)=>{
+    try{
+      const result = await ArticleService.delete(req.params);
+
+      return res.status(200).json({
+          "success" : true,
+          "message" : "Delete Article success",
+          "result" : result
+      });
+    }catch(err){
+      next(err);
+    }
   }
 }
