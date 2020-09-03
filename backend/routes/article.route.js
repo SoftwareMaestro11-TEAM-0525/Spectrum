@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const controller = require("../controller/article.controller");
+import {ArticleController} from "../controller/article.controller";
 
-router.get("/:user_id/:node_id", controller.read);
-router.post("/", controller.write);
-router.delete("/:user_id/:node_id", controller.delete);
-router.patch("/:user_id/:node_id", controller.update);
+router.get("/:user_id/:node_id", ArticleController.read);
+//router.post("/", controller.write);
+//router.delete("/:user_id/:node_id", controller.delete);
+//router.patch("/:user_id/:node_id", controller.update);
 
 module.exports = router;

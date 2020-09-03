@@ -46,7 +46,7 @@ const Article = new Schema({
   },
 });
 
-Article.statics.findOneByUser_idNode_id = function (user_id, node_id) {
+Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
   return this.findOne({
     user_id,
     node_id,
