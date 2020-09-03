@@ -47,7 +47,7 @@ export class UserService{
         
         if(existed==null){
             let err = new Error();
-            err.message = "User_Id not Found";
+            err.message = "User not Found";
             err.status = 400;
             throw err;
         }
