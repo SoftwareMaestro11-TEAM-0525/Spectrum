@@ -4,7 +4,7 @@ import {UserService} from "../service/user.service"
 export class AuthController{
 
   static login = async (req,res,next)=>{
-    
+
     const {user_id,user_pw} = req.body;
 
     try{
@@ -24,4 +24,11 @@ export class AuthController{
       next(err);
     }
   };
+
+  static check = async(req,res,next)=>{
+    return res.status(200).json({
+      success: true,
+      info: req.decoded,
+    });
+  }
 }
