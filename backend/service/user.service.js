@@ -38,7 +38,7 @@ export class UserService{
             err.status = 400;
             throw err;
         }
-    }
+    };
 
     static findOneByUserId = async (req)=>{
         const user_id = req;
@@ -53,7 +53,24 @@ export class UserService{
         }
 
         return existed;
-    }
+    };
 
-    
+    static updateUser = async (req)=>{
+
+        try{
+            const encrypted = crypto
+           .createHmac("sha1", process.env.PASSWORD_KEY)
+           .update(req.user.user_pw)
+           .digest("base64");
+        
+            const result = await User.update(req.user_id,encrypted,req.user.user_name);
+
+            return result;
+        }catch(err){
+            err.message = "Update faild";
+            err.status = 400;
+            throw err;
+        }
+
+   }
 }

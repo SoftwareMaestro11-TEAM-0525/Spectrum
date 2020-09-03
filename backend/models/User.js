@@ -43,12 +43,12 @@ User.statics.findOneByUserEmail = function (user_email) {
   });
 };
 
-User.statics.verify = function (user_pw) {
-  const encrypted = crypto
-    .createHmac("sha1", process.env.PASSWORD_KEY)
-    .update(user_pw)
-    .digest("base64");
-  return this.user_pw === encrypted;
+User.statics.update = function (user_id,user_pw,user_name){
+  return this.updateOne({
+    user_id
+  },{
+    user_pw: user_pw,
+    user_name: user_name
+  })
 };
-
 module.exports = mongoose.model("User", User);
