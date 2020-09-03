@@ -14,6 +14,7 @@ export class ArticleController{
         next(err);
     }
   };
+
   static write = async (req,res,next)=>{
     try{
       const result = await ArticleService.write(req.body);
@@ -27,4 +28,18 @@ export class ArticleController{
       next(err);
     }
   };
+
+  static update = async(req,res,next)=>{
+    try{
+      const result = await ArticleService.update(req);
+
+      return res.status(200).json({
+          "success":true,
+          "message":"Update Article success",
+          "result":result
+      });
+    }catch(err){
+      next(err);
+    }
+  }
 }

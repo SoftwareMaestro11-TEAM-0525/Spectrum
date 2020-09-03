@@ -27,9 +27,24 @@ export class ArticleService{
             err.status = 400;
             throw err;
         }
-        console.log(article);
-        const result = await Article.write(article);
-        console.log(result);
-        return result;
+        
+        return await Article.write(article);
+    }
+
+    static update = async (req)=>{
+
+        const params = req.params;
+        const body = req.body;
+        
+        const existed = await Article.findOneByUserIdNodeId(params.user_id,params.node_id);
+
+         if(existed == null){
+            let err = new Error();
+            err.message = "Article not Found";
+            err.status = 400;
+            throw err;
+        }
+        
+        return await Article.update(params,body);
     }
 }
