@@ -56,7 +56,7 @@
           <button @click="attachFile"><b>파일 추가</b></button>
         </div>
       </div>
-      <!-- <div class="link">
+      <div class="link">
         <div><b>링크</b></div>
         <input type="text" placeholder="URL을 입력해 주세요." />
       </div>
