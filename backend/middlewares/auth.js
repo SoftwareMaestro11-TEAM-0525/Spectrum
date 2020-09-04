@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers["x-access-token"] || req.query.token;
@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   const p = new Promise((resolve, reject) => {
-    jwt.verify(token, req.app.get("jwt-key"), (err, decoded) => {
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
       if (err) reject(err);
       resolve(decoded);
     });

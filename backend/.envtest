@@ -1,0 +1,5 @@
+MONGO_URI = "mongodb://localhost:27017/spectrum"
+JWT_KEY = "secret-jwt-key"
+PASSWORD_KEY = "password-secret-key"
+PORT = 3000
+//mongodbUri = "mongodb://mongo/spectrum"

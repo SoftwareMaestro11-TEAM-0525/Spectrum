@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const crypto = require("crypto");
-const config = require("../config");
+import mongoose from "mongoose";
+import crypto from "crypto";
 
+const Schema = mongoose.Schema;
 const User = new Schema({
   user_id: {
     type: String,
@@ -23,32 +22,36 @@ const User = new Schema({
   },
 });
 
-User.statics.create = function (user_id, user_pw, user_name, user_email) {
-  const encrypted = crypto
-    .createHmac("sha1", config.pwKey)
-    .update(user_pw)
-    .digest("base64");
-
+User.statics.create = function (req) {
   const user = new this({
-    user_id,
-    user_pw: encrypted,
-    user_name,
-    user_email,
+    user_id: req.user_id,
+    user_pw: req.user_pw,
+    user_email: req.user_email,
+    user_name: req.user_name,
   });
   return user.save();
 };
-User.statics.findOneByUser_id = function (user_id) {
+User.statics.findOneByUserId = function (user_id) {
   return this.findOne({
     user_id,
-  }).exec();
+  });
 };
 
-User.methods.verify = function (user_pw) {
-  const encrypted = crypto
-    .createHmac("sha1", config.pwKey)
-    .update(user_pw)
-    .digest("base64");
-  return this.user_pw === encrypted;
+User.statics.findOneByUserEmail = function (user_email) {
+  return this.findOne({
+    user_email,
+  });
 };
 
+User.statics.update = function (user_id, user_pw, user_name) {
+  return this.updateOne(
+    {
+      user_id,
+    },
+    {
+      user_pw: user_pw,
+      user_name: user_name,
+    }
+  );
+};
 module.exports = mongoose.model("User", User);
