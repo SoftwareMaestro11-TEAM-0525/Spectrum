@@ -4,25 +4,27 @@
     <div class="wrapper">
       <input type="text" name="title" placeholder="제목을 입력해 주세요." />
       <div class="date">
-        <div>
-          <div><b>날짜 등록</b></div>
-          <div>수행한 날짜를 입력해주세요.</div>
-        </div>
-        <div>
+        <div class="dataWrapper">
           <div>
-            <label for="start-date">시작일</label>
-            <input type="text" id="start-date" name="start-date" />
+            <div><b>날짜 등록</b></div>
+            <div>수행한 날짜를 입력해주세요.</div>
           </div>
-          <span>~</span>
           <div>
-            <label for="end-date">종료일</label>
-            <input type="text" id="end-date" name="end-date" />
-            <div></div>
+            <div>
+              <label for="start-date">시작일</label>
+              <input type="text" id="start-date" name="start-date" />
+            </div>
+            <span>~</span>
+            <div>
+              <label for="end-date">종료일</label>
+              <input type="text" id="end-date" name="end-date" />
+              <div></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="date-error" v-if="false">
-        종료일이 시작일보다 이전입니다.
+        <div class="date-error" v-if="isDataError">
+          종료일이 시작일보다 이전입니다.
+        </div>
       </div>
       <div class="tag">
         <div><b>태그</b></div>
@@ -56,8 +58,15 @@
       </div>
       <!-- <div class="link">
         <div><b>링크</b></div>
-        <input type="text" placeholder="링크를 입력해 주세요." />
-      </div> -->
+        <input type="text" placeholder="URL을 입력해 주세요." />
+      </div>
+      <div class="lock">
+        <div><b>공개 여부</b></div>
+        <div class="lockUI">
+          <div :style="lockStyle.unlock" @click="toggleLock($event, 'unlock')"></div>
+          <div :style="lockStyle.lock" @click="toggleLock($event, 'lock')"></div>
+        </div>
+      </div>
       <div>
         <button>입력 완료</button>
       </div>
@@ -101,7 +110,17 @@ export default {
       isTagFocus: false,
       tags: [{ text: "떡볶이" }, { text: "순대" }],
       tagString: "",
-      editor: null
+      editor: null,
+      isDataError: false,
+      isLock: false,
+      lockStyle: {
+        unlock: {
+          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+        },
+        lock: {
+          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
+        }
+      }
     };
   },
   methods: {
@@ -123,6 +142,19 @@ export default {
     attachFile: function() {},
     tagTyping: function(e) {
       this.tagString = e.target.value;
+    },
+    toggleLock: function(e, target) {
+      console.log(e);
+      console.log(target);
+      if (target === "lock" && !this.isLock) {
+        this.isLock = true;
+        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-lock.svg') + ')'
+        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-unlock.svg') + ')'
+      } else if (target === "unlock" && this.isLock) {
+        this.isLock = false;
+        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
+        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+      }
     }
   }
 };
@@ -131,6 +163,9 @@ export default {
 <style scoped lang="scss">
 @import "~quill/dist/quill.snow.css";
 
+.container {
+  height: auto;
+}
 .wrapper {
   width: 786px;
   margin: 64px auto;
@@ -152,51 +187,54 @@ export default {
   }
   .date {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    > div:nth-child(1) {
+    margin-bottom: 32px;
+    .dataWrapper {
+      width: 100%;
       display: flex;
-      justify-content: center;
-      flex-direction: column;
+      justify-content: space-between;
       > div:nth-child(1) {
-        font-size: 15px;
-        color: #363636;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        > div:nth-child(1) {
+          font-size: 15px;
+          color: #363636;
+        }
+        > div:nth-child(2) {
+          font-size: 12px;
+          color: #a3a3a3;
+        }
       }
       > div:nth-child(2) {
-        font-size: 12px;
-        color: #a3a3a3;
-      }
-    }
-    > div:nth-child(2) {
-      > div {
-        display: inline-block;
-        label {
-          display: block;
-          font-size: 12px;
-          color: #363636;
-          margin-bottom: 4px;
+        > div {
+          display: inline-block;
+          label {
+            display: block;
+            font-size: 12px;
+            color: #363636;
+            margin-bottom: 4px;
+          }
+          input {
+            width: 172px;
+            height: 36px;
+            border: 1px solid #ededed;
+            outline: none;
+            font-size: 15px;
+            text-align: center;
+          }
         }
-        input {
-          width: 172px;
-          height: 36px;
-          border: 1px solid #ededed;
-          outline: none;
+        span {
+          margin: 0 10px;
           font-size: 15px;
-          text-align: center;
         }
-      }
-      span {
-        margin: 0 10px;
-        font-size: 15px;
       }
     }
   }
   .date-error {
-    width: 100%;
     text-align: right;
     font-size: 12px;
     color: #ed4956;
-    margin: 4px 0 32px 0;
+    margin: 4px 0 0 0;
   }
   .tag {
     margin-bottom: 54px;
@@ -324,6 +362,47 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 54px;
+    input {
+      width: 376px;
+      height: 36px;
+      border-radius: 6px;
+      border: solid 1px #ededed;
+      background-color: #ffffff;
+      box-sizing: border-box;
+      padding-left: 16px;
+    }
+  }
+  .lock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 54px;
+    .lockUI > div {
+      width: 36px;
+      height: 36px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .lock-sel {
+      background-image: url("~@/assets/image/icon-lock/icon-selected-lock.svg");
+    }
+    .lock-unsel {
+      background-image: url("~@/assets/image/icon-lock/icon-unselected-lock.svg");
+    }
+    .unlock-sel {
+      background-image: url("~@/assets/image/icon-lock/icon-selected-unlock.svg");
+    }
+    .unlock-unsel {
+      background-image: url("~@/assets/image/icon-lock/icon-unselected-unlock.svg");
+    }
+
   }
   > div:last-child {
     button {
