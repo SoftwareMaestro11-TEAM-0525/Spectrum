@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <img src="@/assets/logo.png" alt="Logo image" />
-      <h1>Spectrum</h1>
+      <img src="@/assets/headerLogo.png" alt="Logo image" />
     </div>
     <form>
       <input
@@ -120,8 +119,7 @@ button.disable {
   text-align: center;
   margin-bottom: 42px;
   img {
-    width: 48px;
-    height: 48px;
+    height: 50px;
     display: inline-block;
     vertical-align: middle;
     margin-right: 12px;
