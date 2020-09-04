@@ -4,7 +4,7 @@
       v-if="showPopup"
       @cancelPopup="showPopup = false"
     ></input-popup>
-    <nav-bar :isMain="true"></nav-bar>
+    <nav-bar :isMain="true" ></nav-bar>
     <mindmap @popupEvent="showPopup = true"></mindmap>
   </div>
 </template>

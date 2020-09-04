@@ -59,6 +59,11 @@ export default {
   },
   props: {
     isMain: Boolean
+  },
+  methods:{
+     popupEvent: function() {
+      this.$emit("popupEvent");
+    },
   }
 };
 </script>

@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="date-error">
+      <div class="date-error" v-if="false">
         종료일이 시작일보다 이전입니다.
       </div>
       <div class="tag">
@@ -54,10 +54,10 @@
           <button @click="attachFile"><b>파일 추가</b></button>
         </div>
       </div>
-      <div class="link">
+      <!-- <div class="link">
         <div><b>링크</b></div>
         <input type="text" placeholder="링크를 입력해 주세요." />
-      </div>
+      </div> -->
       <div>
         <button>입력 완료</button>
       </div>

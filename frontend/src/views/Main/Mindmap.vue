@@ -14,7 +14,7 @@ cytoscape.use(coseBilkent);
 
 cytoscape.use(cxtmenu);
 cytoscape.use(eh);
-
+let cy;
 export default {
   name: "Mindmap",
   components: {},
@@ -31,8 +31,8 @@ export default {
     popupEvent: function() {
       this.$emit("popupEvent");
     },
-    view_init: function() {
-      let cy = cytoscape({
+    cy_def : function(){
+      cy = cytoscape({
         // 기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
@@ -101,6 +101,9 @@ export default {
           padding: 100
         }
       });
+    },
+    //cytoscape mindmap style feature
+    view_init: function() {
       //edgehandles 선언
       eh = cy.edgehandles();
       eh.enabled = false;
@@ -403,12 +406,22 @@ export default {
       cy.on("tapend mouseout", "node", function(ele) {
         setResetFocus(ele.cy);
       });
-
-      //cxtmenu 1) 꾹 누르거나 2) 오른쪽 버튼으로 꾹 눌렀을 때
-      //-> 설정 버튼 나오게 해주는 라이브러리 관련 function
+      
+   
+      
+    },
+    //cxtmenu feature 
+    cxtmenu_def : function(){
+      let popup = this
       cy.cxtmenu({
         selector: "node",
         commands: [
+          {
+            content : "test",
+            select: function(){
+              popup.popupEvent();
+            }
+          },
           {
             content: "Add",
             select: function(ele) {
@@ -520,17 +533,15 @@ export default {
               cy.fit();
             }
           },
-          {
-            content: "기타",
-            select: function() {}
-          }
         ]
       });
     }
   },
   computed: {},
   mounted: function() {
+    this.cy_def();
     this.view_init();
+    this.cxtmenu_def();
   }
 };
 </script>
