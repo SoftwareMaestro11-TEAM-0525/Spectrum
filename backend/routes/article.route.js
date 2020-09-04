@@ -1,5 +1,5 @@
 const router = require("express").Router();
-import {ArticleController} from "../controller/article.controller";
+import { ArticleController } from "../controller/article.controller";
 
 router.get("/:user_id/:node_id", ArticleController.read);
 router.post("/", ArticleController.write);

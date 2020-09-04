@@ -1,76 +1,70 @@
-import crypto from "crypto"
+import crypto from "crypto";
 import User from "../models/User";
 
-export class UserService{
-    static register = async (req)=>{
+export class UserService {
+  static register = async (req) => {
+    const user = req.body;
 
-        const user = req.body;
+    const existedById = await User.findOneByUserId(user.user_id);
 
-        const existedById = await User.findOneByUserId(user.user_id);
+    if (existedById != null) {
+      let err = new Error();
+      err.message = "This User_ID is already in use";
+      err.status = 400;
+      throw err;
+    }
 
-        if(existedById!=null){
-            let err = new Error();
-            err.message = "This User_ID is already in use";
-            err.status = 400;
-            throw err;
-        }
-        
-        const existedByEmail = await User.findOneByUserEmail(user.user_email);
+    const existedByEmail = await User.findOneByUserEmail(user.user_email);
 
-        if(existedByEmail!=null){
-            let err = new Error();
-            err.message = "This User_Email is already in use";
-            err.status = 400;
-            throw err;
-        }
+    if (existedByEmail != null) {
+      let err = new Error();
+      err.message = "This User_Email is already in use";
+      err.status = 400;
+      throw err;
+    }
 
-        const encrypted = crypto
-           .createHmac("sha1", process.env.PASSWORD_KEY)
-           .update(user.user_pw)
-           .digest("base64");
-        
-        user.user_pw = encrypted;
+    const encrypted = crypto
+      .createHmac("sha1", process.env.PASSWORD_KEY)
+      .update(user.user_pw)
+      .digest("base64");
 
-        try{
-            await User.create(user);
-        }catch(err){
-            err.message = "Failed to Sign up"
-            err.status = 400;
-            throw err;
-        }
-    };
+    user.user_pw = encrypted;
 
-    static findOneByUserId = async (req)=>{
-        const user_id = req;
+    try {
+      return await User.create(user);
+    } catch (err) {
+      err.message = "Failed to Sign up";
+      err.status = 400;
+      throw err;
+    }
+  };
 
-        const existed = await User.findOneByUserId(user_id);
-        
-        if(existed==null){
-            let err = new Error();
-            err.message = "User not Found";
-            err.status = 400;
-            throw err;
-        }
+  static findOneByUserId = async (req) => {
+    const user_id = req;
+    const existed = await User.findOneByUserId(user_id);
 
-        return existed;
-    };
+    if (existed == null) {
+      let err = new Error();
+      err.message = "User not Found";
+      err.status = 400;
+      throw err;
+    }
 
-    static updateUser = async (req)=>{
+    return existed;
+  };
 
-        try{
-            const encrypted = crypto
-           .createHmac("sha1", process.env.PASSWORD_KEY)
-           .update(req.user.user_pw)
-           .digest("base64");
-        
-            const result = await User.update(req.user_id,encrypted,req.user.user_name);
+  static updateUser = async (req) => {
+    try {
+      const encrypted = crypto
+        .createHmac("sha1", process.env.PASSWORD_KEY)
+        .update(req.user.user_pw)
+        .digest("base64");
 
-            return result;
-        }catch(err){
-            err.message = "Update faild";
-            err.status = 400;
-            throw err;
-        }
-
-   }
+      return await User.update(req.user_id, encrypted, req.user.user_name);
+    } catch (err) {
+      err.message = "Update faild";
+      err.status = 400;
+      throw err;
+    }
+  };
 }

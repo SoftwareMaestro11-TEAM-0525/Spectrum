@@ -7,6 +7,6 @@ import cytoscape from "./cytoscape.route";
 router.use("/auth", auth);
 router.use("/cytoscape", cytoscape);
 router.use("/article", article);
-router.use("/user",user);
+router.use("/user", user);
 
 module.exports = router;

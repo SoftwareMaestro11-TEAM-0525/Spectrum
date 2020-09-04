@@ -18,11 +18,7 @@ Cytoscape_info.statics.findOneByUserId = function (user_id) {
 };
 
 Cytoscape_info.statics.update = function (user_id, cyjson) {
-  return this.findOneAndUpdate(
-    { user_id },
-    { cyjson },
-    { new: true }
-  );
+  return this.findOneAndUpdate({ user_id }, { cyjson }, { new: true });
 };
 
 Cytoscape_info.statics.create = function (user_id, cyjson) {
