@@ -4,25 +4,27 @@
     <div class="wrapper">
       <input type="text" name="title" placeholder="제목을 입력해 주세요." />
       <div class="date">
-        <div>
-          <div><b>날짜 등록</b></div>
-          <div>수행한 날짜를 입력해주세요.</div>
-        </div>
-        <div>
+        <div class="dataWrapper">
           <div>
-            <label for="start-date">시작일</label>
-            <input type="text" id="start-date" name="start-date" />
+            <div><b>날짜 등록</b></div>
+            <div>수행한 날짜를 입력해주세요.</div>
           </div>
-          <span>~</span>
           <div>
-            <label for="end-date">종료일</label>
-            <input type="text" id="end-date" name="end-date" />
-            <div></div>
+            <div>
+              <label for="start-date">시작일</label>
+              <input type="text" id="start-date" name="start-date" />
+            </div>
+            <span>~</span>
+            <div>
+              <label for="end-date">종료일</label>
+              <input type="text" id="end-date" name="end-date" />
+              <div></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="date-error">
-        종료일이 시작일보다 이전입니다.
+        <div class="date-error" v-if="isDataError">
+          종료일이 시작일보다 이전입니다.
+        </div>
       </div>
       <div class="tag">
         <div><b>태그</b></div>
@@ -101,7 +103,8 @@ export default {
       isTagFocus: false,
       tags: [{ text: "떡볶이" }, { text: "순대" }],
       tagString: "",
-      editor: null
+      editor: null,
+      isDataError: false
     };
   },
   methods: {
@@ -152,51 +155,54 @@ export default {
   }
   .date {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    > div:nth-child(1) {
+    margin-bottom: 32px;
+    .dataWrapper {
+      width: 100%;
       display: flex;
-      justify-content: center;
-      flex-direction: column;
+      justify-content: space-between;
       > div:nth-child(1) {
-        font-size: 15px;
-        color: #363636;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        > div:nth-child(1) {
+          font-size: 15px;
+          color: #363636;
+        }
+        > div:nth-child(2) {
+          font-size: 12px;
+          color: #a3a3a3;
+        }
       }
       > div:nth-child(2) {
-        font-size: 12px;
-        color: #a3a3a3;
-      }
-    }
-    > div:nth-child(2) {
-      > div {
-        display: inline-block;
-        label {
-          display: block;
-          font-size: 12px;
-          color: #363636;
-          margin-bottom: 4px;
+        > div {
+          display: inline-block;
+          label {
+            display: block;
+            font-size: 12px;
+            color: #363636;
+            margin-bottom: 4px;
+          }
+          input {
+            width: 172px;
+            height: 36px;
+            border: 1px solid #ededed;
+            outline: none;
+            font-size: 15px;
+            text-align: center;
+          }
         }
-        input {
-          width: 172px;
-          height: 36px;
-          border: 1px solid #ededed;
-          outline: none;
+        span {
+          margin: 0 10px;
           font-size: 15px;
-          text-align: center;
         }
-      }
-      span {
-        margin: 0 10px;
-        font-size: 15px;
       }
     }
   }
   .date-error {
-    width: 100%;
     text-align: right;
     font-size: 12px;
     color: #ed4956;
-    margin: 4px 0 32px 0;
+    margin: 4px 0 0 0;
   }
   .tag {
     margin-bottom: 54px;
