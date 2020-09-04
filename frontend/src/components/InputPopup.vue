@@ -53,9 +53,7 @@
     </div>
     <div class="buttons">
       <button class="cancel" @click="cancel">취소</button>
-      <router-link to="/input">
-        <button class="confirm">확인</button>
-      </router-link>
+      <button class="confirm" @click="submit">확인</button>
     </div>
   </div>
 </template>
@@ -78,8 +76,6 @@ export default {
       this.isChecked = !this.isChecked;
     },
     selectType: function(e) {
-      console.log(e.target);
-
       this.nowSelected.isGeneralSelected = false;
       this.nowSelected.isLinkSelected = false;
       this.nowSelected.isFileSelected = false;
@@ -89,6 +85,19 @@ export default {
     },
     cancel: function() {
       this.$emit("cancelPopup");
+    },
+    submit: function() {
+      const type = this.nowSelected;
+
+      if (type.isGeneralSelected) {
+        this.$router.push({ name: "Input", params: { type: "general" }, query: { isStart: (this.isChecked ? 'true' : 'false') }});
+      } else if (type.isFileSelected) {
+        this.$router.push({ name: "Input", params: { type: "file" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
+      } else if (type.isLinkSelected) {
+        this.$router.push({ name: "Input", params: { type: "link" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
+      } else {
+        console.log("ERROR!");
+      }
     }
   }
 };

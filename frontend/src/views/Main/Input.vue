@@ -45,18 +45,18 @@
         </div>
         <div><b>Create</b>{{ tagString }}</div>
       </div>
-      <div class="content">
+      <div class="content" v-if="$route.params.type === 'general'">
         <div><b>내용</b></div>
         <div class="editor" ref="editor"></div>
       </div>
-      <div class="attach">
+      <div class="attach" v-if="$route.params.type === 'file'">
         <div><b>첨부파일</b></div>
         <div>
           <input type="text" readonly placeholder="선택된 파일 없음" />
           <button @click="attachFile"><b>파일 추가</b></button>
         </div>
       </div>
-      <div class="link">
+      <div class="link" v-if="$route.params.type === 'link'" >
         <div><b>링크</b></div>
         <input type="text" placeholder="URL을 입력해 주세요." />
       </div>
@@ -84,6 +84,7 @@ export default {
     NavBar
   },
   mounted() {
+    if (this.$route.params.type !== "general") return;
     let options = {
       modules: {
         toolbar: [
@@ -165,6 +166,7 @@ export default {
 
 .container {
   height: auto;
+  min-height: 100vh;
 }
 .wrapper {
   width: 786px;
