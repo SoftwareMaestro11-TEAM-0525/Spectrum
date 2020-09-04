@@ -34,7 +34,7 @@ export class UserService {
       return await User.create(user);
     } catch (err) {
       err.message = "Failed to Sign up";
-      err.status = 400;
+      err.status = 500;
       throw err;
     }
   };
@@ -63,7 +63,7 @@ export class UserService {
       return await User.update(req.user_id, encrypted, req.user.user_name);
     } catch (err) {
       err.message = "Update faild";
-      err.status = 400;
+      err.status = 500;
       throw err;
     }
   };

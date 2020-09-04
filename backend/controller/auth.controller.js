@@ -27,7 +27,7 @@ export class AuthController {
   static check = async (req, res, next) => {
     return res.status(200).json({
       success: true,
-      info: req.decoded,
+      result: req.decoded,
     });
   };
 }

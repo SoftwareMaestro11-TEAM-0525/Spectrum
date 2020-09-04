@@ -2,11 +2,11 @@ import CytoscapeInfo from "../models/Cytoscape_info";
 
 export class CytoscapeService {
   static getById = async (req) => {
-    const existed = await CytoscapeInfo.findOneByUserId(req.user_id);
+    const existed = await CytoscapeInfo.findOneByUserId(req);
 
     if (existed == null) {
       let err = new Error();
-      err.message = "Cyjson Not Found";
+      err.message = "User not Found";
       err.status = 400;
       throw err;
     }
@@ -26,8 +26,13 @@ export class CytoscapeService {
       err.status = 400;
       throw err;
     }
-
-    return await CytoscapeInfo.create(user_id, cyjson);
+    try {
+      return await CytoscapeInfo.create(user_id, cyjson);
+    } catch (err) {
+      err.message = "Cyjson init fail";
+      err.status = 500;
+      throw err;
+    }
   };
 
   static updateById = async (req) => {
@@ -36,7 +41,7 @@ export class CytoscapeService {
       return await CytoscapeInfo.update(user_id, cyjson);
     } catch (err) {
       err.message = "Cyjson update fail";
-      err.status = 400;
+      err.status = 500;
       throw err;
     }
   };

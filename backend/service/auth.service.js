@@ -5,10 +5,15 @@ export class AuthService {
   static createToken = async (req) => {
     const { user_id, user_pw } = req;
 
+    const encrypted = crypto
+      .createHmac("sha1", process.env.PASSWORD_KEY)
+      .update(user_pw)
+      .digest("base64");
+
     const token = jwt.sign(
       {
         user_id,
-        user_pw,
+        encrypted,
       },
       process.env.JWT_KEY,
       {
@@ -30,7 +35,7 @@ export class AuthService {
 
     if (encrypted !== input_pw) {
       let err = new Error();
-      err.message = "Your passwords do not match";
+      err.message = "Password error";
       err.status = 400;
       throw err;
     }

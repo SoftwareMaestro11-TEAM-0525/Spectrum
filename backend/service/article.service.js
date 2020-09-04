@@ -31,7 +31,13 @@ export class ArticleService {
       throw err;
     }
 
-    return await Article.write(article);
+    try {
+      return await Article.write(article);
+    } catch (err) {
+      err.message = "Article write fail";
+      err.status = 500;
+      throw err;
+    }
   };
 
   static update = async (req) => {
@@ -50,7 +56,13 @@ export class ArticleService {
       throw err;
     }
 
-    return await Article.update(params, body);
+    try {
+      return await Article.update(params, body);
+    } catch (err) {
+      err.message = "Article update fail";
+      err.status = 500;
+      throw err;
+    }
   };
 
   static delete = async (req) => {
@@ -66,6 +78,12 @@ export class ArticleService {
       throw err;
     }
 
-    return await Article.delete(req.user_id, req.node_id);
+    try {
+      return await Article.delete(req.user_id, req.node_id);
+    } catch (err) {
+      err.message = "Article delete fail";
+      err.status = 500;
+      throw err;
+    }
   };
 }
