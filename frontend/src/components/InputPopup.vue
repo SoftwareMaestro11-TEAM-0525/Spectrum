@@ -96,7 +96,7 @@ export default {
       } else if (type.isLinkSelected) {
         this.$router.push({ name: "Input", params: { type: "link" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
       } else {
-        console.log("ERROR!");
+        alert("노드 종류를 선택해 주세요.");
       }
     }
   }
