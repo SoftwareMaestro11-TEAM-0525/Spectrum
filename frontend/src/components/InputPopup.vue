@@ -193,21 +193,21 @@ export default {
   }
 }
 .icon-general {
-  background-image: url("../assets/image/icon-general.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-general.svg");
 }
 .selected .icon-general {
-  background-image: url("../assets/image/icon-general-white.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-general-white.svg");
 }
 .icon-file {
-  background-image: url("../assets/image/icon-file.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-file.svg");
 }
 .selected .icon-file {
-  background-image: url("../assets/image/icon-file-white.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-file-white.svg");
 }
 .icon-link {
-  background-image: url("../assets/image/icon-link.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-link.svg");
 }
 .selected .icon-link {
-  background-image: url("../assets/image/icon-link-white.svg");
+  background-image: url("../assets/image/icon-nodetype/icon-link-white.svg");
 }
 </style>
