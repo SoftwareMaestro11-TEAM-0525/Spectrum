@@ -58,7 +58,14 @@
       </div>
       <div class="link">
         <div><b>링크</b></div>
-        <input type="text" placeholder="링크를 입력해 주세요." />
+        <input type="text" placeholder="URL을 입력해 주세요." />
+      </div>
+      <div class="lock">
+        <div><b>공개 여부</b></div>
+        <div class="lockUI">
+          <div :style="lockStyle.unlock" @click="toggleLock($event, 'unlock')"></div>
+          <div :style="lockStyle.lock" @click="toggleLock($event, 'lock')"></div>
+        </div>
       </div>
       <div>
         <button>입력 완료</button>
@@ -104,7 +111,16 @@ export default {
       tags: [{ text: "떡볶이" }, { text: "순대" }],
       tagString: "",
       editor: null,
-      isDataError: false
+      isDataError: false,
+      isLock: false,
+      lockStyle: {
+        unlock: {
+          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+        },
+        lock: {
+          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
+        }
+      }
     };
   },
   methods: {
@@ -126,6 +142,19 @@ export default {
     attachFile: function() {},
     tagTyping: function(e) {
       this.tagString = e.target.value;
+    },
+    toggleLock: function(e, target) {
+      console.log(e);
+      console.log(target);
+      if (target === "lock" && !this.isLock) {
+        this.isLock = true;
+        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-lock.svg') + ')'
+        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-unlock.svg') + ')'
+      } else if (target === "unlock" && this.isLock) {
+        this.isLock = false;
+        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
+        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+      }
     }
   }
 };
@@ -134,6 +163,9 @@ export default {
 <style scoped lang="scss">
 @import "~quill/dist/quill.snow.css";
 
+.container {
+  height: auto;
+}
 .wrapper {
   width: 786px;
   margin: 64px auto;
@@ -330,6 +362,47 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 54px;
+    input {
+      width: 376px;
+      height: 36px;
+      border-radius: 6px;
+      border: solid 1px #ededed;
+      background-color: #ffffff;
+      box-sizing: border-box;
+      padding-left: 16px;
+    }
+  }
+  .lock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 54px;
+    .lockUI > div {
+      width: 36px;
+      height: 36px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .lock-sel {
+      background-image: url("~@/assets/image/icon-lock/icon-selected-lock.svg");
+    }
+    .lock-unsel {
+      background-image: url("~@/assets/image/icon-lock/icon-unselected-lock.svg");
+    }
+    .unlock-sel {
+      background-image: url("~@/assets/image/icon-lock/icon-selected-unlock.svg");
+    }
+    .unlock-unsel {
+      background-image: url("~@/assets/image/icon-lock/icon-unselected-unlock.svg");
+    }
+
   }
   > div:last-child {
     button {
