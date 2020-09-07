@@ -4,7 +4,6 @@ stages:
 
 build:
   only:
-    - master
     - develop
   stage: build
   image: docker:latest
@@ -15,12 +14,11 @@ build:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/cicd && git fetch && git pull origin cicd && cd frontend && npm install && npm run build"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/develop && git fetch && git pull origin develop && cd frontend && npm install && npm run build"
 
 
 deploy:
   only:
-    - master
     - develop
   stage: deploy
   image: docker:latest
