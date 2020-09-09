@@ -32,12 +32,99 @@ export default {
       this.$emit("popupEvent");
     },
     cy_def : function(){
+      const edgeColor = "#ced6e0";
+      const edgeWidth = "2px";
+      const arrowScale = 1.2;
       cy = cytoscape({
         // 기본 cytoscape 설정
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
         autounselectify: true,
         // cytoscape style 코드
+        style: [
+          {
+            selector: "node",
+            style: {
+              content: "data(name)",
+              "text-valign": "center",
+              color: "#57606f",
+              "text-outline-width": 2,
+              "text-outline-color": "white",
+              "background-color": "#57606f",
+              "text-wrap": "wrap",
+
+              label: "data(name)",
+            }
+          },
+          {
+              selector: "edge",
+              style: {
+                width: edgeWidth,
+                "curve-style": "bezier",
+                "line-color": edgeColor,
+                "target-arrow-color": edgeColor,
+                "target-arrow-shape": "vee",
+                "arrow-scale": arrowScale
+              }
+            },
+            {
+              selector: ":selected",
+              style: {
+                "background-color": "black",
+                "line-color": "black",
+                "target-arrow-color": "black",
+                "source-arrow-color": "black",
+                "text-outline-color": "black"
+              }
+            },
+            {
+              selector: ".eh-handle",
+              style: {
+                "background-color": "red",
+                width: 12,
+                height: 12,
+                shape: "ellipse",
+                "overlay-opacity": 0,
+                "border-width": 12,
+                "border-opacity": 0
+              }
+            },
+            {
+              selector: ".eh-hover",
+              style: {
+                "background-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-source",
+              style: {
+                "border-width": 2,
+                "border-color": "green"
+              }
+            },
+            {
+              selector: ".eh-target",
+              style: {
+                "border-width": 2,
+                "border-color": "purple"
+              }
+            },
+            {
+              selector: ".eh-preview, .eh-ghost-edge",
+              style: {
+                "background-color": "blue",
+                "line-color": "blue",
+                "target-arrow-color": "blue",
+                "source-arrow-color": "blue"
+              }
+            },
+            {
+              selector: ".eh-ghost-edge.eh-preview-active",
+              style: {
+                opacity: 0
+              }
+            }
+        ],
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
           nodes: [
@@ -120,21 +207,21 @@ export default {
       //mouseOn, mouseOut 등등의 관련 상수들
       // const nodeMaxSize = 50;
       const nodeMaxSize = 15;
-      // const nodeMinSize = 5;
+      // // const nodeMinSize = 5;
       const nodeMinSize = 1;
       const nodeActiveSize = 22;
       // const fontMaxSize = 8;
       const fontMaxSize = 3;
-      // const fontMinSize = 5;
+      // // const fontMinSize = 5;
       const fontMinSize = 1;
       const fontActiveSize = 7;
 
-      //엣지, 화살표 크기 값
+      // //엣지, 화살표 크기 값
       const edgeWidth = "2px";
       const edgeActiveWidth = "4px";
-      // const arrowScale = 0.8;
+      // // const arrowScale = 0.8;
       const arrowScale = 1.2;
-      // const arrowActiveScale = 1.2;
+      // // const arrowActiveScale = 1.2;
       const arrowActiveScale = 1.4;
 
       const dimColor = "#dfe4ea";
@@ -142,139 +229,20 @@ export default {
       const nodeColor = "#57606f";
       const nodeActiveColor = "#ffa502";
 
-      //상위 노드, 엣지 색
+      // //상위 노드, 엣지 색
       const successorColor = "#ff6348";
-      //하위 노드, 엣지 색
+      // //하위 노드, 엣지 색
       const predecessorsColor = "#1e90ff";
 
       //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
       //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
-      window.addEventListener("load", function() {
-        cy.json({
-          style: [
-            {
-              selector: "node",
-              style: {
-                content: "data(name)",
-                "text-valign": "center",
-                color: "#57606f",
-                "text-outline-width": 2,
-                "text-outline-color": "white",
-                "background-color": "#57606f",
-                "text-wrap": "wrap",
+      // window.addEventListener("loadstart", function() {
+      // $(document).ready(
+      cy.on("render",function(ele){
+        setResetFocus(ele.cy);
+      })
 
-                label: "data(name)",
-
-                width: function(ele) {
-                  if (
-                    cy
-                      .elements()
-                      .pageRank()
-                      .rank("#" + ele.id()) !== undefined
-                  ) {
-                    return (
-                      nodeMaxSize +
-                      cy
-                        .elements()
-                        .pageRank()
-                        .rank("#" + ele.id()) +
-                      nodeMinSize
-                    );
-                  }
-                },
-                height: function(ele) {
-                  return (
-                    nodeMaxSize +
-                    cy
-                      .elements()
-                      .pageRank()
-                      .rank("#" + ele.id()) +
-                    nodeMinSize
-                  );
-                },
-                "font-size": function(ele) {
-                  return (
-                    fontMaxSize +
-                    cy
-                      .elements()
-                      .pageRank()
-                      .rank("#" + ele.id()) +
-                    fontMinSize
-                  );
-                }
-              }
-            },
-            {
-              selector: "edge",
-              style: {
-                width: edgeWidth,
-                "curve-style": "bezier",
-                "line-color": edgeColor,
-                "target-arrow-color": edgeColor,
-                "target-arrow-shape": "vee",
-                "arrow-scale": arrowScale
-              }
-            },
-            {
-              selector: ":selected",
-              style: {
-                "background-color": "black",
-                "line-color": "black",
-                "target-arrow-color": "black",
-                "source-arrow-color": "black",
-                "text-outline-color": "black"
-              }
-            },
-            {
-              selector: ".eh-handle",
-              style: {
-                "background-color": "red",
-                width: 12,
-                height: 12,
-                shape: "ellipse",
-                "overlay-opacity": 0,
-                "border-width": 12,
-                "border-opacity": 0
-              }
-            },
-            {
-              selector: ".eh-hover",
-              style: {
-                "background-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-source",
-              style: {
-                "border-width": 2,
-                "border-color": "green"
-              }
-            },
-            {
-              selector: ".eh-target",
-              style: {
-                "border-width": 2,
-                "border-color": "purple"
-              }
-            },
-            {
-              selector: ".eh-preview, .eh-ghost-edge",
-              style: {
-                "background-color": "blue",
-                "line-color": "blue",
-                "target-arrow-color": "blue",
-                "source-arrow-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-ghost-edge.eh-preview-active",
-              style: {
-                opacity: 0
-              }
-            }
-          ]
-        });
-      });
+      // });
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
         target_cy.nodes().forEach(function(target) {
@@ -407,6 +375,10 @@ export default {
         setResetFocus(ele.cy);
       });
       
+       cy.on("load", "node", function(ele) {
+        setResetFocus(ele.cy);
+      });
+
    
       
     },
