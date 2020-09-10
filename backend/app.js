@@ -5,11 +5,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import indexRoute from "./routes/index.route.js";
-import logger from "morgan"
-var app = express();
-dotenv.config()
+import logger from "morgan";
+import AWS from "aws-sdk";
 
-app.use(logger('dev'));
+var app = express();
+dotenv.config();
+
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -20,8 +22,10 @@ app.use("/api", indexRoute);
 
 // errorHandler
 app.use(function (err, req, res, next) {
-    logger(err.message)
-    return res.status(err.status || 500).json({success:false, status:err.status,message : err.message});
+  logger(err.message);
+  return res
+    .status(err.status || 500)
+    .json({ success: false, status: err.status, message: err.message });
 });
 
 // Connect Mongodb
@@ -30,10 +34,18 @@ db.on("error", console.error);
 db.once("open", function () {
   logger("Connected to mongod server");
 });
-mongoose.connect(process.env.MONGO_URI,{ 
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false 
+  useFindAndModify: false,
+});
+
+//configure AWS
+
+AWS.config.update({
+  accessKeyId: process.env.ACESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  region: process.env.REGION,
 });
 
 module.exports = app;
