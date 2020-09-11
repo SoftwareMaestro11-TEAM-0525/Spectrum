@@ -1,5 +1,3 @@
-import { FileService } from "../service/file.service";
-
 export class FileController {
   static upload = async (req, res, next) => {
     try {
