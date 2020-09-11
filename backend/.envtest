@@ -1,5 +1,10 @@
+PORT = 3000
 MONGO_URI = "mongodb://localhost:27017/spectrum"
 JWT_KEY = "secret-jwt-key"
 PASSWORD_KEY = "password-secret-key"
-PORT = 3000
+ACESS_KEY_ID = "access_key_id"
+SECRET_ACCESS_KEY = "secret_access_key"
+REGIEON = "regieon"
+BUCKET = "bucket_name"
+FILE_KEY = "file-secret-key"
 //mongodbUri = "mongodb://mongo/spectrum"
