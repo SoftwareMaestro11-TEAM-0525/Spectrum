@@ -5,6 +5,7 @@ stages:
 build:
   only:
     - develop
+    - cicd
   stage: build
   image: docker:latest
   before_script:
@@ -20,6 +21,7 @@ build:
 deploy:
   only:
     - develop
+    - cicd
   stage: deploy
   image: docker:latest
   before_script:
