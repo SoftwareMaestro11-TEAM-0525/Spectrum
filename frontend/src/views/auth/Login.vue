@@ -1,13 +1,26 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <img src="@/assets/logo.png" alt="Logo image" />
-      <h1>Spectrum</h1>
+      <img src="@/assets/headerLogo.png" alt="Logo image" />
     </div>
     <form>
-      <input type="text" name="email" placeholder="이메일" @input="typing" v-bind:value="emailString">
-      <input type="password" name="password" placeholder="비밀번호" @input="typing" v-bind:value="passwordString">
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">로그인</button>
+      <input
+        type="text"
+        name="email"
+        placeholder="이메일"
+        @input="typing"
+        v-bind:value="emailString"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="비밀번호"
+        @input="typing"
+        v-bind:value="passwordString"
+      />
+      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">
+        로그인
+      </button>
     </form>
     <div class="error" v-if="isError">
       아이디 또는 비밀번호를 다시 입력해주세요.
@@ -15,9 +28,11 @@
     <div class="guide">
       <router-link to="/password">비밀번호를 잊으셨나요?</router-link>
     </div>
-    <hr>
+    <hr />
     <div class="guide">
-      <router-link to="/join">아직 계정이 없으신가요? <b>가입하기</b></router-link>
+      <router-link to="/join"
+        >아직 계정이 없으신가요? <b>가입하기</b></router-link
+      >
     </div>
   </div>
 </template>
@@ -49,28 +64,30 @@ export default {
       if (this.isButtonDisable) return;
 
       //서버에 로그인 요청
-      const baseURI = 'http://localhost:3000/api/auth/login';
-      let data = new URLSearchParams()
-      data.append('user_id', this.emailString)
-      data.append('user_pw', this.passwordString)
+      const baseURI = "http://localhost:3000/api/auth/login";
+      let data = new URLSearchParams();
+      data.append("user_id", this.emailString);
+      data.append("user_pw", this.passwordString);
 
       axios({
-        method: 'post',
+        method: "post",
         url: baseURI,
         data: data
-      }).then((res) => {
-        localStorage.setItem("token", res.data.token)
-        alert("로그인 성공!")
-      }).catch((err) => {
-        if (err.response.status === 403) {
-          this.isError = true;
-        } else {
-          alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!")
-          console.log(err.response.data)
-          console.log(err.response.headers)
-          console.log(err.response.status)
-        }
       })
+        .then(res => {
+          localStorage.setItem("token", res.data.token);
+          alert("로그인 성공!");
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            this.isError = true;
+          } else {
+            alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
+            console.log(err.response.data);
+            console.log(err.response.headers);
+            console.log(err.response.status);
+          }
+        });
     }
   }
 };
@@ -102,10 +119,9 @@ button.disable {
   text-align: center;
   margin-bottom: 42px;
   img {
-    width: 48px;
-    height: 48px;
+    height: 50px;
     display: inline-block;
-    vertical-align: middle ;
+    vertical-align: middle;
     margin-right: 12px;
   }
   h1 {

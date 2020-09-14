@@ -2,7 +2,7 @@
   <nav class="navbar">
     <router-link to="/main">
       <div class="top_logo">
-        <img src="@/assets/logo.png" alt="logo">
+        <img src="@/assets/logo.png" alt="logo" />
         Spectrum
       </div>
     </router-link>
@@ -14,8 +14,12 @@
         </div>
         <div class="options">
           <div class="status">
-            <div class><b>{{ userName }}</b> 님</div>
-            <div class>등록된 경험 <b>{{ expCount }}</b></div>
+            <div class>
+              <b>{{ userName }}</b> 님
+            </div>
+            <div class>
+              등록된 경험 <b>{{ expCount }}</b>
+            </div>
           </div>
           <div class="menu">
             <div>마이페이지</div>
@@ -32,7 +36,11 @@
           <div></div>
         </div>
         <div class="share">
-          <input type="text" value="https://wizardly-pasteur-8018f7.net" readonly>
+          <input
+            type="text"
+            value="https://wizardly-pasteur-8018f7.net"
+            readonly
+          />
           <button>복사</button>
         </div>
       </div>
@@ -46,13 +54,18 @@ export default {
   data() {
     return {
       userName: "최현석",
-      expCount: -100,
-    }
+      expCount: -100
+    };
   },
   props: {
     isMain: Boolean
+  },
+  methods:{
+     popupEvent: function() {
+      this.$emit("popupEvent");
+    },
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -98,7 +111,7 @@ export default {
         font-weight: bold;
       }
     }
-    button:hover+div {
+    button:hover + div {
       display: block;
     }
     .dropdown {

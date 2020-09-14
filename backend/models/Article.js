@@ -46,70 +46,46 @@ const Article = new Schema({
   },
 });
 
-Article.statics.findOneByUser_idNode_id = function (user_id, node_id) {
+Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
   return this.findOne({
     user_id,
     node_id,
   });
 };
 
-Article.statics.create = function (
-  user_id,
-  node_id,
-  type,
-  title,
-  start_date,
-  end_date,
-  content,
-  keyword,
-  web_url,
-  file_url,
-  secret
-) {
-  const article = new this({
-    user_id,
-    node_id,
-    type,
-    title,
-    start_date,
-    end_date,
-    content,
-    keyword,
-    web_url,
-    file_url,
-    secret,
+Article.statics.write = function (article) {
+  const newArticle = new this({
+    user_id: article.user_id,
+    node_id: article.node_id,
+    type: article.type,
+    title: article.title,
+    start_date: article.start_date,
+    end_date: article.end_date,
+    content: article.content,
+    keyword: article.keyword,
+    web_url: article.web_url,
+    file_url: article.file_url,
+    secret: article.secret,
   });
 
-  return article.save();
+  return newArticle.save();
 };
 
-Article.statics.update = function (
-  user_id,
-  node_id,
-  type,
-  title,
-  start_date,
-  end_date,
-  content,
-  keyword,
-  web_url,
-  file_url,
-  secret
-) {
+Article.statics.update = function (params, article) {
   return this.findOneAndUpdate(
-    { user_id, node_id },
+    { user_id: params.user_id, node_id: params.node_id },
     {
-      type,
-      title,
-      start_date,
-      end_date,
-      content,
-      keyword,
-      web_url,
-      file_url,
-      secret,
+      type: article.type,
+      title: article.title,
+      start_date: article.start_date,
+      end_date: article.end_date,
+      content: article.content,
+      keyword: article.keyword,
+      web_url: article.web_url,
+      file_url: article.file_url,
+      secret: article.secret,
     },
-    { returnNewDocument: true }
+    { new: true }
   );
 };
 

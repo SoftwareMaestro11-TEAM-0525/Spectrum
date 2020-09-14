@@ -1,11 +1,15 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import indexRoute from "./routes/index.route.js";
+import logger from "morgan";
+import AWS from "aws-sdk";
 
 var app = express();
-var config = require("./config.js");
-var cors = require("cors");
+dotenv.config();
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -14,23 +18,34 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
-app.use("/api", require("./routes/api"));
+app.use("/api", indexRoute);
 
-// Set Sceret Key
-app.set("jwt-key", config.jwtKey);
-
-/**
- * Connect Mongodb
- */
-
-var mongoose = require("mongoose");
-
-var db = mongoose.connection;
-db.on("error", console.error);
-db.once("open", function () {
-  console.log("Connected to mongod server");
+// errorHandler
+app.use(function (err, req, res, next) {
+  logger(err.message);
+  return res
+    .status(err.status || 500)
+    .json({ success: false, status: err.status, message: err.message });
 });
 
-mongoose.connect(config.mongodbUri);
+// Connect Mongodb
+const db = mongoose.connection;
+db.on("error", console.error);
+db.once("open", function () {
+  logger("Connected to mongod server");
+});
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
+
+//configure AWS
+
+AWS.config.update({
+  accessKeyId: process.env.ACESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  region: process.env.REGION,
+});
 
 module.exports = app;
