@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import indexRoute from "./routes/index.route.js";
 import logger from "morgan";
 import AWS from "aws-sdk";
+import history from "connect-history-api-fallback";
 
 var app = express();
 dotenv.config();
@@ -15,13 +16,11 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.route("/*").get(function (req, res) {
-  return res.sendFile(path.join(__dirname, "public/index.html"));
-});
-
 app.use(cors());
 app.use("/api", indexRoute);
 
+app.use(history({}));
+app.use(express.static(path.join(__dirname, "./public")));
 // errorHandler
 app.use(function (err, req, res, next) {
   logger(err.message);
