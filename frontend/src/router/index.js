@@ -19,7 +19,7 @@ const routes = [
     component: Main
   },
   {
-    path: "/input",
+    path: "/input/:type",
     name: "Input",
     component: Input
   },

@@ -2,8 +2,7 @@
   <nav class="navbar">
     <router-link to="/main">
       <div class="top_logo">
-        <img src="@/assets/logo.png" alt="logo" />
-        Spectrum
+        <img src="@/assets/headerLogo.png" alt="logo" />
       </div>
     </router-link>
     <div class="item" v-if="isMain">
@@ -86,12 +85,10 @@ export default {
   }
   .top_logo {
     height: 100%;
-    display: inline-block;
-    font-size: 24px;
+    display: inline-flex;
+    align-items: center;
     img {
-      width: 32px;
       height: 32px;
-      vertical-align: middle;
     }
   }
   .item {
