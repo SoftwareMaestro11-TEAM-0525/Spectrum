@@ -1,12 +1,12 @@
 stages:
-  - build
-  - deploy
+  - buildAndDeploy
 
 build:
   only:
     - develop
     - cicd
-  stage: build
+    - ui
+  stage: buildAndDeploy
   image: docker:latest
   before_script:
     - mkdir -p ~/.ssh
@@ -15,21 +15,4 @@ build:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git checkout origin/develop && git fetch && git pull origin develop && cd frontend && npm install && npm run build"
-
-
-deploy:
-  only:
-    - develop
-    - cicd
-  stage: deploy
-  image: docker:latest
-  before_script:
-    - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh
-    - chmod 400 ~/.ssh/id_rsa
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
-
-  script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "docker stop nodejs && docker rm nodejs && docker rmi 0525_nodejs && ls && cd 0525 && docker-compose up -d --build"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && cd frontend && npm install && npm run build && cd ../backend && npm install && cp ../../.env . && sudo pm2 reload spectrum_dev"
