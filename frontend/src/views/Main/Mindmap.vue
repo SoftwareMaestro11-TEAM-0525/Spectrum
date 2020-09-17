@@ -1,7 +1,6 @@
 <template>
   <div id="cy">
     <button @click="popupEvent">테스트용 추가버튼</button>
-
   </div>
 </template>
 
@@ -58,80 +57,80 @@ export default {
             }
           },
           {
-              selector: "edge",
-              style: {
-                width: edgeWidth,
-                "curve-style": "bezier",
-                "line-color": edgeColor,
-                "target-arrow-color": edgeColor,
-                "target-arrow-shape": "vee",
-                "arrow-scale": arrowScale
-              }
-            },
-            {
-              selector: ":selected",
-              style: {
-                "background-color": "black",
-                "line-color": "black",
-                "target-arrow-color": "black",
-                "source-arrow-color": "black",
-                "text-outline-color": "black"
-              }
-            },
-            {
-              selector: ".eh-handle",
-              style: {
-                "background-color": "red",
-                width: 12,
-                height: 12,
-                shape: "ellipse",
-                "overlay-opacity": 0,
-                "border-width": 12,
-                "border-opacity": 0
-              }
-            },
-            {
-              selector: ".eh-hover",
-              style: {
-                "background-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-source",
-              style: {
-                "border-width": 2,
-                "border-color": "green"
-              }
-            },
-            {
-              selector: ".eh-target",
-              style: {
-                "border-width": 2,
-                "border-color": "purple"
-              }
-            },
-            {
-              selector: ".eh-preview, .eh-ghost-edge",
-              style: {
-                "background-color": "blue",
-                "line-color": "blue",
-                "target-arrow-color": "blue",
-                "source-arrow-color": "blue"
-              }
-            },
-            {
-              selector: ".eh-ghost-edge.eh-preview-active",
-              style: {
-                opacity: 0
-              }
-            },
-            // {
-            //   selector: "node.highlighted",
-            //   style: {
-            //     "border-width": "6px",
-            //     "border-color": "#8FDC97"
-            //   }
-            // },
+            selector: "edge",
+            style: {
+              width: edgeWidth,
+              "curve-style": "bezier",
+              "line-color": edgeColor,
+              "target-arrow-color": edgeColor,
+              "target-arrow-shape": "vee",
+              "arrow-scale": arrowScale
+            }
+          },
+          {
+            selector: ":selected",
+            style: {
+              "background-color": "black",
+              "line-color": "black",
+              "target-arrow-color": "black",
+              "source-arrow-color": "black",
+              "text-outline-color": "black"
+            }
+          },
+          {
+            selector: ".eh-handle",
+            style: {
+              "background-color": "red",
+              width: 12,
+              height: 12,
+              shape: "ellipse",
+              "overlay-opacity": 0,
+              "border-width": 12,
+              "border-opacity": 0
+            }
+          },
+          {
+            selector: ".eh-hover",
+            style: {
+              "background-color": "blue"
+            }
+          },
+          {
+            selector: ".eh-source",
+            style: {
+              "border-width": 2,
+              "border-color": "green"
+            }
+          },
+          {
+            selector: ".eh-target",
+            style: {
+              "border-width": 2,
+              "border-color": "purple"
+            }
+          },
+          {
+            selector: ".eh-preview, .eh-ghost-edge",
+            style: {
+              "background-color": "blue",
+              "line-color": "blue",
+              "target-arrow-color": "blue",
+              "source-arrow-color": "blue"
+            }
+          },
+          {
+            selector: ".eh-ghost-edge.eh-preview-active",
+            style: {
+              opacity: 0
+            }
+          }
+          // {
+          //   selector: "node.highlighted",
+          //   style: {
+          //     "border-width": "6px",
+          //     "border-color": "#8FDC97"
+          //   }
+          // },
         ],
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
@@ -194,7 +193,7 @@ export default {
         layout: {
           name: "cose-bilkent",
           padding: 100,
-          roots: '#0',
+          roots: "#0"
         }
       });
     },
@@ -243,7 +242,7 @@ export default {
       // //하위 노드, 엣지 색
       const predecessorsColor = "#1e90ff";
 
-      cy.on("render",function(ele){
+      cy.on("render", function(ele) {
         setResetFocus(ele.cy);
       });
 
@@ -508,7 +507,7 @@ export default {
           }
         ]
       });
-    },
+    }
     // bfs_Event:function(){
     //   //bfs 탐색 시작점
     //   let startPoint = 0;
@@ -523,9 +522,9 @@ export default {
     //   //   console.log("result"+result[j]);
     //   //   const set = Array.from(new Set(result));
     //   //   var jsonString = JSON.stringify(set);
-        
+
     //   //   var jsonData = JSON.parse(jsonString);
-        
+
     //   //   console.log(jsonData.toString())
     //   // }
     //   // BFS 탐색 함수
@@ -543,15 +542,15 @@ export default {
     //     }
     //   };
     //   highlightNextEle();
-    // } 
-},
-computed: {},
-mounted: function() {
-  this.cy_def();
-  this.view_init();
-  this.cxtmenu_def();
-  // this.bfs_Event();
-}
+    // }
+  },
+  computed: {},
+  mounted: function() {
+    this.cy_def();
+    this.view_init();
+    this.cxtmenu_def();
+    // this.bfs_Event();
+  }
 };
 </script>
 <style scoped lang="scss">
