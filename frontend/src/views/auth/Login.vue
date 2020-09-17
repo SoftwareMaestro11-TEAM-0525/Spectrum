@@ -79,7 +79,7 @@ export default {
           alert("로그인 성공!");
         })
         .catch(err => {
-          if (err.response.status === 403) {
+          if (err.response.status === 400) {
             this.isError = true;
           } else {
             alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
