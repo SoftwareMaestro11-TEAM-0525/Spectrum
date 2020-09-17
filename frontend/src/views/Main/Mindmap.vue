@@ -32,7 +32,7 @@ export default {
     popupEvent: function() {
       this.$emit("popupEvent");
     },
-    cy_def : function(){
+    cy_def: function() {
       const edgeColor = "#ced6e0";
       const edgeWidth = "2px";
       const arrowScale = 1.2;
@@ -54,7 +54,7 @@ export default {
               "background-color": "#57606f",
               "text-wrap": "wrap",
 
-              label: "data(name)",
+              label: "data(name)"
             }
           },
           {
@@ -245,7 +245,7 @@ export default {
 
       cy.on("render",function(ele){
         setResetFocus(ele.cy);
-      })
+      });
 
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
@@ -378,20 +378,20 @@ export default {
       cy.on("tapend mouseout", "node", function(ele) {
         setResetFocus(ele.cy);
       });
-      
-       cy.on("load", "node", function(ele) {
+
+      cy.on("load", "node", function(ele) {
         setResetFocus(ele.cy);
       });
     },
-    //cxtmenu feature 
-    cxtmenu_def : function(){
-      let popup = this
+    //cxtmenu feature
+    cxtmenu_def: function() {
+      let popup = this;
       cy.cxtmenu({
         selector: "node",
         commands: [
           {
-            content : "test",
-            select: function(){
+            content: "test",
+            select: function() {
               popup.popupEvent();
             }
           },
@@ -505,7 +505,7 @@ export default {
               ]);
               cy.fit();
             }
-          },
+          }
         ]
       });
     },
