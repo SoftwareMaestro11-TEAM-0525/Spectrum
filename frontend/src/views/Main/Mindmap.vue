@@ -1,6 +1,7 @@
 <template>
   <div id="cy">
     <button @click="popupEvent">테스트용 추가버튼</button>
+
   </div>
 </template>
 
@@ -123,7 +124,14 @@ export default {
               style: {
                 opacity: 0
               }
-            }
+            },
+            // {
+            //   selector: "node.highlighted",
+            //   style: {
+            //     "border-width": "6px",
+            //     "border-color": "#8FDC97"
+            //   }
+            // },
         ],
         //cytoscape 마인드맵에서 사용하는 데이터 구조
         elements: {
@@ -185,7 +193,8 @@ export default {
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
         layout: {
           name: "cose-bilkent",
-          padding: 100
+          padding: 100,
+          roots: '#0',
         }
       });
     },
@@ -195,7 +204,7 @@ export default {
       eh = cy.edgehandles();
       eh.enabled = false;
 
-      //mind map 자동 크기 조절 코드(아마 나중에 바꿔야 될 수도?)
+      //mind map 자동 크기 조절 코드
       let resizeTimer;
       window.addEventListener("resize", function() {
         this.clearTimeout(resizeTimer);
@@ -234,15 +243,10 @@ export default {
       // //하위 노드, 엣지 색
       const predecessorsColor = "#1e90ff";
 
-      //width,height,font-size 설정 하는데 cytoscape 선언부 안에서
-      //cy를 꺼내 쓸 수가 없어서 페이지가 열릴 때마다 스타일 적용하는 방식으로 해결
-      // window.addEventListener("loadstart", function() {
-      // $(document).ready(
       cy.on("render",function(ele){
         setResetFocus(ele.cy);
       })
 
-      // });
       //여기서 부터는 mouseOn, mouseOut에 관련된 함수들
       function setDimStyle(target_cy, style) {
         target_cy.nodes().forEach(function(target) {
@@ -378,9 +382,6 @@ export default {
        cy.on("load", "node", function(ele) {
         setResetFocus(ele.cy);
       });
-
-   
-      
     },
     //cxtmenu feature 
     cxtmenu_def : function(){
@@ -507,14 +508,50 @@ export default {
           },
         ]
       });
-    }
-  },
-  computed: {},
-  mounted: function() {
-    this.cy_def();
-    this.view_init();
-    this.cxtmenu_def();
-  }
+    },
+    // bfs_Event:function(){
+    //   //bfs 탐색 시작점
+    //   let startPoint = 0;
+    //   //Node ID로 시작점 지정 가능
+    //   startPoint = "#-1"
+    //   let bfs = cy.elements().bfs(startPoint, function(){}, true);
+    //   let result = new Array();
+    //   let i = 0;
+    //   //BFS 탐색 배열 저장 및 제공 함수
+    //   // let j = 0;
+    //   // let printResult = function(j){
+    //   //   console.log("result"+result[j]);
+    //   //   const set = Array.from(new Set(result));
+    //   //   var jsonString = JSON.stringify(set);
+        
+    //   //   var jsonData = JSON.parse(jsonString);
+        
+    //   //   console.log(jsonData.toString())
+    //   // }
+    //   // BFS 탐색 함수
+    //   let highlightNextEle = function(){
+    //     if( i < bfs.path.length ){
+    //       bfs.path[i].addClass('highlighted');
+    //       let temp =Number(bfs.path[i].data().id);
+    //       if(temp<0){
+    //         result.push(Number(bfs.path[i].data().id));
+    //         // printResult(j);
+    //         // j++;
+    //       };
+    //       i++;
+    //       setTimeout(highlightNextEle, 5);
+    //     }
+    //   };
+    //   highlightNextEle();
+    // } 
+},
+computed: {},
+mounted: function() {
+  this.cy_def();
+  this.view_init();
+  this.cxtmenu_def();
+  // this.bfs_Event();
+}
 };
 </script>
 <style scoped lang="scss">
