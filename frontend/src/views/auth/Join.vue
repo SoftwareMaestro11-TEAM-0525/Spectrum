@@ -108,10 +108,12 @@ export default {
       }
 
       //서버에 이메일, 비밀번호, 이름 전송
-      const baseURI = "http://localhost:3000/api/auth/register";
+      const baseURI = "http://localhost:3000/api/user";
       let data = new URLSearchParams();
       data.append("user_id", this.emailString);
+      data.append("user_email", this.emailString);
       data.append("user_pw", this.passwordString);
+      data.append("user_name", this.nameString);
 
       axios({
         method: "post",
@@ -120,9 +122,11 @@ export default {
       })
         .then(res => {
           console.log(res);
+          alert("회원가입이 완료되었습니다!");
+          this.$router.push("Main");
         })
         .catch(err => {
-          if (err.response.status === 409) {
+          if (err.response.status === 400) {
             this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
             this.isEmailError = true;
           } else {
