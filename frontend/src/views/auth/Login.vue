@@ -77,6 +77,7 @@ export default {
         .then(res => {
           localStorage.setItem("token", res.data.token);
           alert("로그인 성공!");
+          this.$router.push("Main");
         })
         .catch(err => {
           if (err.response.status === 400) {

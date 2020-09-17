@@ -13,7 +13,7 @@
 import NavBar from "@/components/NavBar";
 import mindmap from "@/views/Main/Mindmap.vue";
 import InputPopup from "@/components/InputPopup";
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   name: "Main",
@@ -23,18 +23,18 @@ export default {
     InputPopup
   },
   created() {
-    axios({
-      method: "get",
-      url: "http://localhost:3000/api/auth/check",
-      headers: {
-        "x-access-token": localStorage.getItem("token")
-      }
-    }).catch(err => {
-      this.$router.push("Login");
-      console.log(err.response.data);
-      console.log(err.response.headers);
-      console.log(err.response.status);
-    });
+    // axios({
+    //   method: "get",
+    //   url: "http://localhost:3000/api/auth/check",
+    //   headers: {
+    //     "x-access-token": localStorage.getItem("token")
+    //   }
+    // }).catch(err => {
+    //   this.$router.push("Login");
+    //   console.log(err.response.data);
+    //   console.log(err.response.headers);
+    //   console.log(err.response.status);
+    // });
   },
   data() {
     return {

@@ -2,7 +2,7 @@
   <div class="container">
     <nav-bar :isMain="false"></nav-bar>
     <div class="wrapper">
-      <input type="text" name="title" placeholder="제목을 입력해 주세요." />
+      <input type="text" name="title" placeholder="제목을 입력해 주세요." v-model="titleString"/>
       <div class="date">
         <div class="dataWrapper">
           <div>
@@ -12,12 +12,12 @@
           <div>
             <div>
               <label for="start-date">시작일</label>
-              <input type="text" id="start-date" name="start-date" />
+              <input type="text" id="start-date" name="start-date" v-model="startDateString"/>
             </div>
             <span>~</span>
             <div>
               <label for="end-date">종료일</label>
-              <input type="text" id="end-date" name="end-date" />
+              <input type="text" id="end-date" name="end-date" v-model="endDateString"/>
               <div></div>
             </div>
           </div>
@@ -107,10 +107,15 @@ export default {
   },
   data() {
     return {
-      tagMsg: "",
+      // 폼 입력 데이터
+      titleString: "",
+      startDateString: "",
+      endDateString: "",
+
       isTagFocus: false,
       tags: [{ text: "떡볶이" }, { text: "순대" }],
       tagString: "",
+
       editor: null,
       isDataError: false,
       isLock: false,
@@ -145,8 +150,6 @@ export default {
       this.tagString = e.target.value;
     },
     toggleLock: function(e, target) {
-      console.log(e);
-      console.log(target);
       if (target === "lock" && !this.isLock) {
         this.isLock = true;
         this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-lock.svg') + ')'

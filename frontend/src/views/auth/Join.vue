@@ -123,7 +123,7 @@ export default {
         .then(res => {
           console.log(res);
           alert("회원가입이 완료되었습니다!");
-          this.$router.push("Main");
+          this.$router.push("Login");
         })
         .catch(err => {
           if (err.response.status === 400) {
