@@ -3,17 +3,12 @@ import crypto from "crypto";
 
 export class AuthService {
   static createToken = async (req) => {
-    const { user_id, user_pw } = req;
-
-    const encrypted = crypto
-      .createHmac("sha1", process.env.PASSWORD_KEY)
-      .update(user_pw)
-      .digest("base64");
+    const { user_id, user_email } = req;
 
     const token = jwt.sign(
       {
         user_id,
-        encrypted,
+        user_email,
       },
       process.env.JWT_KEY,
       {

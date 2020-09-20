@@ -1,12 +1,17 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers["x-access-token"] || req.query.token;
-
+  if (req.headers.authorization === undefined) {
+    return res.status(403).json({
+      sucess: false,
+      message: "Token is missing",
+    });
+  }
+  const token = req.headers.authorization.split("Bearer ")[1];
   if (!token) {
     return res.status(403).json({
       sucess: false,
-      message: "login failed",
+      message: "Token is missing",
     });
   }
 
