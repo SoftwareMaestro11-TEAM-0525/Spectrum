@@ -55,6 +55,20 @@ export class UserService {
     return existed;
   };
 
+  static findOneByUserEmail = async (req) => {
+    const user_email = req;
+    const existed = await User.findOneByUserEmail(user_email);
+
+    if (existed == null) {
+      let err = new Error();
+      err.message = "User not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    return existed;
+  };
+
   static updateUser = async (req) => {
     try {
       const encrypted = crypto
