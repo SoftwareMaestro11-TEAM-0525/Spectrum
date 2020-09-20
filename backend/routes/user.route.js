@@ -4,11 +4,7 @@ const router = express.Router();
 import authMiddleware from "../middlewares/auth";
 
 router.post("/", UserController.register);
-
-router.use("/check", authMiddleware);
-router.get("/:user_id", UserController.getUserById);
-
-router.use("/check", authMiddleware);
-router.patch("/:user_id", UserController.updateUser);
+router.get("/:user_id", authMiddleware, UserController.getUserById);
+router.patch("/:user_id", authMiddleware, UserController.updateUser);
 
 module.exports = router;
