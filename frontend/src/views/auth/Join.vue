@@ -109,11 +109,13 @@ export default {
 
       //서버에 이메일, 비밀번호, 이름 전송
       const baseURI = "http://localhost:3000/api/user";
-      let data = new URLSearchParams();
-      data.append("user_id", this.emailString);
-      data.append("user_email", this.emailString);
-      data.append("user_pw", this.passwordString);
-      data.append("user_name", this.nameString);
+
+      let data = {
+        user_id: this.emailString,
+        user_email: this.emailString,
+        user_pw: this.passwordString,
+        user_name: this.user_name,
+      };
 
       axios({
         method: "post",
