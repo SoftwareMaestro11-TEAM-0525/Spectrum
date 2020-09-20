@@ -1,9 +1,11 @@
-import crypto from "crypto";
 import User from "../models/User";
+import crypto from "crypto";
+import uuid from "uuid4";
 
 export class UserService {
   static register = async (req) => {
     const user = req.body;
+    user.user_id = uuid();
 
     const existedById = await User.findOneByUserId(user.user_id);
 
