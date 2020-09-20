@@ -3,10 +3,10 @@ import { UserService } from "../service/user.service";
 
 export class AuthController {
   static login = async (req, res, next) => {
-    const { user_id, user_pw } = req.body;
+    const { user_email, user_pw } = req.body;
 
     try {
-      const User = await UserService.findOneByUserId(user_id);
+      const User = await UserService.findOneByUserEmail(user_email);
 
       const input_pw = User.user_pw;
       await AuthService.verifyUserPw({ user_pw, input_pw });
