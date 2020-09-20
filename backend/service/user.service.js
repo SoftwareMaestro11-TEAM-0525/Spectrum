@@ -1,9 +1,11 @@
-import crypto from "crypto";
 import User from "../models/User";
+import crypto from "crypto";
+import uuid from "uuid4";
 
 export class UserService {
   static register = async (req) => {
     const user = req.body;
+    user.user_id = uuid();
 
     const existedById = await User.findOneByUserId(user.user_id);
 
@@ -42,6 +44,20 @@ export class UserService {
   static findOneByUserId = async (req) => {
     const user_id = req;
     const existed = await User.findOneByUserId(user_id);
+
+    if (existed == null) {
+      let err = new Error();
+      err.message = "User not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    return existed;
+  };
+
+  static findOneByUserEmail = async (req) => {
+    const user_email = req;
+    const existed = await User.findOneByUserEmail(user_email);
 
     if (existed == null) {
       let err = new Error();

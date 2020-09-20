@@ -3,17 +3,23 @@ import Article from "../models/Article";
 export class ArticleService {
   static read = async (req) => {
     const { user_id, node_id } = req;
+    const pre = node_id.split(",");
+    let res = [];
+    for (var idx in pre) {
+      const tmp = await Article.findOneByUserIdNodeId(user_id, pre[idx]);
+      if (tmp != null) {
+        await res.push(tmp.content);
+      }
+    }
 
-    const existed = await Article.findOneByUserIdNodeId(user_id, node_id);
-
-    if (existed == null) {
+    if (res.length == 0) {
       let err = new Error();
       err.message = "Article not Found";
       err.status = 400;
       throw err;
     }
 
-    return existed;
+    return res;
   };
 
   static write = async (req) => {
