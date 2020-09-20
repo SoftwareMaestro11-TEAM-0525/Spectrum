@@ -78,7 +78,7 @@ export default {
         data: data
       })
         .then(res => {
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.result.token);
           alert("로그인 성공!");
           this.$router.push("Main");
         })
