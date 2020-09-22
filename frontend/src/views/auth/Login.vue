@@ -65,9 +65,12 @@ export default {
 
       //서버에 로그인 요청
       const baseURI = "http://localhost:3000/api/auth/login";
-      let data = new URLSearchParams();
-      data.append("user_id", this.emailString);
-      data.append("user_pw", this.passwordString);
+      let data = {
+        user_id: this.emailString,
+        user_pw: this.passwordString,
+      };
+
+      console.log(data);
 
       axios({
         method: "post",
@@ -75,7 +78,7 @@ export default {
         data: data
       })
         .then(res => {
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.result.token);
           alert("로그인 성공!");
           this.$router.push("Main");
         })
