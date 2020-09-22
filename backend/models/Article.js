@@ -54,39 +54,12 @@ Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
 };
 
 Article.statics.write = function (article) {
-  const newArticle = new this({
-    user_id: article.user_id,
-    node_id: article.node_id,
-    type: article.type,
-    title: article.title,
-    start_date: article.start_date,
-    end_date: article.end_date,
-    content: article.content,
-    keyword: article.keyword,
-    web_url: article.web_url,
-    file_url: article.file_url,
-    secret: article.secret,
-  });
-
-  return newArticle.save();
+  console.log(article);
+  return new this(article).save();
 };
 
-Article.statics.update = function (params, article) {
-  return this.findOneAndUpdate(
-    { user_id: params.user_id, node_id: params.node_id },
-    {
-      type: article.type,
-      title: article.title,
-      start_date: article.start_date,
-      end_date: article.end_date,
-      content: article.content,
-      keyword: article.keyword,
-      web_url: article.web_url,
-      file_url: article.file_url,
-      secret: article.secret,
-    },
-    { new: true }
-  );
+Article.statics.updateArticle = function (article) {
+  return article.save();
 };
 
 Article.statics.delete = function (user_id, node_id) {
