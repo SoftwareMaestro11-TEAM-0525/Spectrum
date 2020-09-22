@@ -1,8 +1,6 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import AWS from "aws-sdk";
-import crypto from "crypto";
-import path from "path";
 
 const s3 = new AWS.S3();
 
@@ -13,7 +11,7 @@ exports.upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: "public-read",
     key: (req, file, cb) => {
-      cb(null, Date.now() + file.originalname);
+      cb(null, Date.now().toString() + file.originalname);
     },
   }),
   limits: { fileSize: 10 * 1024 * 1024 },
