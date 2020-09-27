@@ -48,9 +48,8 @@ export class ArticleService {
 
   static update = async (req) => {
     const params = req.params;
-    const body = req.body;
 
-    const existed = await Article.findOneByUserIdNodeId(
+    let existed = await Article.findOneByUserIdNodeId(
       params.user_id,
       params.node_id
     );
@@ -63,7 +62,8 @@ export class ArticleService {
     }
 
     try {
-      return await Article.update(params, body);
+      var article = Object.assign(existed, req.body);
+      return await Article.updateArticle(article);
     } catch (err) {
       err.message = "Article update fail";
       err.status = 500;
@@ -71,6 +71,56 @@ export class ArticleService {
     }
   };
 
+  static updateFileUrl = async (req) => {
+    const body = req.body;
+    const file = req.file;
+
+    let existed = await Article.findOneByUserIdNodeId(
+      body.user_id,
+      body.node_id
+    );
+
+    if (existed == null) {
+      let err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    try {
+      var article = Object.assign(existed, { file_url: file.location });
+      return await Article.updateArticle(article);
+    } catch (err) {
+      err.message = "Article update fail";
+      err.status = 500;
+      throw err;
+    }
+  };
+
+  static deleteFileUrl = async (req) => {
+    const params = req.params;
+
+    let existed = await Article.findOneByUserIdNodeId(
+      params.user_id,
+      params.node_id
+    );
+
+    if (existed == null) {
+      let err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    try {
+      var article = Object.assign(existed, { file_url: "" });
+      return await Article.updateArticle(article);
+    } catch (err) {
+      err.message = "Article update fail";
+      err.status = 500;
+      throw err;
+    }
+  };
   static delete = async (req) => {
     const existed = await Article.findOneByUserIdNodeId(
       req.user_id,
