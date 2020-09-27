@@ -18,7 +18,7 @@
         @input="typing"
         v-bind:value="passwordString"
       />
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">
+      <button :class="{ disable: isButtonDisable }" @click.prevent="handleLogin">
         로그인
       </button>
     </form>
@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Login",
   data() {
@@ -50,7 +48,41 @@ export default {
       isButtonDisable: true
     };
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("Main");
+    }
+  },
   methods: {
+    handleLogin: function() {
+      if (this.isButtonDisable) return;
+
+      this.$store
+        .dispatch("auth/login", {
+          username: this.emailString,
+          password: this.passwordString
+        })
+        .then(
+          () => {
+            this.$router.push("Main");
+          },
+          err => {
+            if (err.response.status === 400) {
+              this.isError = true;
+            } else {
+              alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
+              console.log(err.response.data);
+              console.log(err.response.headers);
+              console.log(err.response.status);
+            }
+          }
+        );
+    },
     typing: function(e) {
       if (e.target.name === "email") {
         this.emailString = e.target.value;
@@ -59,39 +91,6 @@ export default {
       }
       this.isButtonDisable =
         this.emailString === "" || this.passwordString === "";
-    },
-    submit: function() {
-      if (this.isButtonDisable) return;
-
-      //서버에 로그인 요청
-      const baseURI = "http://localhost:3000/api/auth/login";
-      let data = {
-        user_id: this.emailString,
-        user_pw: this.passwordString,
-      };
-
-      console.log(data);
-
-      axios({
-        method: "post",
-        url: baseURI,
-        data: data
-      })
-        .then(res => {
-          localStorage.setItem("token", res.data.result.token);
-          alert("로그인 성공!");
-          this.$router.push("Main");
-        })
-        .catch(err => {
-          if (err.response.status === 400) {
-            this.isError = true;
-          } else {
-            alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
-            console.log(err.response.data);
-            console.log(err.response.headers);
-            console.log(err.response.status);
-          }
-        });
     }
   }
 };

@@ -2,7 +2,12 @@
   <div class="container">
     <nav-bar :isMain="false"></nav-bar>
     <div class="wrapper">
-      <input type="text" name="title" placeholder="제목을 입력해 주세요." v-model="titleString"/>
+      <input
+        type="text"
+        name="title"
+        placeholder="제목을 입력해 주세요."
+        v-model="titleString"
+      />
       <div class="date">
         <div class="dataWrapper">
           <div>
@@ -12,12 +17,22 @@
           <div>
             <div>
               <label for="start-date">시작일</label>
-              <input type="text" id="start-date" name="start-date" v-model="startDateString"/>
+              <input
+                type="text"
+                id="start-date"
+                name="start-date"
+                v-model="startDateString"
+              />
             </div>
             <span>~</span>
             <div>
               <label for="end-date">종료일</label>
-              <input type="text" id="end-date" name="end-date" v-model="endDateString"/>
+              <input
+                type="text"
+                id="end-date"
+                name="end-date"
+                v-model="endDateString"
+              />
               <div></div>
             </div>
           </div>
@@ -52,23 +67,38 @@
       <div class="attach" v-if="$route.params.type === 'file'">
         <div><b>첨부파일</b></div>
         <div>
-          <input type="text" readonly placeholder="선택된 파일 없음" />
+          <input
+            type="text"
+            readonly
+            placeholder="선택된 파일 없음"
+            v-model="fileURL"
+          />
           <button @click="attachFile"><b>파일 추가</b></button>
         </div>
       </div>
-      <div class="link" v-if="$route.params.type === 'link'" >
+      <div class="link" v-if="$route.params.type === 'link'">
         <div><b>링크</b></div>
-        <input type="text" placeholder="URL을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="URL을 입력해 주세요."
+          v-model="linkURL"
+        />
       </div>
       <div class="lock">
         <div><b>공개 여부</b></div>
         <div class="lockUI">
-          <div :style="lockStyle.unlock" @click="toggleLock($event, 'unlock')"></div>
-          <div :style="lockStyle.lock" @click="toggleLock($event, 'lock')"></div>
+          <div
+            :style="lockStyle.unlock"
+            @click="toggleLock($event, 'unlock')"
+          ></div>
+          <div
+            :style="lockStyle.lock"
+            @click="toggleLock($event, 'lock')"
+          ></div>
         </div>
       </div>
       <div>
-        <button>입력 완료</button>
+        <button @click="submit">입력 완료</button>
       </div>
     </div>
   </div>
@@ -77,6 +107,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import Quill from "quill";
+import ArticleService from "@/services/article.service";
 
 export default {
   name: "input.vue",
@@ -107,29 +138,60 @@ export default {
   },
   data() {
     return {
-      // 폼 입력 데이터
       titleString: "",
       startDateString: "",
       endDateString: "",
+      tags: [{ text: "떡볶이" }, { text: "순대" }],
+      isLock: false,
+      linkURL: "",
+      fileURL: "",
 
       isTagFocus: false,
-      tags: [{ text: "떡볶이" }, { text: "순대" }],
       tagString: "",
-
       editor: null,
       isDataError: false,
-      isLock: false,
       lockStyle: {
         unlock: {
-          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+          backgroundImage:
+            "url(" +
+            require("@/assets/image/icon-lock/icon-selected-unlock.svg") +
+            ")"
         },
         lock: {
-          backgroundImage: 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
+          backgroundImage:
+            "url(" +
+            require("@/assets/image/icon-lock/icon-unselected-lock.svg") +
+            ")"
         }
       }
     };
   },
   methods: {
+    submit: function() {
+      // 데이터 검증 과정 필요
+      ArticleService.postArticles({
+        userID: this.$store.state.auth.user.user_id,
+        nodeID: this.$store.state.mindmap.elements.nodes.length + 1,
+        type: this.$route.params.type,
+        title: this.titleString,
+        startDate: this.startDateString,
+        endDate: this.endDateString,
+        content: "이건 샘플 콘텐츠입니다!!", // 추후 처리 필요
+        keyword: this.tags,
+        webURL: this.linkURL,
+        fileURL: this.fileURL,
+        isSecret: this.isLock
+      }).then(
+        () => {
+          alert("글 작성 성공!");
+          this.$router.push({ name: "Main" });
+        },
+        err => {
+          alert("글 작성에 실패했습니다. 다시 시도해주세요.");
+          console.log(err);
+        }
+      );
+    },
     tagInputFocus: function() {
       this.isTagFocus = true;
     },
@@ -152,12 +214,24 @@ export default {
     toggleLock: function(e, target) {
       if (target === "lock" && !this.isLock) {
         this.isLock = true;
-        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-lock.svg') + ')'
-        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-unlock.svg') + ')'
+        this.lockStyle.lock.backgroundImage =
+          "url(" +
+          require("@/assets/image/icon-lock/icon-selected-lock.svg") +
+          ")";
+        this.lockStyle.unlock.backgroundImage =
+          "url(" +
+          require("@/assets/image/icon-lock/icon-unselected-unlock.svg") +
+          ")";
       } else if (target === "unlock" && this.isLock) {
         this.isLock = false;
-        this.lockStyle.lock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-unselected-lock.svg') + ')'
-        this.lockStyle.unlock.backgroundImage = 'url(' + require('@/assets/image/icon-lock/icon-selected-unlock.svg') + ')'
+        this.lockStyle.lock.backgroundImage =
+          "url(" +
+          require("@/assets/image/icon-lock/icon-unselected-lock.svg") +
+          ")";
+        this.lockStyle.unlock.backgroundImage =
+          "url(" +
+          require("@/assets/image/icon-lock/icon-selected-unlock.svg") +
+          ")";
       }
     }
   }
@@ -407,7 +481,6 @@ export default {
     .unlock-unsel {
       background-image: url("~@/assets/image/icon-lock/icon-unselected-unlock.svg");
     }
-
   }
   > div:last-child {
     button {

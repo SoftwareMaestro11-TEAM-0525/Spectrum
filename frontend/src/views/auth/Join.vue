@@ -30,7 +30,10 @@
       <div class="error" v-if="isPwdError">
         비밀번호는 8자리 이상 입력해주세요.
       </div>
-      <button :class="{ disable: isButtonDisable }" @click.prevent="submit">
+      <button
+        :class="{ disable: isButtonDisable }"
+        @click.prevent="handleRegister"
+      >
         가입하기
       </button>
     </form>
@@ -48,8 +51,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Join",
   data() {
@@ -63,7 +64,62 @@ export default {
       emailErrorMsg: ""
     };
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push({ name: "Main" });
+    }
+  },
   methods: {
+    handleRegister() {
+      // 버튼이 비활성화되어 있으면(입력 폼이 다 채워지지 않았으면) 종료
+      if (this.isButtonDisable) return;
+
+      // 이메일 주소의 형식이 올바른지 검증 (~@~.~ 형식)
+      if (!this.isEmailValid(this.emailString)) {
+        this.emailErrorMsg = "올바른 형식의 이메일 주소를 입력해주세요.";
+        this.isEmailError = true;
+        return;
+      } else {
+        this.isEmailError = false;
+      }
+
+      // 비밀번호가 8자리 이상인지 검증
+      if (!this.isPwdValid(this.passwordString)) {
+        this.isPwdError = true;
+        return;
+      } else {
+        this.isPwdError = false;
+      }
+
+      this.$store
+        .dispatch("auth/register", {
+          username: this.nameString,
+          password: this.passwordString,
+          email: this.emailString
+        })
+        .then(
+          () => {
+            alert("회원가입이 완료되었습니다!");
+            this.$router.push({ name: "Login" });
+          },
+          err => {
+            if (err.response.status === 400) {
+              this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
+              this.isEmailError = true;
+            } else {
+              alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
+              console.log(err.response.data);
+              console.log(err.response.headers);
+              console.log(err.response.status);
+            }
+          }
+        );
+    },
     typing: function(e) {
       const targetName = e.target.name;
       const targetValue = e.target.value;
@@ -85,59 +141,6 @@ export default {
     },
     isPwdValid: function(s) {
       return /^[\S]{8,}$/.test(s);
-    },
-    submit: function() {
-      // 버튼이 비활성화되어 있으면(입력 폼이 다 채워지지 않았으면) 종료
-      if (this.isButtonDisable) return;
-
-      // 이메일 주소의 형식이 올바른지 검증 (~@~.~ 형식)
-      if (!this.isEmailValid(this.emailString)) {
-        this.emailErrorMsg = "올바른 형식의 이메일 주소를 입력해주세요.";
-        this.isEmailError = true;
-        return;
-      } else {
-        this.isEmailError = false;
-      }
-
-      // 비밀번호가 8자리 이상인지 검증
-      if (!this.isPwdValid(this.passwordString)) {
-        this.isPwdError = true;
-        return;
-      } else {
-        this.isPwdError = false;
-      }
-
-      //서버에 이메일, 비밀번호, 이름 전송
-      const baseURI = "http://localhost:3000/api/user";
-
-      let data = {
-        user_id: this.emailString,
-        user_email: this.emailString,
-        user_pw: this.passwordString,
-        user_name: this.user_name,
-      };
-
-      axios({
-        method: "post",
-        url: baseURI,
-        data: data
-      })
-        .then(res => {
-          console.log(res);
-          alert("회원가입이 완료되었습니다!");
-          this.$router.push("Login");
-        })
-        .catch(err => {
-          if (err.response.status === 400) {
-            this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
-            this.isEmailError = true;
-          } else {
-            alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
-            console.log(err.response.data);
-            console.log(err.response.headers);
-            console.log(err.response.status);
-          }
-        });
     }
   }
 };

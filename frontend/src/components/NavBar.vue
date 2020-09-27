@@ -14,7 +14,7 @@
         <div class="options">
           <div class="status">
             <div class>
-              <b>{{ userName }}</b> 님
+              <b>{{ currentUserName }}</b> 님
             </div>
             <div class>
               등록된 경험 <b>{{ expCount }}</b>
@@ -24,7 +24,7 @@
             <div>마이페이지</div>
             <div>설정</div>
           </div>
-          <div class="logout">로그아웃</div>
+          <div class="logout" @click="handleLogout">로그아웃</div>
         </div>
       </div>
     </div>
@@ -52,17 +52,26 @@ export default {
   name: "NavBar",
   data() {
     return {
-      userName: "최현석",
       expCount: -100
     };
+  },
+  computed: {
+    currentUserName: function() {
+      return this.$store.state.auth.user.name;
+    }
   },
   props: {
     isMain: Boolean
   },
-  methods:{
-     popupEvent: function() {
+  methods: {
+    popupEvent: function() {
       this.$emit("popupEvent");
     },
+    handleLogout: function() {
+      this.$store.dispatch("auth/logout");
+      alert("로그아웃 되었습니다.");
+      this.$router.push({ name: "Login" });
+    }
   }
 };
 </script>
