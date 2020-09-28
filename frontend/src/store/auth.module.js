@@ -13,7 +13,7 @@ export const auth = {
   actions: {
     login({ commit }, user) {
       return axios
-        .post("http://localhost:3000/api/auth/login", {
+        .post("/api/auth/login", {
           user_email: user.username,
           user_pw: user.password
         })
