@@ -14,7 +14,7 @@ export const mindmap = {
   actions: {
     getMindmapData({ commit }, { userID }) {
       return axios
-        .get(`http://localhost:3000/api/cytoscape/${userID}`, {
+        .get(`/api/cytoscape/${userID}`, {
           headers: authHeader()
         })
         .then(
@@ -31,7 +31,7 @@ export const mindmap = {
       const { userID, cyjson } = data;
       return axios
         .patch(
-          `http://localhost:3000/api/cytoscape/${userID}`,
+          `/api/cytoscape/${userID}`,
           {
             cyjson: cyjson
           },

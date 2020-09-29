@@ -13,7 +13,7 @@ export const auth = {
   actions: {
     login({ commit }, user) {
       return axios
-        .post("http://localhost:3000/api/auth/login", {
+        .post("/api/auth/login", {
           user_email: user.username,
           user_pw: user.password
         })
@@ -31,7 +31,7 @@ export const auth = {
             commit("loginSuccess", userData);
 
             return axios
-              .get(`http://localhost:3000/api/user/${user_id}`, {
+              .get(`/api/user/${user_id}`, {
                 headers: authHeader()
               })
               .then(
@@ -57,7 +57,7 @@ export const auth = {
     register({ commit }, user) {
       const { email: userEmail, password: userPwd } = user;
       return axios
-        .post("http://localhost:3000/api/user", {
+        .post("/api/user", {
           user_name: user.username,
           user_email: userEmail,
           user_pw: userPwd
@@ -65,7 +65,7 @@ export const auth = {
         .then(
           () => {
             return axios
-              .post("http://localhost:3000/api/auth/login", {
+              .post("/api/auth/login", {
                 user_email: userEmail,
                 user_pw: userPwd
               })
@@ -75,7 +75,7 @@ export const auth = {
                   const { user_id } = decodedToken;
                   return axios
                     .post(
-                      "http://localhost:3000/api/cytoscape",
+                      "/api/cytoscape",
                       {
                         user_id: user_id,
                         cyjson: {

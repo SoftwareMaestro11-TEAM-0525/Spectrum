@@ -17,7 +17,6 @@ const Article = new Schema({
   },
   type: {
     type: String,
-    enum: ["experience", "web_url", "file_url", "category"],
   },
   title: {
     type: String,

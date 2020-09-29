@@ -4,7 +4,7 @@ import authHeader from "@/store/auth-header";
 class ArticleService {
   getArticles({ userID, nodeID }) {
     return axios
-      .get(`http://localhost:3000/api/article/${userID}/${nodeID}`, {
+      .get(`/api/article/${userID}/${nodeID}`, {
         headers: authHeader()
       })
       .then(
@@ -20,7 +20,7 @@ class ArticleService {
   postArticles(payload) {
     return axios
       .post(
-        "http://localhost:3000/api/article",
+        "/api/article",
         {
           user_id: payload.userID,
           node_id: payload.nodeID,
@@ -52,7 +52,7 @@ class ArticleService {
   patchArticles({ userID, nodeID, ...payload }) {
     return axios
       .patch(
-        `http://localhost:3000/api/article/${userID}/${nodeID}`,
+        `/api/article/${userID}/${nodeID}`,
         {
           user_id: payload.userID,
           node_id: payload.nodeID,
@@ -82,7 +82,7 @@ class ArticleService {
 
   deleteArticles({ userID, nodeID }) {
     return axios
-      .delete(`http://localhost:3000/api/article/${userID}/${nodeID}`, {
+      .delete(`/api/article/${userID}/${nodeID}`, {
         headers: authHeader()
       })
       .then(
