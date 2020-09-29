@@ -9,7 +9,7 @@ module.exports = {
     }
   },
   publicPath: "/",
-  outputDir: '../backend/public/',
+  outputDir: "../backend/public/",
   devServer: {
     proxy: {
       "/api": {
