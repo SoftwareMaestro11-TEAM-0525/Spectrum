@@ -171,7 +171,7 @@ export default {
       // 데이터 검증 과정 필요
       ArticleService.postArticles({
         userID: this.$store.state.auth.user.user_id,
-        nodeID: this.$store.state.mindmap.elements.nodes.length + 1,
+        nodeID: -this.$store.state.mindmap.elements.nodes.length,
         type: this.$route.params.type,
         title: this.titleString,
         startDate: this.startDateString,
@@ -183,8 +183,23 @@ export default {
         isSecret: this.isLock
       }).then(
         () => {
-          alert("글 작성 성공!");
-          this.$router.push({ name: "Main" });
+          this.$store.dispatch("mindmap/addMindmapNode", {
+            id: (-this.$store.state.mindmap.elements.nodes.length).toString(),
+            name: this.titleString
+          });
+          this.$store
+            .dispatch("mindmap/patchMindmapData", {
+              userID: this.$store.state.auth.user.user_id
+            })
+            .then(
+              () => {
+                alert("글 작성 성공!");
+                this.$router.push({ name: "Main" });
+              },
+              err => {
+                return Promise.reject(err);
+              }
+            );
         },
         err => {
           alert("글 작성에 실패했습니다. 다시 시도해주세요.");

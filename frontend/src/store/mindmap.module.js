@@ -27,13 +27,16 @@ export const mindmap = {
           }
         );
     },
-    patchMindmapData({ commit }, data) {
-      const { userID, cyjson } = data;
+    addMindmapNode({ commit }, data) {
+      commit("addNode", data);
+    },
+    patchMindmapData({ commit, state }, data) {
+      const { userID } = data;
       return axios
         .patch(
           `/api/cytoscape/${userID}`,
           {
-            cyjson: cyjson
+            cyjson: state.elements
           },
           {
             headers: authHeader()
@@ -153,6 +156,16 @@ export const mindmap = {
   mutations: {
     setCyjson(state, cyjson) {
       state.elements = cyjson;
+    },
+    addNode(state, data) {
+      const { id, name } = data;
+      //{ data: { id: "-23", name: "CES2018" } }
+      state.elements.nodes.push({
+        data: {
+          id: id,
+          name: name
+        }
+      });
     }
   }
 };
