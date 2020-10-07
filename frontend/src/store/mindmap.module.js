@@ -5,7 +5,8 @@ const initialState = {
   elements: {
     nodes: [],
     edges: []
-  }
+  },
+  currentID: ""
 };
 
 export const mindmap = {
@@ -23,6 +24,7 @@ export const mindmap = {
             return Promise.resolve(response.data.result.cyjson);
           },
           error => {
+            console.log(error.response);
             return Promise.reject(error);
           }
         );
@@ -51,6 +53,9 @@ export const mindmap = {
             return Promise.reject(error);
           }
         );
+    },
+    setCurrentID({ commit }, data) {
+      commit("setCurrentID", data);
     },
     patchSampleMindmapData({ commit }, data) {
       const { userID } = data;
@@ -166,6 +171,9 @@ export const mindmap = {
           name: name
         }
       });
+    },
+    setCurrentID(state, data) {
+      state.currentID = data;
     }
   }
 };

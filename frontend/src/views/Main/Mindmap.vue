@@ -35,13 +35,13 @@ export default {
           return res;
         },
         error => {
-          alert("알 수 없는 에러가 발생했습니다.");
+          alert("알 수 없는 에러가 발생했습니다.1");
           console.log(error);
         }
       );
     },
-    popupEvent: function() {
-      this.$emit("popupEvent");
+    popupEvent: function(id) {
+      this.$emit("popupEvent", id);
     },
     //cytoscape mindmap style feature
     //cxtmenu feature

@@ -243,32 +243,32 @@ let Mindmap = {
           target.style(
             "width",
             nodeMaxSize *
-            (0.1 /
-              cy
-                .elements()
-                .pageRank()
-                .rank("#" + target.id())) +
-            nodeMinSize
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              nodeMinSize
           );
           target.style(
             "height",
             nodeMaxSize *
-            (0.1 /
-              cy
-                .elements()
-                .pageRank()
-                .rank("#" + target.id())) +
-            nodeMinSize
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              nodeMinSize
           );
           target.style(
             "font-size",
             fontMaxSize *
-            (0.1 /
-              cy
-                .elements()
-                .pageRank()
-                .rank("#" + target.id())) +
-            fontMinSize
+              (0.1 /
+                cy
+                  .elements()
+                  .pageRank()
+                  .rank("#" + target.id())) +
+              fontMinSize
           );
           target.style("color", nodeColor);
           target.style("opacity", 1);
@@ -307,129 +307,72 @@ let Mindmap = {
       });
     },
     cxtmenu_def: function() {
-      let popup = this;
-      cy.cxtmenu({
-        selector: "node",
-        commands: [
-          {
-            content: "test",
-            select: function() {
-              popup.popupEvent();
-            }
-          },
-          {
-            content: "Add",
-            select: function(ele) {
-              let min = 1;
-              let max = 0;
-              cy.nodes().forEach(function(target) {
-                console.log("노드 아이디 값:" + target.id());
-                if (target.id() < min) {
-                  min = Number(target.id());
-                  console.log("id, min : " + target.id() + " " + min);
-                }
+      const store = this.$store;
+      const nodeCommand = [
+        {
+          content: "Add",
+          select: function(element) {
+            console.log(element.id());
+            store.dispatch("mindmap/setCurrentID", element.id());
+            // Show Popup
+          }
+        },
+        {
+          content: "Start",
+          select: function() {
+            if (cy.json().elements.nodes.length > 1) {
+              eh.enabled = true;
+              cy.on("tapdragout", "edge", () => {
+                eh.enabled = false;
               });
-              cy.edges().forEach(function(target) {
-                if (target.id() > max) {
-                  max = Number(target.id());
-                }
-              });
-              min = Number(min) - 1;
-              max = Number(max) + 1;
-              console.log(min);
-              let x = cy.$("#" + ele.id()).position("x") - 100;
-              let y = cy.$("#" + ele.id()).position("y") - 100;
-              cy.add([
-                {
-                  group: "nodes",
-                  data: {
-                    id: min,
-                    name: min + "node"
-                  },
-                  position: {
-                    x,
-                    y
-                  }
-                },
-                {
-                  group: "edges",
-                  data: {
-                    id: max,
-                    source: ele.id(),
-                    target: min
-                  }
-                }
-              ]);
-              cy.fit();
             }
-          },
-
-          {
-            content: "start",
-
-            select: function() {
-              if (cy.json().elements.nodes.length > 1) {
-                eh.enabled = true;
-                cy.on("tapdragout", "edge", function() {
-                  eh.enabled = false;
-                });
+          }
+        },
+        {
+          content: "Delete",
+          select: function(ele) {
+            cy.remove("#" + ele.id());
+          }
+        }
+      ];
+      const edgeCommand = [
+        {
+          content: "Delete",
+          select: function(ele) {
+            cy.remove("#" + ele.id());
+          }
+        }
+      ];
+      const coreCommand = [
+        {
+          content: "Add",
+          select: function() {
+            let x = 1000;
+            let y = 500;
+            let min = 0;
+            cy.nodes().forEach(function(target) {
+              console.log("노드 아이디 값:" + target.id());
+              if (target.id() < min) {
+                min = Number(target.id());
+                console.log("id, min : " + target.id() + " " + min);
               }
-            }
-          },
-          {
-            content: "Delete",
-            select: function(ele) {
-              cy.remove("#" + ele.id());
-            }
+            });
+            min = Number(min) - 1;
+            cy.add([
+              {
+                group: "nodes",
+                data: { id: min },
+                position: { x, y }
+              }
+            ]);
+            cy.fit();
           }
-        ]
-      });
-      cy.cxtmenu({
-        selector: "edge",
+        }
+      ];
 
-        commands: [
-          {
-            content: "Delete",
-            select: function(ele) {
-              cy.remove("#" + ele.id());
-            }
-          }
-        ]
-      });
-
-      cy.cxtmenu({
-        selector: "core",
-
-        commands: [
-          {
-            content: "Add",
-            select: function() {
-              let x = 1000;
-              let y = 500;
-              let min = 0;
-              cy.nodes().forEach(function(target) {
-                console.log("노드 아이디 값:" + target.id());
-                if (target.id() < min) {
-                  min = Number(target.id());
-                  console.log("id, min : " + target.id() + " " + min);
-                }
-              });
-              min = Number(min) - 1;
-              cy.add([
-                {
-                  group: "nodes",
-                  data: { id: min },
-                  position: {
-                    x,
-                    y
-                  }
-                }
-              ]);
-              cy.fit();
-            }
-          }
-        ]
-      });
+      cy.cxtmenu({ selector: "node", openMenuEvents: 'cxttap', commands: nodeCommand });
+      cy.cxtmenu({ selector: "edge", commands: edgeCommand });
+      cy.cxtmenu({ selector: "core", commands: coreCommand });
     }
   }
 };
