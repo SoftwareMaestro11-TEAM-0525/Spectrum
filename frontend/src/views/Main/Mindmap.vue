@@ -18,12 +18,11 @@ export default {
       output: "",
       msg: "vue to cytoscape",
       count: 0,
-      elements: null
     };
   },
-  mounted: function() {
-    this.getInitialData();
-    this.cy_def();
+  async mounted() {
+    const data = await this.getInitialData();
+    this.cy_def(data);
     this.view_init();
     this.cxtmenu_def();
     // this.bfs_Event();
@@ -31,18 +30,18 @@ export default {
   methods: {
     getInitialData: function() {
       const userID = this.$store.state.auth.user.user_id;
-      this.$store.dispatch("mindmap/getMindmapData", { userID }).then(
+      return this.$store.dispatch("mindmap/getMindmapData", { userID }).then(
         res => {
-          this.elements = res;
+          return res;
         },
         error => {
-          alert("알 수 없는 에러가 발생했습니다.");
+          alert("알 수 없는 에러가 발생했습니다.1");
           console.log(error);
         }
       );
     },
-    popupEvent: function() {
-      this.$emit("popupEvent");
+    popupEvent: function(id) {
+      this.$emit("popupEvent", id);
     },
     //cytoscape mindmap style feature
     //cxtmenu feature

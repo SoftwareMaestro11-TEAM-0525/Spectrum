@@ -21,8 +21,8 @@
             </div>
           </div>
           <div class="menu">
-            <div>마이페이지</div>
-            <div>설정</div>
+            <div @click="setSample">마이페이지</div>
+            <div @click="setEmpty">설정</div>
           </div>
           <div class="logout" @click="handleLogout">로그아웃</div>
         </div>
@@ -71,6 +71,30 @@ export default {
       this.$store.dispatch("auth/logout");
       alert("로그아웃 되었습니다.");
       this.$router.push({ name: "Login" });
+    },
+    setSample() {
+      const userID = this.$store.state.auth.user.user_id;
+      this.$store.dispatch("mindmap/patchSampleMindmapData", { userID }).then(
+        () => {
+          console.log("patch sample data Success!");
+        },
+        error => {
+          alert("patch sample data Error!");
+          console.log(error);
+        }
+      );
+    },
+    setEmpty() {
+      const userID = this.$store.state.auth.user.user_id;
+      this.$store.dispatch("mindmap/patchEmptyMindmapData", { userID }).then(
+        () => {
+          console.log("patch empty data Success!");
+        },
+        error => {
+          alert("patch empty data Error!");
+          console.log(error);
+        }
+      );
     }
   }
 };
