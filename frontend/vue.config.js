@@ -8,8 +8,7 @@ module.exports = {
       }
     }
   },
-  publicPath: "/",
-  outputDir: "../backend/public/",
+  publicPath: process.env.NODE_ENV === "development" ? "/" : "backend",
   devServer: {
     proxy: {
       "/api": {

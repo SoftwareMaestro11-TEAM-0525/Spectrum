@@ -57,6 +57,7 @@ export default {
     if (this.loggedIn) {
       this.$router.push("Main");
     }
+    console.log(process.env);
   },
   methods: {
     handleLogin: function() {
