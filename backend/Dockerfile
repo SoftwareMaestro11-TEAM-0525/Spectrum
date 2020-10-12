@@ -1,17 +1,12 @@
-FROM node:12
-
-MAINTAINER Hyunseok CHOI <hschoi1104@gmail.com>
-
-RUN mkdir -p /app
+FROM node:alpine
 
 WORKDIR /app
 
-ADD . /app
+COPY ./package.json ./
 
 RUN npm install
 
-ENV NODE_ENV development
+COPY ./ ./
 
-EXPOSE 3000
+CMD ["npm","start"]
 
-CMD ["npm", "start"]
