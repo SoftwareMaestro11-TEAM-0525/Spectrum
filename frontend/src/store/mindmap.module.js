@@ -1,12 +1,11 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+import authHeader from "../services/auth-header";
 
 const initialState = {
   elements: {
     nodes: [],
     edges: []
-  },
-  currentID: ""
+  }
 };
 
 export const mindmap = {
@@ -31,6 +30,9 @@ export const mindmap = {
     },
     addMindmapNode({ commit }, data) {
       commit("addNode", data);
+    },
+    addMindmapEdge({ commit }, data) {
+      commit("addEdge", data);
     },
     patchMindmapData({ commit, state }, data) {
       const { userID } = data;
@@ -170,6 +172,12 @@ export const mindmap = {
           id: id,
           name: name
         }
+      });
+    },
+    addEdge(state, data) {
+      const { id, source, target } = data;
+      state.elements.edges.push({
+        data: { id: id, source: source, target: target }
       });
     },
     setCurrentID(state, data) {

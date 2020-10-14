@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import authHeader from "./auth-header";
+import authHeader from "../services/auth-header";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = user
