@@ -118,7 +118,6 @@ let Mindmap = {
         layout: {
           name: "cose-bilkent",
           roots: "#0",
-          idealEdgeLength: 30,
           padding: 50,
         }
       });
