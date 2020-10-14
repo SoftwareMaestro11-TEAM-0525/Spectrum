@@ -1,5 +1,7 @@
 stages:
-  - buildAndDeploy
+  - Deploy_Code_in_ui_branch
+  - Deploy_Code_in_develop_branch
+  - Deploy_Code_in_cicd_branch
 
 build:
   only:
