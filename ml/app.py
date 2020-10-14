@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import krwordrank
 import json
 app = Flask(__name__)
@@ -16,11 +16,12 @@ def get_texts_scores(fname):
 # with open('words.json') as json_file:
 #     json_data = json.load(json_file)
 # print(json_data)
-@app.route('/')
-# @app.route('/ml/keyword', methods=['GET'])
+@app.route('/ml/sentence', methods=['POST'])
 def sentence_extract():
-
+    data = request.get_json()
+    print(data)
     texts= get_texts_scores(fname)
+    texts = data
     # texts=json_data
 
     # print(texts)
@@ -85,11 +86,16 @@ def sentence_extract():
     # print('')
     # print(json.dumps(sents, indent=4))
     # print(type(json.dumps(sents)))
-    with open('words.json','w',encoding="utf-8") as make_file:
-        json.dump(sents,make_file, ensure_ascii=False, indent="\t")
+    # with open('words.json','w',encoding="utf-8") as make_file:
+    #     json.dump(sents,make_file, ensure_ascii=False, indent="\t")
+    
+    if request.method == 'POST':
+        print(json.loads(json.dumps(sents)))
+        return json.dumps(sents, ensure_ascii = False)
+
+    
     return 'hello world'
-@app.route('/info')
-# @app.route('/ml/sentence', methods=['GET'])
+@app.route('/ml/keyword', methods=['POST'])
 def info():
     return 'Info'
 
