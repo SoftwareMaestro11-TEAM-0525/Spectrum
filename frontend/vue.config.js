@@ -12,11 +12,16 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : "http://backend:3000",
         changeOrigin: true,
         pathRewrite: { "^/apis": "" }
       }
-    }
+    },
+    compress: true,
+    disableHostCheck: true,
   },
   configureWebpack: {
     resolve: {
