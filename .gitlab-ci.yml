@@ -5,8 +5,6 @@ stages:
 
 build:
   only:
-    - develop
-    - cicd
     - ui
   stage: Deploy_Code_in_ui_branch
   image: docker:latest
