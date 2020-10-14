@@ -79,7 +79,7 @@ export const auth = {
                       {
                         user_id: user_id,
                         cyjson: {
-                          nodes: [],
+                          nodes: [{ data: { id: "0", name: this.$store.state.auth.user.name } }],
                           edges: []
                         }
                       },
