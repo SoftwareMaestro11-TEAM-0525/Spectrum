@@ -2,9 +2,12 @@ version: "3"
 services:
   frontend:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./frontend
     container_name: frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
     stdin_open: true
 
   nginx:
@@ -18,9 +21,12 @@ services:
 
   backend:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./backend
     container_name: backend
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
 
   mongo:
     build:
