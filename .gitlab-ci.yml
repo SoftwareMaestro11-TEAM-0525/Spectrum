@@ -3,7 +3,7 @@ stages:
   - Deploy_Code_in_develop_branch
   - Deploy_Code_in_cicd_branch
 
-build:
+Deploy_Code_in_ui_branch:
   only:
     - ui
   stage: Deploy_Code_in_ui_branch
@@ -16,7 +16,8 @@ build:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
     - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && docker restart frontend backend
-
+    
+Deploy_Code_in_cicd_branch:
   only:
     - cicd
   stage: Deploy_Code_in_cicd_branch
@@ -30,6 +31,7 @@ build:
   script:
     - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/cicd && git pull origin cicd && docker restart frontend backend
 
+Deploy_Code_in_develop_branch:
   only:
     - develop
   stage: Deploy_Code_in_develop_branch
