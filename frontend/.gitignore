@@ -22,4 +22,3 @@ pnpm-debug.log*
 *.sw?
 
 # vue.config.js
-vue.config.js
