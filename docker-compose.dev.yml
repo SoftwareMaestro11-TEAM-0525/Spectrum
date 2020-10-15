@@ -35,3 +35,11 @@ services:
     container_name: mongo
     volumes:
       - /var/lib/mongodb:/var/lib/mongodb
+
+  ml:
+    build:
+      dockerfile: Dockerfile
+      context: ./ml
+    container_name: ml
+    expose:
+      - 5050
