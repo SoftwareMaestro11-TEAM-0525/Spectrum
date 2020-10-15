@@ -6,6 +6,7 @@ build:
   only:
     - develop
     - cicd
+    - ui
   stage: build
   image: docker:latest
   before_script:
