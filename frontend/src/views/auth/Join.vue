@@ -108,15 +108,16 @@ export default {
             this.$router.push({ name: "Login" });
           },
           err => {
-            if (err.response.status === 400) {
-              this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
-              this.isEmailError = true;
-            } else {
-              alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
-              console.log(err.response.data);
-              console.log(err.response.headers);
-              console.log(err.response.status);
-            }
+            console.log(err);
+            // if (err.response.status === 400) {
+            //   this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
+            //   this.isEmailError = true;
+            // } else {
+            //   alert("알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요!");
+            //   console.log(err.response.data);
+            //   console.log(err.response.headers);
+            //   console.log(err.response.status);
+            // }
           }
         );
     },

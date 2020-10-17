@@ -39,13 +39,14 @@ export const auth = {
       commit("logout");
     },
     register({ commit }, user) {
-      const { email: userEmail, password: userPwd } = user;
+      const { email: userEmail, password: userPwd, username: name } = user;
       return Auth.register(user).then(
         () => {
           return Auth.login({ username: userEmail, password: userPwd }).then(
             response => {
               const decodedToken = jwt_decode(response.data.result.token);
               const { user_id } = decodedToken;
+              console.log(name);
               return axios
                 .post(
                   "/api/cytoscape",
@@ -56,7 +57,7 @@ export const auth = {
                         {
                           data: {
                             id: "0",
-                            name: this.$store.state.auth.user.name
+                            name: name
                           }
                         }
                       ],
@@ -72,6 +73,7 @@ export const auth = {
                 .then(
                   response => {
                     commit("registerSuccess");
+                    console.log("!");
                     return Promise.resolve(response.data);
                   },
                   error => {
@@ -81,11 +83,13 @@ export const auth = {
                 );
             },
             error => {
+              console.log("what??");
               return Promise.reject(error);
             }
           );
         },
         error => {
+          console.log("whad??");
           commit("registerFailure");
           return Promise.reject(error);
         }
