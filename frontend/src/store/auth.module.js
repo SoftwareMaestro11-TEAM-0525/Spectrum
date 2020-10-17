@@ -7,7 +7,7 @@ export const auth = {
   state: { status: { loggedIn: false }, user: null },
   actions: {
     login({ commit }, user) {
-      Auth.login(user).then(
+      return Auth.login(user).then(
         response => {
           const decodedToken = jwt_decode(response.data.result.token);
           const { user_id, user_email } = decodedToken;
@@ -16,10 +16,9 @@ export const auth = {
             user_id,
             user_email
           };
-          //localStorage.setItem("user", JSON.stringify(userData));
           commit("loginSuccess", userData);
 
-          Auth.getUserName().then(
+          return Auth.getUserName(user_id).then(
             response => {
               commit("addUserName", response.data.result.user_name);
               return Promise.resolve();
@@ -41,9 +40,9 @@ export const auth = {
     },
     register({ commit }, user) {
       const { email: userEmail, password: userPwd } = user;
-      Auth.register(user).then(
+      return Auth.register(user).then(
         () => {
-          Auth.login({ username: userEmail, password: userPwd }).then(
+          return Auth.login({ username: userEmail, password: userPwd }).then(
             response => {
               const decodedToken = jwt_decode(response.data.result.token);
               const { user_id } = decodedToken;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "@/services/auth-header";
 
-const authURL = "api/auth";
+const authURL = "/api/auth";
 const userURL = "api/user";
 
 class AuthService {
@@ -12,8 +12,8 @@ class AuthService {
         user_pw: user.password
       })
       .then(
-        () => {
-          return Promise.resolve();
+        res => {
+          return Promise.resolve(res);
         },
         err => {
           console.log(err);
@@ -24,12 +24,12 @@ class AuthService {
 
   getUserName(user_id) {
     return axios
-      .get(userURL + user_id, {
+      .get(userURL + "/" + user_id, {
         headers: authHeader()
       })
       .then(
-        () => {
-          return Promise.resolve();
+        res => {
+          return Promise.resolve(res);
         },
         err => {
           console.log(err);
@@ -46,8 +46,8 @@ class AuthService {
         user_pw: user.password
       })
       .then(
-        () => {
-          return Promise.resolve();
+        res => {
+          return Promise.resolve(res);
         },
         err => {
           console.log(err);

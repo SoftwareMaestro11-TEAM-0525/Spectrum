@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
   const publicPages = ["Login", "Join", "Password", "Home"];
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = store.state.auth.status.loggedIn;
-
+  
   if (authRequired && !loggedIn) {
     next({ name: "Login" });
   } else {
