@@ -73,7 +73,6 @@ export const auth = {
                 .then(
                   response => {
                     commit("registerSuccess");
-                    console.log("!");
                     return Promise.resolve(response.data);
                   },
                   error => {
@@ -83,13 +82,11 @@ export const auth = {
                 );
             },
             error => {
-              console.log("what??");
               return Promise.reject(error);
             }
           );
         },
         error => {
-          console.log("whad??");
           commit("registerFailure");
           return Promise.reject(error);
         }
