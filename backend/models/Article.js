@@ -53,7 +53,6 @@ Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
 };
 
 Article.statics.write = function (article) {
-  console.log(article);
   return new this(article).save();
 };
 
