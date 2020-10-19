@@ -1,23 +1,24 @@
 import { ShareMindmapService } from "../../service/share/mindmap.service";
 
 export class ShareMindmapController {
-  // static write = async (req, res, next) => {
-  //   try {
-  //     const result = await CytoscapeService.init(req.body);
-  //     console.log(result);
-  //     return res.status(201).json({
-  //       success: true,
-  //       message: "create cytoscape Success",
-  //       result: result,
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // };
+  static create = async (req, res, next) => {
+    try {
+      const result = await ShareMindmapService.creatShareKey(req.body);
+      return res.status(201).json({
+        success: true,
+        message: "Create Share key Success",
+        result: result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   static read = async (req, res, next) => {
     try {
-      const result = await ShareMindmapService.findByShareKey(req.params.share_key);
+      const result = await ShareMindmapService.findByShareKey(
+        req.params.share_key
+      );
       await ShareMindmapService.validShareKey(result.expired_date);
       return res.status(200).json({
         success: true,
