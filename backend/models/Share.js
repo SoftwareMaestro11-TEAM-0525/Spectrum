@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 const Share = new Schema({
   type: {
     type: String,
-    enum: ['mindmap','article'],
-    default: 'mindmap'
+    enum: ["mindmap", "article"],
+    default: "mindmap",
   },
-  link_key:{
+  share_key: {
     type: String,
     trim: true,
     index: true,
@@ -26,10 +26,10 @@ const Share = new Schema({
     unique: true,
   },
   created_date: {
-    type: Date,
+    type: String,
   },
   expired_date: {
-    type: Date,
+    type: String,
   },
   hit: {
     type: Number,
@@ -38,10 +38,20 @@ const Share = new Schema({
 
 Share.statics.findOneByShareKey = function (share_key) {
   return this.findOne({
-    share_key
+    share_key,
   });
 };
 
+Share.statics.findOneByUserId = function (type, user_id) {
+  return this.findOne({
+    type,
+    user_id,
+  });
+};
+
+Share.statics.createShare = function (share) {
+  return new this(share).save();
+};
 // Article.statics.write = function (article) {
 //   console.log(article);
 //   return new this(article).save();
