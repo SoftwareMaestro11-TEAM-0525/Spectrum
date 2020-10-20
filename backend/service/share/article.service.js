@@ -75,4 +75,14 @@ export class ShareArticleService {
       err.status = 500;
     }
   };
+
+  static updateHit = async (req) => {
+    try {
+      return await Share.updateHit("article", req);
+    } catch (err) {
+      console.log(err);
+      err.message = "Update share Hit fail";
+      err.status = 500;
+    }
+  };
 }
