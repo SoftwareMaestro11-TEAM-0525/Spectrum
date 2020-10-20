@@ -52,6 +52,13 @@ Share.statics.findOneByUserId = function (type, user_id) {
 Share.statics.createShare = function (share) {
   return new this(share).save();
 };
+
+Share.statics.deleteShare = function (type, share_key) {
+  return this.deleteOne({
+    type,
+    share_key,
+  });
+};
 // Article.statics.write = function (article) {
 //   console.log(article);
 //   return new this(article).save();
