@@ -7,7 +7,7 @@ export class ShareMindmapService {
     share_key로 공유할 마인드맵의 cyjson 불러옴
     */
   static findByShareKey = async (req) => {
-    const existed = await Share.findOneByShareKey(req);
+    const existed = await Share.findOneByShareKey("mindmap", req);
 
     //not existed
     if (existed == null) {
