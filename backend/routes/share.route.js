@@ -12,6 +12,7 @@ router.delete(
   ShareMindmapController.delete
 );
 
+router.get("/article/:share_key", ShareArticleController.read);
 // router.get("/article/:share_key",ShareArticleController.read);
 // router.post("/article",authMiddleware,ShareArticleController.create);
 // router.delete("/article/:share_key",ShareArticleController.delete);
