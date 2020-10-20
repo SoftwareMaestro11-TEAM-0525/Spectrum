@@ -16,7 +16,6 @@ export class ShareMindmapService {
       err.status = 400;
       throw err;
     }
-
     //success
     return existed;
   };
@@ -28,10 +27,11 @@ export class ShareMindmapService {
     false : 안지남
 */
   static validShareKey = async (req) => {
-    console.log(req);
-    const expired = new Date(req);
+    const expired = new Date(req.expired_date);
     if (expired < new Date()) {
       //TODO shared key 삭제
+      await Share.deleteShare("mindmap", req.share_key);
+
       let err = new Error();
       err.message = "share Key is expired";
       err.status = 410;
@@ -49,7 +49,7 @@ export class ShareMindmapService {
     const existed = await Share.findOneByUserId("mindmap", req.user_id);
 
     if (existed != null) {
-      //TODO delete exsited shared Key
+      await Share.deleteShare("mindmap", existed.share_key);
     }
 
     while (true) {
@@ -86,6 +86,31 @@ export class ShareMindmapService {
   //       err.message = "Cyjson update fail";
   //       err.status = 500;
   //       throw err;
+  //     }
+  //   };
+
+  /*
+    shared key 삭제
+  */
+  static deleteSharedKey = async (req) => {
+    try {
+      const result = await Share.deleteShare("mindmap", req);
+      return result;
+    } catch (err) {
+      console.log(err);
+      err.message = "Delete Share Key fail";
+      err.status = 500;
+    }
+  };
+
+  //   static updateHit = async (req) => {
+  //     try {
+  //       const result = await Share.updateHit("mindmap", req);
+  //       return result;
+  //     } catch (err) {
+  //       console.log(err);
+  //       err.message = "Update share Hit fail";
+  //       err.status = 500;
   //     }
   //   };
 }
