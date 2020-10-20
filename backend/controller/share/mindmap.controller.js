@@ -19,7 +19,7 @@ export class ShareMindmapController {
       const result = await ShareMindmapService.findByShareKey(
         req.params.share_key
       );
-      await ShareMindmapService.validShareKey(result.expired_date);
+      await ShareMindmapService.validShareKey(result);
       return res.status(200).json({
         success: true,
         message: "Get shared mindmap success",
@@ -30,7 +30,28 @@ export class ShareMindmapController {
     }
   };
 
-  // static update = async (req, res, next) => {
+  static delete = async (req, res, next) => {
+    try {
+      const result = await ShareMindmapService.deleteSharedKey(
+        req.params.share_key
+      );
+      if (result.n == 0) {
+        let err = new Error();
+        err.message = "Share Key not found";
+        err.status = 400;
+        throw err;
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "Delete shared key success",
+          result: result,
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+  // static updateHit = async (req, res, next) => {
   //   try {
   //     const user_id = req.params.user_id;
   //     const cyjson = req.body.cyjson;
