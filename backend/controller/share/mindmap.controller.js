@@ -51,20 +51,23 @@ export class ShareMindmapController {
       next(err);
     }
   };
-  // static updateHit = async (req, res, next) => {
-  //   try {
-  //     const user_id = req.params.user_id;
-  //     const cyjson = req.body.cyjson;
-
-  //     const result = await CytoscapeService.updateById({ user_id, cyjson });
-
-  //     return res.status(200).json({
-  //       success: true,
-  //       message: "Update cytoscape success",
-  //       result: result,
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // };
+  static updateHit = async (req, res, next) => {
+    try {
+      const result = await ShareMindmapService.updateHit(req.params.share_key);
+      if (result.n == 0) {
+        let err = new Error();
+        err.message = "shared mindmap not found";
+        err.status = 400;
+        throw err;
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "Update share mindmap hit success",
+          result: result,
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
 }
