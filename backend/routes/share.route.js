@@ -14,6 +14,7 @@ router.delete(
 
 router.get("/article/:share_key", ShareArticleController.read);
 router.post("/article", authMiddleware, ShareArticleController.create);
+router.patch("/article/:share_key", ShareArticleController.updateHit);
 router.delete(
   "/article/:share_key",
   authMiddleware,
