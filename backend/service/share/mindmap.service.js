@@ -77,25 +77,12 @@ export class ShareMindmapService {
       throw err;
     }
   };
-
-  //   static updateById = async (req) => {
-  //     const { user_id, cyjson } = req;
-  //     try {
-  //       return await CytoscapeInfo.update(user_id, cyjson);
-  //     } catch (err) {
-  //       err.message = "Cyjson update fail";
-  //       err.status = 500;
-  //       throw err;
-  //     }
-  //   };
-
   /*
     shared key 삭제
   */
   static deleteSharedKey = async (req) => {
     try {
-      const result = await Share.deleteShare("mindmap", req);
-      return result;
+      return (result = await Share.deleteShare("mindmap", req));
     } catch (err) {
       console.log(err);
       err.message = "Delete Share Key fail";
@@ -103,14 +90,13 @@ export class ShareMindmapService {
     }
   };
 
-  //   static updateHit = async (req) => {
-  //     try {
-  //       const result = await Share.updateHit("mindmap", req);
-  //       return result;
-  //     } catch (err) {
-  //       console.log(err);
-  //       err.message = "Update share Hit fail";
-  //       err.status = 500;
-  //     }
-  //   };
+  static updateHit = async (req) => {
+    try {
+      return await Share.updateHit("mindmap", req);
+    } catch (err) {
+      console.log(err);
+      err.message = "Update share Hit fail";
+      err.status = 500;
+    }
+  };
 }
