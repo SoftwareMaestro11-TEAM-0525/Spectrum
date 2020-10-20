@@ -65,4 +65,14 @@ export class ShareArticleService {
       throw err;
     }
   };
+
+  static deleteSharedKey = async (req) => {
+    try {
+      return await Share.deleteShare("article", req);
+    } catch (err) {
+      console.log(err);
+      err.message = "Delete Share Key fail";
+      err.status = 500;
+    }
+  };
 }
