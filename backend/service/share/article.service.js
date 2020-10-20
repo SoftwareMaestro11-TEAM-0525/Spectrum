@@ -16,4 +16,17 @@ export class ShareArticleService {
     //success
     return existed;
   };
+
+  static validShareKey = async (req) => {
+    const expired = new Date(req.expired_date);
+    if (expired < new Date()) {
+      //TODO shared key 삭제
+      await Share.deleteShare("mindmap", req.share_key);
+
+      let err = new Error();
+      err.message = "share Key is expired";
+      err.status = 410;
+      throw err;
+    } else return true;
+  };
 }
