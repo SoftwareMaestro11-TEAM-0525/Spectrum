@@ -3,33 +3,22 @@ import moment from "moment";
 import cryptoRandomString from "crypto-random-string";
 
 export class ShareMindmapService {
-  /*
-    share_key로 공유할 마인드맵의 cyjson 불러옴
-    */
   static findByShareKey = async (req) => {
     const existed = await Share.findOneByShareKey("mindmap", req);
 
-    //not existed
     if (existed == null) {
       let err = new Error();
       err.message = "Share Key not Found";
       err.status = 400;
       throw err;
     }
-    //success
+
     return existed;
   };
 
-  /*
-    share_key로 불러온 마인드맵 유효 검사
-    date_validation
-    true : 지남
-    false : 안지남
-*/
   static validShareKey = async (req) => {
     const expired = new Date(req.expired_date);
     if (expired < new Date()) {
-      //TODO shared key 삭제
       await Share.deleteShare("mindmap", req.share_key);
 
       let err = new Error();
@@ -39,10 +28,6 @@ export class ShareMindmapService {
     } else return true;
   };
 
-  /*
-    shared key 생성
-
-  */
   static creatShareKey = async (req) => {
     let randomString;
 
@@ -77,9 +62,7 @@ export class ShareMindmapService {
       throw err;
     }
   };
-  /*
-    shared key 삭제
-  */
+
   static deleteSharedKey = async (req) => {
     try {
       return (result = await Share.deleteShare("mindmap", req));
