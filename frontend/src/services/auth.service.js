@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "@/services/auth-header";
 
-const authURL = "api/auth/login";
+const authURL = "api/auth";
 const userURL = "api/user";
 
 class AuthService {
