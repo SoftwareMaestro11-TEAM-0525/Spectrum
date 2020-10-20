@@ -59,11 +59,16 @@ Share.statics.deleteShare = function (type, share_key) {
     share_key,
   });
 };
-// Article.statics.write = function (article) {
-//   console.log(article);
-//   return new this(article).save();
-// };
 
+Share.statics.updateHit = function (type, share_key) {
+  return this.updateOne(
+    {
+      type,
+      share_key,
+    },
+    { $inc: { hit: 1 } }
+  );
+};
 // Article.statics.updateArticle = function (article) {
 //   return article.save();
 // };
