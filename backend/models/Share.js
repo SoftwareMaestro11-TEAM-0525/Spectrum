@@ -36,8 +36,9 @@ const Share = new Schema({
   },
 });
 
-Share.statics.findOneByShareKey = function (share_key) {
+Share.statics.findOneByShareKey = function (type, share_key) {
   return this.findOne({
+    type,
     share_key,
   });
 };
