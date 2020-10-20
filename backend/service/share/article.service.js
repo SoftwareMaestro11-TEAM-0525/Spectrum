@@ -21,12 +21,48 @@ export class ShareArticleService {
     const expired = new Date(req.expired_date);
     if (expired < new Date()) {
       //TODO shared key 삭제
-      await Share.deleteShare("mindmap", req.share_key);
+      await Share.deleteShare("article", req.share_key);
 
       let err = new Error();
       err.message = "share Key is expired";
       err.status = 410;
       throw err;
     } else return true;
+  };
+
+  static creatShareKey = async (req) => {
+    let randomString;
+
+    const existed = await Share.findOneByUserId("article", req.user_id);
+
+    if (existed != null) {
+      await Share.deleteShare("article", existed.share_key);
+    }
+
+    while (true) {
+      randomString = cryptoRandomString({ length: 10, type: "alphanumeric" });
+      const res = await Share.findOneByShareKey(randomString);
+      if (res == null) break;
+    }
+
+    try {
+      var share = {
+        share_key: randomString,
+        type: "article",
+        user_id: req.user_id,
+        node_id: req.node_id,
+        created_date: moment(new Date()).format("YYYY-MM-DD[T]HH:mm[Z]"),
+        expired_date: moment(moment())
+          .add(7, "days")
+          .format("YYYY-MM-DD[T]HH:mm[Z]"),
+        hit: 0,
+      };
+      return await Share.createShare(share);
+    } catch (err) {
+      console.log(err);
+      err.message = "Create Share mindmap fail";
+      err.status = 500;
+      throw err;
+    }
   };
 }
