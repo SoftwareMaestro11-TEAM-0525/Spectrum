@@ -5,6 +5,7 @@ import authMiddleware from "../middlewares/auth";
 
 router.get("/mindmap/:share_key", ShareMindmapController.read);
 router.post("/mindmap", authMiddleware, ShareMindmapController.create);
+router.patch("/mindmap/:share_key", ShareMindmapController.updateHit);
 router.delete(
   "/mindmap/:share_key",
   authMiddleware,
