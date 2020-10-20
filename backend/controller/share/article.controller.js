@@ -29,4 +29,26 @@ export class ShareArticleController {
       next(err);
     }
   };
+
+  static delete = async (req, res, next) => {
+    try {
+      const result = await ShareArticleService.deleteSharedKey(
+        req.params.share_key
+      );
+      if (result.n == 0) {
+        let err = new Error();
+        err.message = "Share Key not found";
+        err.status = 400;
+        throw err;
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "Delete shared key success",
+          result: result,
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
 }
