@@ -117,8 +117,8 @@ let Mindmap = {
         //cytoscape 레이아웃 설정(circle, cola, cose, grid 등등)
         layout: {
           name: "cose-bilkent",
-          padding: 100,
-          roots: "#0"
+          roots: "#0",
+          padding: 50,
         }
       });
     },
@@ -307,12 +307,13 @@ let Mindmap = {
       });
     },
     cxtmenu_def: function() {
+      const popupEvent = this.popupEvent;
       const store = this.$store;
       const nodeCommand = [
         {
           content: "Add",
           select: function(element) {
-            console.log(element.id());
+            popupEvent(element.id());
             store.dispatch("mindmap/setCurrentID", element.id());
             // Show Popup
           }

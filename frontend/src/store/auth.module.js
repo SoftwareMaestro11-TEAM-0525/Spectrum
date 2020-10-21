@@ -1,54 +1,39 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import authHeader from "./auth-header";
-
-const user = JSON.parse(localStorage.getItem("user"));
-const initialState = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+import Auth from "../services/auth.service";
 
 export const auth = {
   namespaced: true,
-  state: initialState,
+  state: { status: { loggedIn: false }, user: null },
   actions: {
     login({ commit }, user) {
-      return axios
-        .post("/api/auth/login", {
-          user_email: user.username,
-          user_pw: user.password
-        })
-        .then(
-          response => {
-            const decodedToken = jwt_decode(response.data.result.token);
-            const { user_id, user_email } = decodedToken;
-            const userData = {
-              ...response.data.result,
-              user_id,
-              user_email
-            };
-            localStorage.setItem("user", JSON.stringify(userData));
+      Auth.login(user).then(
+        response => {
+          const decodedToken = jwt_decode(response.data.result.token);
+          const { user_id, user_email } = decodedToken;
+          const userData = {
+            ...response.data.result,
+            user_id,
+            user_email
+          };
+          //localStorage.setItem("user", JSON.stringify(userData));
+          commit("loginSuccess", userData);
 
-            commit("loginSuccess", userData);
-
-            return axios
-              .get(`/api/user/${user_id}`, {
-                headers: authHeader()
-              })
-              .then(
-                response => {
-                  commit("addUserName", response.data.result.user_name);
-                  return Promise.resolve();
-                },
-                error => {
-                  return Promise.reject(error);
-                }
-              );
-          },
-          error => {
-            commit("loginFailure");
-            return Promise.reject(error);
-          }
-        );
+          Auth.getUserName().then(
+            response => {
+              commit("addUserName", response.data.result.user_name);
+              return Promise.resolve();
+            },
+            error => {
+              return Promise.reject(error);
+            }
+          );
+        },
+        error => {
+          commit("loginFailure");
+          return Promise.reject(error);
+        }
+      );
     },
     logout({ commit }) {
       localStorage.removeItem("user");
@@ -56,60 +41,56 @@ export const auth = {
     },
     register({ commit }, user) {
       const { email: userEmail, password: userPwd } = user;
-      return axios
-        .post("/api/user", {
-          user_name: user.username,
-          user_email: userEmail,
-          user_pw: userPwd
-        })
-        .then(
-          () => {
-            return axios
-              .post("/api/auth/login", {
-                user_email: userEmail,
-                user_pw: userPwd
-              })
-              .then(
-                response => {
-                  const decodedToken = jwt_decode(response.data.result.token);
-                  const { user_id } = decodedToken;
-                  return axios
-                    .post(
-                      "/api/cytoscape",
-                      {
-                        user_id: user_id,
-                        cyjson: {
-                          nodes: [],
-                          edges: []
+      Auth.register(user).then(
+        () => {
+          Auth.login({ username: userEmail, password: userPwd }).then(
+            response => {
+              const decodedToken = jwt_decode(response.data.result.token);
+              const { user_id } = decodedToken;
+              return axios
+                .post(
+                  "/api/cytoscape",
+                  {
+                    user_id: user_id,
+                    cyjson: {
+                      nodes: [
+                        {
+                          data: {
+                            id: "0",
+                            name: this.$store.state.auth.user.name
+                          }
                         }
-                      },
-                      {
-                        headers: {
-                          Authorization: "Bearer " + response.data.result.token
-                        }
-                      }
-                    )
-                    .then(
-                      response => {
-                        commit("registerSuccess");
-                        return Promise.resolve(response.data);
-                      },
-                      error => {
-                        console.log("Error in make cyjson doc");
-                        return Promise.reject(error);
-                      }
-                    );
-                },
-                error => {
-                  return Promise.reject(error);
-                }
-              );
-          },
-          error => {
-            commit("registerFailure");
-            return Promise.reject(error);
-          }
-        );
+                      ],
+                      edges: []
+                    }
+                  },
+                  {
+                    headers: {
+                      Authorization: "Bearer " + response.data.result.token
+                    }
+                  }
+                )
+                .then(
+                  response => {
+                    commit("registerSuccess");
+                    return Promise.resolve(response.data);
+                  },
+                  error => {
+                    console.log("Error in make cyjson doc");
+                    return Promise.reject(error);
+                  }
+                );
+            },
+            error => {
+              return Promise.reject(error);
+            }
+          );
+        },
+        error => {
+          commit("registerFailure");
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {

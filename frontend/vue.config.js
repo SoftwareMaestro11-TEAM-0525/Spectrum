@@ -15,8 +15,8 @@ module.exports = {
       "/api": {
         target: "http://backend:3000",
         changeOrigin: true,
-        pathRewrite: { "^/apis": "" },
-      },
+        pathRewrite: { "^/apis": "" }
+      }
     },
     compress: true,
     disableHostCheck: true,

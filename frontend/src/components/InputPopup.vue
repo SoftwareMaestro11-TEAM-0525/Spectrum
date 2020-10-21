@@ -71,6 +71,7 @@ export default {
       }
     };
   },
+  props: ["nodeID"],
   methods: {
     toggleCheckbox: function() {
       this.isChecked = !this.isChecked;
@@ -84,17 +85,17 @@ export default {
       eval("this.nowSelected.is" + itemData + "Selected = true;");
     },
     cancel: function() {
-      this.$emit("cancelPopup");
+      this.$emit("cancelPopup", false, "");
     },
     submit: function() {
       const type = this.nowSelected;
 
       if (type.isGeneralSelected) {
-        this.$router.push({ name: "Input", params: { type: "general" }, query: { isStart: (this.isChecked ? 'true' : 'false') }});
+        this.$router.push({ name: "Input", params: { type: "general"}, query: { isStart: (this.isChecked ? 'true' : 'false'), nodeID: this.nodeID }});
       } else if (type.isFileSelected) {
         this.$router.push({ name: "Input", params: { type: "file" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
       } else if (type.isLinkSelected) {
-        this.$router.push({ name: "Input", params: { type: "link" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
+        this.$router.push({ name: "Input", params: { type: "link"}, query: { isStart: (this.isChecked ? 'true' : 'false') } });
       } else {
         alert("노드 종류를 선택해 주세요.");
       }

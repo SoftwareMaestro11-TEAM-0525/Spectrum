@@ -1,5 +1,5 @@
 import axios from "axios";
-import authHeader from "@/store/auth-header";
+import authHeader from "@/services/auth-header";
 
 class ArticleService {
   getArticles({ userID, nodeID }) {

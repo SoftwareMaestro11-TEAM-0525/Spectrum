@@ -167,9 +167,9 @@ export default {
     };
   },
   methods: {
-    submit: function() {
+    submit: async function() {
       // 데이터 검증 과정 필요
-      ArticleService.postArticles({
+      await ArticleService.postArticles({
         userID: this.$store.state.auth.user.user_id,
         nodeID: -this.$store.state.mindmap.elements.nodes.length,
         type: this.$route.params.type,
@@ -183,9 +183,18 @@ export default {
         isSecret: this.isLock
       }).then(
         () => {
+          const targetNodeId = (-this.$store.state.mindmap.elements.nodes
+            .length).toString();
           this.$store.dispatch("mindmap/addMindmapNode", {
-            id: (-this.$store.state.mindmap.elements.nodes.length).toString(),
+            id: targetNodeId,
             name: this.titleString
+          });
+          this.$store.dispatch("mindmap/addMindmapEdge", {
+            id: (
+              this.$store.state.mindmap.elements.edges.length + 1
+            ).toString(),
+            target: targetNodeId,
+            source: this.$route.query.nodeID
           });
           this.$store
             .dispatch("mindmap/patchMindmapData", {
@@ -206,6 +215,8 @@ export default {
           console.log(err);
         }
       );
+
+      await this.$store.dispatch("mindmap/addMindmapNode", {})
     },
     tagInputFocus: function() {
       this.isTagFocus = true;

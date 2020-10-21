@@ -1,6 +1,5 @@
 <template>
   <div id="cy">
-    <button @click="popupEvent">테스트용 추가버튼</button>
   </div>
 </template>
 
@@ -17,11 +16,12 @@ export default {
       input: "",
       output: "",
       msg: "vue to cytoscape",
-      count: 0,
+      count: 0
     };
   },
   async mounted() {
     const data = await this.getInitialData();
+    console.log(data);
     this.cy_def(data);
     this.view_init();
     this.cxtmenu_def();
@@ -41,7 +41,8 @@ export default {
       );
     },
     popupEvent: function(id) {
-      this.$emit("popupEvent", id);
+      console.log(typeof id);
+      this.$emit("popupEvent", true, id);
     },
     //cytoscape mindmap style feature
     //cxtmenu feature

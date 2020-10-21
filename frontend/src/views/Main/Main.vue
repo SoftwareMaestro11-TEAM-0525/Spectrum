@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <input-popup
-      v-if="showPopup"
-      @cancelPopup="showPopup = false"
+      v-if="isPopup"
+      v-bind:nodeID="curNodeId"
+      @cancelPopup="showPopup"
     ></input-popup>
     <nav-bar :isMain="true"></nav-bar>
-    <mindmap @popupEvent="showPopup = true"></mindmap>
+    <mindmap @popupEvent="showPopup"></mindmap>
   </div>
 </template>
 
@@ -23,8 +24,15 @@ export default {
   },
   data() {
     return {
-      showPopup: false
+      isPopup: false,
+      curNodeId: ""
     };
+  },
+  methods: {
+    showPopup(isShow, id) {
+      this.curNodeId = id;
+      this.isPopup = isShow;
+    }
   }
 };
 </script>
