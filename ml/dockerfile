@@ -1,5 +1,11 @@
 FROM python:3 
 WORKDIR /app 
 ADD . /app 
-RUN pip install -r requirements.txt 
+# RUN source myvenv/bin/activate
+RUN pip install numpy
+RUN pip install scipy
+RUN pip install -r requirements.txt
+# RUN apt install python3-scipy
+# RUN apt-get install gfortran libopenblas-dev liblapack-dev
+# RUN pip3 install scipy==1.2.1
 CMD ["uwsgi","uwsgi.ini"]
