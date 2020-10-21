@@ -1,6 +1,8 @@
 const router = require("express").Router();
 import { ShareMindmapController } from "../controller/share/mindmap.controller";
 import { ShareArticleController } from "../controller/share/article.controller";
+import { ArticleController } from "../controller/article.controller";
+import { CytoscapeController } from "../controller/cytoscape.controller";
 import authMiddleware from "../middlewares/auth";
 
 router.get("/mindmap/:share_key", ShareMindmapController.read);
@@ -20,5 +22,8 @@ router.delete(
   authMiddleware,
   ShareArticleController.delete
 );
+
+router.get("/mindmapinfo/:user_id", CytoscapeController.read);
+router.get("/articleinfo/:user_id/:node_id", ArticleController.read);
 
 module.exports = router;
