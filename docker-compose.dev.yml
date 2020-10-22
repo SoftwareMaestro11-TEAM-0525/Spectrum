@@ -10,6 +10,14 @@ services:
       - ./frontend:/app
     stdin_open: true
 
+  ml:
+    build:
+      dockerfile: Dockerfile
+      context: ./ml
+    container_name: ml
+    expose:
+        - 5000
+
   nginx:
     restart: always
     build:
