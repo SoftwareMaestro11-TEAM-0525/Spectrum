@@ -9,6 +9,5 @@ RUN pip install -r requirements.txt
 # RUN apt-get install gfortran libopenblas-dev liblapack-dev
 # RUN pip3 install scipy==1.2.1
 RUN pip install uWSGI
-EXPOSE 5000
-# CMD ["uwsgi","uwsgi.ini"]
-CMD ["flask","run"]
+CMD ["uwsgi","uwsgi.ini"]
+# CMD ["flask","run"]
