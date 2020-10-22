@@ -6,7 +6,12 @@ sys.path.append('../')
 from krwordrank.word import KRWordRank
 from krwordrank.hangle import normalize
 import krwordrank
+
 app = Flask(__name__)
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=5000)
+# if __name__ == "__main__":
+#     app.run()
 
 fname = 'swmaestro.txt'
 def get_texts_scores(fname):
@@ -21,6 +26,10 @@ def get_texts_scores(fname):
 # with open('words.json') as json_file:
 #     json_data = json.load(json_file)
 # print(json_data)
+
+@app.route('/')
+def hello_world():
+    return 'hello world!'
 @app.route('/ml/sentence', methods=['POST'])
 def sentence_extract():
     data = request.get_json()
@@ -109,12 +118,18 @@ def keyword_extract():
     max_length = 12, # 단어의 최대 길이
     verbose = True
     )
-
+    
     beta = 0.5   # PageRank의 decaying factor beta
     max_iter = 10
-
     keywords, rank, graph = wordrank_extractor.extract(texts, beta, max_iter)
-    for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
-        print('%8s:\t%.4f' % (word, r))
-    return 'hello world'
+    if request.method == 'POST':
+        word_list = list()
+        test = {}
+        r_list = list()
+        for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
+            print('%8s:\t%.4f' % (word, r))
+            test[word]=r 
+        print(test)
+        return json.dumps(test, ensure_ascii = False)
+    return 'hello worlsdsd'
 
