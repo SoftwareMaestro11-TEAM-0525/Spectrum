@@ -118,7 +118,7 @@ let Mindmap = {
         layout: {
           name: "cose-bilkent",
           roots: "#0",
-          padding: 50,
+          padding: 50
         }
       });
     },
@@ -315,7 +315,6 @@ let Mindmap = {
           select: function(element) {
             popupEvent(element.id());
             store.dispatch("mindmap/setCurrentID", element.id());
-            // Show Popup
           }
         },
         {
@@ -331,8 +330,45 @@ let Mindmap = {
         },
         {
           content: "Delete",
-          select: function(ele) {
-            cy.remove("#" + ele.id());
+          select: function(element) {
+            if (window.confirm("노드를 삭제하시겠습니까?")) {
+              const targetID = element.id();
+              const targetEdgesID = [];
+              const nodes = store.state.mindmap.elements.nodes.filter(ele => {
+                return ele.data.id !== targetID;
+              });
+
+              const edges = store.state.mindmap.elements.edges.filter(ele => {
+                if (
+                  ele.data.source === targetID ||
+                  ele.data.target === targetID
+                ) {
+                  targetEdgesID.push(ele.data.id);
+                  return false;
+                } else return true;
+              });
+
+              const userID = store.state.auth.user.user_id;
+              store
+                .dispatch("mindmap/patchMindmapData", {
+                  userID,
+                  nodes,
+                  edges
+                })
+                .then(
+                  () => {
+                    console.log("성공");
+                    cy.remove("#" + element.id());
+                    targetEdgesID.forEach((id) => {
+                      cy.remove("#" + id);
+                    });
+                  },
+                  error => {
+                    alert("데이터 삭제에 실패했습니다.");
+                    console.log(error);
+                  }
+                );
+            }
           }
         }
       ];
@@ -371,7 +407,11 @@ let Mindmap = {
         }
       ];
 
-      cy.cxtmenu({ selector: "node", openMenuEvents: 'cxttap', commands: nodeCommand });
+      cy.cxtmenu({
+        selector: "node",
+        openMenuEvents: "cxttap",
+        commands: nodeCommand
+      });
       cy.cxtmenu({ selector: "edge", commands: edgeCommand });
       cy.cxtmenu({ selector: "core", commands: coreCommand });
     }
