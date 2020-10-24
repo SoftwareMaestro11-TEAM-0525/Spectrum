@@ -24,6 +24,9 @@ router.delete(
 );
 
 router.get("/mindmapinfo/:user_id", CytoscapeController.read);
-router.get("/articleinfo/:user_id/:node_id", ArticleController.read);
+router.get(
+  "/articleinfo/:user_id/:node_id",
+  ShareArticleController.readArticleInfo
+);
 
 module.exports = router;
