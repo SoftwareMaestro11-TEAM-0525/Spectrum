@@ -15,7 +15,7 @@ Deploy_Code_in_ui_branch:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && docker restart frontend backend"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && docker restart frontend backend"
 
 Deploy_Code_in_cicd_branch:
   only:
@@ -29,7 +29,7 @@ Deploy_Code_in_cicd_branch:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/cicd && git pull origin cicd && docker restart frontend backend"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/cicd && git pull origin cicd && docker restart frontend backend"
 
 Deploy_Code_in_develop_branch:
   only:
@@ -43,4 +43,4 @@ Deploy_Code_in_develop_branch:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER_2 "cd ~/0525 && git reset --hard HEAD && git checkout origin/develop && git pull origin develop && docker restart frontend backend"
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/develop && git pull origin develop && docker restart frontend backend"
