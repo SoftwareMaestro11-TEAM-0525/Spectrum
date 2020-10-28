@@ -15,6 +15,20 @@ export class ArticleController {
     }
   };
 
+  static readTimeline = async (req, res, next) => {
+    try {
+      const result = await ArticleService.readTimeline(req.params.user_id);
+
+      return res.status(200).json({
+        success: true,
+        message: "Get Timeline success",
+        result: result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   static write = async (req, res, next) => {
     try {
       const result = await ArticleService.write(req.body);

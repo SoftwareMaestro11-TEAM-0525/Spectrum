@@ -5,8 +5,6 @@ const Schema = mongoose.Schema;
 const Article = new Schema({
   user_id: {
     type: String,
-    trim: true,
-    index: true,
     required: true,
   },
   node_id: {
@@ -49,6 +47,12 @@ Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
   return this.findOne({
     user_id,
     node_id,
+  });
+};
+
+Article.statics.findTimelineArticles = function (user_id) {
+  return this.find({
+    user_id,
   });
 };
 
