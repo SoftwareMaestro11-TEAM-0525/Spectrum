@@ -22,6 +22,37 @@ export class ArticleService {
     return res;
   };
 
+  static readTimeline = async (req) => {
+    const user_id = req;
+    const existed = await Article.findTimelineArticles(user_id);
+
+    if (existed == null) {
+      let err = new Error();
+      err.message = "Articles NOT FOUND";
+      err.status = 400;
+      throw err;
+    }
+
+    const result = [];
+    existed.forEach((element) => {
+      if (element.type == "experience" && element.start_date != null)
+        result.push({
+          title: element.title,
+          start_date: element.start_date,
+          content: element.content,
+        });
+    });
+
+    if (result.length == 0) {
+      let err = new Error();
+      err.message = "Articles Not Found";
+      err.status = 400;
+      console.log(err);
+      throw err;
+    }
+    return result;
+  };
+
   static write = async (req) => {
     const article = req;
 
