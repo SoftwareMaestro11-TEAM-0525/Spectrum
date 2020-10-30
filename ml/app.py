@@ -6,6 +6,13 @@ sys.path.append('../')
 from krwordrank.word import KRWordRank
 from krwordrank.hangle import normalize
 import krwordrank
+import pandas as pd # 데이터프레임 사용을 위해
+from math import log # IDF 계산을 위해
+from sklearn.feature_extraction.text import TfidfVectorizer
+from numpy import dot
+from numpy.linalg import norm
+import numpy as np
+from konlpy.tag import Okt
 
 app = Flask(__name__)
 if __name__ == '__main__':
@@ -27,9 +34,9 @@ def get_texts_scores(fname):
 #     json_data = json.load(json_file)
 # print(json_data)
 
-@app.route('/')
-def hello_world():
-    return 'hello world!'
+# @app.route('/')
+# def hello_world():
+#     return 'hello world!'
 @app.route('/ml/sentence', methods=['POST'])
 def sentence_extract():
     data = request.get_json()
@@ -132,4 +139,34 @@ def keyword_extract():
         print(test)
         return json.dumps(test, ensure_ascii = False)
     return 'hello worlsdsd'
+
+def cos_sim(A, B):
+    return dot(A, B)/(norm(A)*norm(B))
+@app.route('/')
+def textfile_similarity():
+    okt = Okt()
+    fname='./test_docs/test1.txt'
+    texts= get_texts_scores(fname)
+    texts_noun = [' '.join(okt.nouns(text)) for text in texts]
+    print(texts)
+    print(texts_noun)
+    print('-'*50)
+    tfidfv = TfidfVectorizer().fit(texts)
+    print(tfidfv.transform(texts).toarray())
+    print('-'*50)
+    print(tfidfv.vocabulary_)
+    print(tfidfv.transform(texts).toarray()[0])
+    print(cos_sim(tfidfv.transform(texts).toarray()[0],tfidfv.transform(texts).toarray()[1]))
+    print(cos_sim(tfidfv.transform(texts).toarray()[1],tfidfv.transform(texts).toarray()[2]))
+    print(cos_sim(tfidfv.transform(texts).toarray()[2],tfidfv.transform(texts).toarray()[0]))
+    print('-'*50)
+    tfidfv = TfidfVectorizer().fit(texts_noun)
+    print(tfidfv.transform(texts_noun).toarray())
+    print('-'*50)
+    print(tfidfv.vocabulary_)
+    print(tfidfv.transform(texts_noun).toarray()[0])
+    print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[1]))
+    print(cos_sim(tfidfv.transform(texts_noun).toarray()[1],tfidfv.transform(texts_noun).toarray()[2]))
+    print(cos_sim(tfidfv.transform(texts_noun).toarray()[2],tfidfv.transform(texts_noun).toarray()[0]))
+    return '문서 유사도 비교 테스트'
 
