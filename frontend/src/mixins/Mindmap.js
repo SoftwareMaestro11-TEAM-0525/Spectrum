@@ -118,7 +118,7 @@ let Mindmap = {
         layout: {
           name: "cose-bilkent",
           roots: "#0",
-          padding: 50
+          padding: 50,
         }
       });
     },
