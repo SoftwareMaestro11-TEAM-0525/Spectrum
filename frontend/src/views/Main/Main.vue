@@ -1,37 +1,47 @@
 <template>
   <div class="container">
     <input-popup
-      v-if="isPopup"
+      v-if="showPopup"
       v-bind:nodeID="curNodeId"
-      @cancelPopup="showPopup"
-    ></input-popup>
+      @closePopup="handlePopup"
+    />
+    <general-view
+      v-if="showGeneralView"
+      @closeGeneralView="handleGeneralView"
+    />
     <nav-bar :isMain="true"></nav-bar>
-    <mindmap @popupEvent="showPopup"></mindmap>
+    <mindmap @popupEvent="handlePopup" @generalViewEvent="handleGeneralView"></mindmap>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar";
 import mindmap from "@/views/Main/Mindmap.vue";
-import InputPopup from "@/components/InputPopup";
+import InputPopup from "@/views/Input/InputPopup";
+import GeneralView from "@/views/Article/GeneralView";
 
 export default {
   name: "Main",
   components: {
     NavBar,
     mindmap,
-    InputPopup
+    InputPopup,
+    GeneralView
   },
   data() {
     return {
-      isPopup: false,
+      showPopup: false,
+      showGeneralView: true,
       curNodeId: ""
     };
   },
   methods: {
-    showPopup(isShow, id) {
+    handlePopup(value, id) {
       this.curNodeId = id;
-      this.isPopup = isShow;
+      this.showPopup = value;
+    },
+    handleGeneralView(value) {
+      this.showGeneralView = value;
     }
   }
 };

@@ -85,7 +85,7 @@ export default {
       eval("this.nowSelected.is" + itemData + "Selected = true;");
     },
     cancel: function() {
-      this.$emit("cancelPopup", false, "");
+      this.$emit("closePopup", false, "");
     },
     submit: function() {
       const type = this.nowSelected;
@@ -136,11 +136,11 @@ export default {
         background-position: center center;
         background-size: contain;
         margin-left: 60px;
-        background-image: url("../assets/image/icon-unchecked.svg");
+        background-image: url("../../assets/image/icon-unchecked.svg");
         cursor: pointer;
       }
       .checked {
-        background-image: url("../assets/image/icon-checked.svg");
+        background-image: url("../../assets/image/icon-checked.svg");
       }
       .tooltip {
         font-size: 12px;
@@ -203,21 +203,21 @@ export default {
   }
 }
 .icon-general {
-  background-image: url("../assets/image/icon-nodetype/icon-general.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-general.svg");
 }
 .selected .icon-general {
-  background-image: url("../assets/image/icon-nodetype/icon-general-white.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-general-white.svg");
 }
 .icon-file {
-  background-image: url("../assets/image/icon-nodetype/icon-file.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-file.svg");
 }
 .selected .icon-file {
-  background-image: url("../assets/image/icon-nodetype/icon-file-white.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-file-white.svg");
 }
 .icon-link {
-  background-image: url("../assets/image/icon-nodetype/icon-link.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-link.svg");
 }
 .selected .icon-link {
-  background-image: url("../assets/image/icon-nodetype/icon-link-white.svg");
+  background-image: url("../../assets/image/icon-nodetype/icon-link-white.svg");
 }
 </style>

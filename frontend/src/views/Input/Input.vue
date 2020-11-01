@@ -265,7 +265,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~quill/dist/quill.snow.css";
+@import "../../../node_modules/quill/dist/quill.snow.css";
 
 .container {
   height: auto;

@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import auth from "./auth";
 import Main from "@/views/Main/Main";
-import Input from "@/views/Main/Input";
+import Input from "@/views/Input/Input";
 
 import store from "@/store/index";
 
@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
   const publicPages = ["Login", "Join", "Password", "Home"];
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = store.state.auth.status.loggedIn;
-  
+
   if (authRequired && !loggedIn) {
     next({ name: "Login" });
   } else {
