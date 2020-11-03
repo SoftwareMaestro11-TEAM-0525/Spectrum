@@ -20,7 +20,6 @@ export class ShareArticleController {
       const result = await ShareArticleService.findByShareKey(
         req.params.share_key
       );
-      console.log(result);
       if (result.secret == true) {
         return res.status(403).json({
           success: false,
