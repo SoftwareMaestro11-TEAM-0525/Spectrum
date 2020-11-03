@@ -315,7 +315,6 @@ let Mindmap = {
           content: "Add",
           select: function(element) {
             popupEvent(element.id());
-            store.dispatch("mindmap/setCurrentID", element.id());
           }
         },
         {
@@ -371,7 +370,13 @@ let Mindmap = {
                 );
             }
           }
-        }
+        },
+        {
+          content: "View",
+          select: function(element) {
+            popupEvent(element.id());
+          }
+        },
       ];
       const edgeCommand = [
         {

@@ -60,9 +60,6 @@ export const mindmap = {
           }
         );
     },
-    setCurrentID({ commit }, data) {
-      commit("setCurrentID", data);
-    },
     patchSampleMindmapData({ commit }, data) {
       const { userID } = data;
       const cyjson = {
@@ -179,13 +176,10 @@ export const mindmap = {
       });
     },
     addEdge(state, data) {
-      const { id, source, target } = data;
+      const {id, source, target} = data;
       state.elements.edges.push({
-        data: { id: id, source: source, target: target }
+        data: {id: id, source: source, target: target}
       });
-    },
-    setCurrentID(state, data) {
-      state.currentID = data;
     }
   }
 };
