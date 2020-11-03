@@ -108,6 +108,7 @@ export default {
             this.$router.push({ name: "Login" });
           },
           err => {
+            console.log(err);
             if (err.response.status === 400) {
               this.emailErrorMsg = "이미 가입된 이메일 주소입니다.";
               this.isEmailError = true;
