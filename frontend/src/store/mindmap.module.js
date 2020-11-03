@@ -19,6 +19,7 @@ export const mindmap = {
         })
         .then(
           response => {
+            console.log(response.data.result.cyjson);
             commit("setCyjson", response.data.result.cyjson);
             return Promise.resolve(response.data.result.cyjson);
           },
@@ -159,7 +160,7 @@ export const mindmap = {
             return Promise.reject(error);
           }
         );
-    },
+    }
   },
   mutations: {
     setCyjson(state, cyjson) {
@@ -176,9 +177,9 @@ export const mindmap = {
       });
     },
     addEdge(state, data) {
-      const {id, source, target} = data;
+      const { id, source, target } = data;
       state.elements.edges.push({
-        data: {id: id, source: source, target: target}
+        data: { id: id, source: source, target: target }
       });
     }
   }

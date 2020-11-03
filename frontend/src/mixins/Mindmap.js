@@ -309,6 +309,7 @@ let Mindmap = {
     },
     cxtmenu_def: function() {
       const popupEvent = this.popupEvent;
+      const showArticleView = this.showArticleView;
       const store = this.$store;
       const nodeCommand = [
         {
@@ -359,7 +360,7 @@ let Mindmap = {
                   () => {
                     console.log("성공");
                     cy.remove("#" + element.id());
-                    targetEdgesID.forEach((id) => {
+                    targetEdgesID.forEach(id => {
                       cy.remove("#" + id);
                     });
                   },
@@ -374,9 +375,9 @@ let Mindmap = {
         {
           content: "View",
           select: function(element) {
-            popupEvent(element.id());
+            showArticleView(element.id());
           }
-        },
+        }
       ];
       const edgeCommand = [
         {

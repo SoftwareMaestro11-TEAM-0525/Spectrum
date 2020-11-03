@@ -40,7 +40,8 @@ export default {
       this.curNodeId = id;
       this.showPopup = value;
     },
-    handleGeneralView(value) {
+    handleGeneralView(value, id) {
+      this.curNodeId = id;
       this.showGeneralView = value;
     }
   }
