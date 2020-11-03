@@ -12,6 +12,7 @@ export class CytoscapeController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -26,6 +27,7 @@ export class CytoscapeController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -43,6 +45,7 @@ export class CytoscapeController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };

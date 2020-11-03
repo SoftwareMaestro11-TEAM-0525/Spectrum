@@ -10,6 +10,7 @@ export class ShareArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -33,6 +34,7 @@ export class ShareArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -55,6 +57,7 @@ export class ShareArticleController {
         });
       }
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -75,6 +78,7 @@ export class ShareArticleController {
         });
       }
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -96,6 +100,7 @@ export class ShareArticleController {
         });
       }
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
