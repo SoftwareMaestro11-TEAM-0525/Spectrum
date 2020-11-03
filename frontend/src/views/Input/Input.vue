@@ -105,7 +105,6 @@ import Quill from "quill";
 import ArticleService from "@/services/article.service";
 import FileService from "@/services/file.service";
 import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
 import { Korean } from "flatpickr/dist/l10n/ko.js";
 import ImageUploader from "quill-image-uploader";
 
@@ -336,6 +335,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../node_modules/quill/dist/quill.snow.css";
+@import "../../../node_modules/flatpickr/dist/flatpickr.css";
 
 .container {
   height: auto;
