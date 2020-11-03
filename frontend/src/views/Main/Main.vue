@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       showPopup: false,
-      showGeneralView: true,
+      showGeneralView: false,
       curNodeId: ""
     };
   },

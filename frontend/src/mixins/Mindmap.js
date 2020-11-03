@@ -119,6 +119,7 @@ let Mindmap = {
           name: "cose-bilkent",
           roots: "#0",
           padding: 50,
+          animate: false
         }
       });
     },

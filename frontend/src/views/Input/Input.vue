@@ -16,29 +16,24 @@
           </div>
           <div>
             <div>
-              <label for="start-date">시작일</label>
-              <input
-                type="text"
-                id="start-date"
-                name="start-date"
-                v-model="startDateString"
-              />
+              <label>시작일</label>
+              <flat-pickr
+                v-model="date.start"
+                :config="date.config.start"
+                @on-change="onStartDateChange"
+              ></flat-pickr>
             </div>
             <span>~</span>
             <div>
-              <label for="end-date">종료일</label>
-              <input
-                type="text"
-                id="end-date"
-                name="end-date"
-                v-model="endDateString"
-              />
+              <label>종료일</label>
+              <flat-pickr
+                v-model="date.end"
+                :config="date.config.end"
+                @on-change="onEndDateChange"
+              ></flat-pickr>
               <div></div>
             </div>
           </div>
-        </div>
-        <div class="date-error" v-if="isDataError">
-          종료일이 시작일보다 이전입니다.
         </div>
       </div>
       <div class="tag">
@@ -51,7 +46,7 @@
           </ul>
           <input
             type="text"
-            placeholder="Add tag..."
+            placeholder="키워드를 입력하고 엔터를 눌러 태그를 추가해주세요."
             @focus="tagInputFocus()"
             @blur="tagInputBlur()"
             v-on:input="tagTyping"
@@ -108,11 +103,15 @@
 import NavBar from "@/components/NavBar";
 import Quill from "quill";
 import ArticleService from "@/services/article.service";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
+import { Korean } from "flatpickr/dist/l10n/ko.js";
 
 export default {
   name: "input.vue",
   components: {
-    NavBar
+    NavBar,
+    flatPickr
   },
   mounted() {
     if (this.$route.params.type !== "general") return;
@@ -139,8 +138,23 @@ export default {
   data() {
     return {
       titleString: "",
-      startDateString: "",
-      endDateString: "",
+      date: {
+        start: "",
+        end: "",
+        config: {
+          start: {
+            dateFormat: "Y-m-d",
+            locale: Korean,
+            minDate: new Date(),
+            maxDate: null
+          },
+          end: {
+            dateFormat: "Y-m-d",
+            locale: Korean,
+            minDate: null
+          }
+        }
+      },
       tags: [{ text: "떡볶이" }, { text: "순대" }],
       isLock: false,
       linkURL: "",
@@ -168,14 +182,33 @@ export default {
   },
   methods: {
     submit: async function() {
-      // 데이터 검증 과정 필요
+      if (!this.titleString) {
+        alert("제목을 입력해 주세요.");
+        return;
+      }
+
+      if (!this.startDate || !this.endDate) {
+        alert("날짜를 올바르게 입력해 주세요.");
+      }
+
+      if (!this.tags || this.tags.length === 0) {
+        alert("하나 이상의 태그를 입력해 주세요.");
+      }
+
+      if (this.$route.params.type === "general") {
+        // Content 검증
+      }
+
+      // if (this.$route.params.type === "file") {
+      // }
+
       await ArticleService.postArticles({
         userID: this.$store.state.auth.user.user_id,
         nodeID: -this.$store.state.mindmap.elements.nodes.length,
         type: this.$route.params.type,
         title: this.titleString,
-        startDate: this.startDateString,
-        endDate: this.endDateString,
+        startDate: this.startDate,
+        endDate: this.endDate,
         content: "이건 샘플 콘텐츠입니다!!", // 추후 처리 필요
         keyword: this.tags,
         webURL: this.linkURL,
@@ -216,7 +249,19 @@ export default {
         }
       );
 
-      await this.$store.dispatch("mindmap/addMindmapNode", {})
+      await this.$store.dispatch("mindmap/addMindmapNode", {});
+    },
+    onStartDateChange(selectedDates, dateStr) {
+      this.date.config.end.minDate = dateStr;
+    },
+    onEndDateChange(selectedDates, dateStr) {
+      this.date.config.start.maxDate = dateStr;
+    },
+    handleStartDate(e, value) {
+      this.startDate = value;
+    },
+    handleEndDate(e, value) {
+      this.endDate = value;
     },
     tagInputFocus: function() {
       this.isTagFocus = true;
@@ -271,11 +316,13 @@ export default {
   height: auto;
   min-height: 100vh;
 }
+
 .wrapper {
   width: 786px;
   margin: 64px auto;
   height: calc(100% - 64px);
   padding-top: 50px;
+
   input[name="title"] {
     width: 100%;
     background-color: transparent;
@@ -285,67 +332,20 @@ export default {
     padding: 15px 0;
     outline: none;
     margin-bottom: 48px;
+
     &::placeholder:after {
       content: "*";
       color: #ed4956;
     }
   }
-  .date {
-    width: 100%;
-    margin-bottom: 32px;
-    .dataWrapper {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      > div:nth-child(1) {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        > div:nth-child(1) {
-          font-size: 15px;
-          color: #363636;
-        }
-        > div:nth-child(2) {
-          font-size: 12px;
-          color: #a3a3a3;
-        }
-      }
-      > div:nth-child(2) {
-        > div {
-          display: inline-block;
-          label {
-            display: block;
-            font-size: 12px;
-            color: #363636;
-            margin-bottom: 4px;
-          }
-          input {
-            width: 172px;
-            height: 36px;
-            border: 1px solid #ededed;
-            outline: none;
-            font-size: 15px;
-            text-align: center;
-          }
-        }
-        span {
-          margin: 0 10px;
-          font-size: 15px;
-        }
-      }
-    }
-  }
-  .date-error {
-    text-align: right;
-    font-size: 12px;
-    color: #ed4956;
-    margin: 4px 0 0 0;
-  }
+
   .tag {
     margin-bottom: 54px;
+
     > div > b {
       font-size: 15px;
     }
+
     .tagInput {
       width: 100%;
       height: 46px;
@@ -358,12 +358,14 @@ export default {
       box-sizing: border-box;
       background-color: #ffffff;
       align-items: center;
+
       ul {
         padding: 0;
         margin: 0;
         display: flex;
         flex-direction: row;
         list-style: none;
+
         li {
           height: 30px;
           border-radius: 6px;
@@ -373,6 +375,7 @@ export default {
           padding: 0 10px;
           font-size: 13px;
           line-height: 30px;
+
           span {
             margin-left: 4px;
             font-size: 13px;
@@ -380,6 +383,7 @@ export default {
           }
         }
       }
+
       input {
         height: 100%;
         border: none;
@@ -391,6 +395,7 @@ export default {
         flex: 1;
       }
     }
+
     .focus {
       box-shadow: 0 -1px 10px 0 rgba(54, 54, 54, 0.15);
       background-color: #f7f7f5;
@@ -398,6 +403,7 @@ export default {
       border-bottom: 1px solid #ededed;
       border-radius: 6px 6px 0 0;
     }
+
     .tagInput + div {
       display: none;
       width: 100%;
@@ -408,22 +414,28 @@ export default {
       border-radius: 0 0 6px 6px;
       box-sizing: border-box;
       align-items: center;
+
       b {
         margin-right: 6px;
       }
     }
+
     .focus + div {
       display: flex;
     }
   }
+
   .content {
     margin-bottom: 54px;
+
     > div {
       margin-bottom: 10px;
+
       > b {
         font-size: 15px;
       }
     }
+
     .editor {
       height: 150px;
       background-color: white;
@@ -434,17 +446,75 @@ export default {
       overflow-y: scroll;
     }
   }
+
+  .date {
+    width: 100%;
+    margin-bottom: 32px;
+
+    .dataWrapper {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      > div:nth-child(1) {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        > div:nth-child(1) {
+          font-size: 15px;
+          color: #363636;
+        }
+
+        > div:nth-child(2) {
+          font-size: 12px;
+          color: #a3a3a3;
+        }
+      }
+
+      > div:nth-child(2) {
+        > div {
+          display: inline-block;
+
+          label {
+            display: block;
+            font-size: 12px;
+            color: #363636;
+            margin-bottom: 4px;
+          }
+
+          input {
+            width: 172px;
+            height: 36px;
+            border: 1px solid #ededed;
+            outline: none;
+            font-size: 15px;
+            text-align: center;
+          }
+        }
+
+        span {
+          margin: 0 10px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+
   .attach {
     display: flex;
     justify-content: space-between;
     margin-bottom: 54px;
+
     div:nth-child(1) {
       display: flex;
       align-items: center;
       font-size: 15px;
     }
+
     div:nth-child(2) {
       font-size: 13px;
+
       input {
         width: 294px;
         height: 36px;
@@ -456,6 +526,7 @@ export default {
         margin-right: 12px;
         color: #363636;
       }
+
       button {
         width: 72px;
         height: 36px;
@@ -468,11 +539,13 @@ export default {
       }
     }
   }
+
   .link {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 54px;
+
     input {
       width: 376px;
       height: 36px;
@@ -483,11 +556,13 @@ export default {
       padding-left: 16px;
     }
   }
+
   .lock {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 54px;
+
     .lockUI > div {
       width: 36px;
       height: 36px;
@@ -498,16 +573,20 @@ export default {
     .lock-sel {
       background-image: url("~@/assets/image/icon-lock/icon-selected-lock.svg");
     }
+
     .lock-unsel {
       background-image: url("~@/assets/image/icon-lock/icon-unselected-lock.svg");
     }
+
     .unlock-sel {
       background-image: url("~@/assets/image/icon-lock/icon-selected-unlock.svg");
     }
+
     .unlock-unsel {
       background-image: url("~@/assets/image/icon-lock/icon-unselected-unlock.svg");
     }
   }
+
   > div:last-child {
     button {
       margin: 0 auto;
@@ -521,6 +600,7 @@ export default {
       border: none;
       font-size: 15px;
       display: block;
+
       &:hover {
       }
     }
