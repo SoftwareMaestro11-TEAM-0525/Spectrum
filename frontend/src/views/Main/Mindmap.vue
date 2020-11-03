@@ -21,7 +21,6 @@ export default {
   },
   async mounted() {
     const data = await this.getInitialData();
-    console.log(data);
     this.cy_def(data);
     this.view_init();
     this.cxtmenu_def();
@@ -41,9 +40,11 @@ export default {
       );
     },
     popupEvent: function(id) {
-      console.log(typeof id);
       this.$emit("popupEvent", true, id);
     },
+    showArticleView(id) {
+      this.$emit("generalViewEvent", true, id);
+    }
     //cytoscape mindmap style feature
     //cxtmenu feature
     // bfs_Event:function(){

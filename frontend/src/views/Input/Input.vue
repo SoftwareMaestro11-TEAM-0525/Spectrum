@@ -233,7 +233,7 @@ export default {
         title: this.titleString,
         startDate: this.date.start,
         endDate: this.date.end,
-        content: "이건 샘플 콘텐츠입니다!!", // 추후 처리 필요
+        content: JSON.stringify(this.editor.getContents()),
         keyword: this.tags,
         webURL: this.linkURL,
         fileURL: this.fileURL,

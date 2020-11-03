@@ -309,13 +309,13 @@ let Mindmap = {
     },
     cxtmenu_def: function() {
       const popupEvent = this.popupEvent;
+      const showArticleView = this.showArticleView;
       const store = this.$store;
       const nodeCommand = [
         {
           content: "Add",
           select: function(element) {
             popupEvent(element.id());
-            store.dispatch("mindmap/setCurrentID", element.id());
           }
         },
         {
@@ -360,7 +360,7 @@ let Mindmap = {
                   () => {
                     console.log("성공");
                     cy.remove("#" + element.id());
-                    targetEdgesID.forEach((id) => {
+                    targetEdgesID.forEach(id => {
                       cy.remove("#" + id);
                     });
                   },
@@ -370,6 +370,12 @@ let Mindmap = {
                   }
                 );
             }
+          }
+        },
+        {
+          content: "View",
+          select: function(element) {
+            showArticleView(element.id());
           }
         }
       ];
