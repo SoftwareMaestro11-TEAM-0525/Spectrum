@@ -25,6 +25,7 @@ export class AuthController {
         },
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };

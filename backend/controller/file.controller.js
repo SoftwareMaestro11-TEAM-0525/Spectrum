@@ -11,6 +11,7 @@ export class FileController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -26,6 +27,7 @@ export class FileController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
