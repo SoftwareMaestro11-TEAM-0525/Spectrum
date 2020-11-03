@@ -103,9 +103,11 @@
 import NavBar from "@/components/NavBar";
 import Quill from "quill";
 import ArticleService from "@/services/article.service";
+import FileService from "@/services/file.service";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { Korean } from "flatpickr/dist/l10n/ko.js";
+import ImageUploader from "quill-image-uploader";
 
 export default {
   name: "input.vue",
@@ -128,19 +130,40 @@ export default {
           [{ color: [] }, { background: [] }], // dropdown with defaults from theme
           [{ align: [] }],
           ["link", "image"]
-        ]
+        ],
+        imageUploader: {
+          upload: file => {
+            return new Promise((resolve, reject) => {
+              const formData = new FormData();
+              formData.append("file", file);
+              formData.append("user_id", "0");
+              formData.append("node_id", "0");
+
+              FileService.post(formData)
+                .then(result => {
+                  console.log(result);
+                  resolve(result.location);
+                })
+                .catch(error => {
+                  reject("이미지 업로드 실패");
+                  console.error("Error:", error);
+                });
+            });
+          }
+        }
       },
       theme: "snow",
       bounds: ".editor"
     };
+    Quill.register("modules/imageUploader", ImageUploader);
     this.editor = new Quill(this.$refs.editor, options);
   },
   data() {
     return {
       titleString: "",
       date: {
-        start: "",
-        end: "",
+        start: null,
+        end: null,
         config: {
           start: {
             dateFormat: "Y-m-d",
@@ -155,7 +178,7 @@ export default {
           }
         }
       },
-      tags: [{ text: "떡볶이" }, { text: "순대" }],
+      tags: [],
       isLock: false,
       linkURL: "",
       fileURL: "",
@@ -187,12 +210,14 @@ export default {
         return;
       }
 
-      if (!this.startDate || !this.endDate) {
+      if (!this.date.start || !this.date.end) {
         alert("날짜를 올바르게 입력해 주세요.");
+        return;
       }
 
       if (!this.tags || this.tags.length === 0) {
         alert("하나 이상의 태그를 입력해 주세요.");
+        return;
       }
 
       if (this.$route.params.type === "general") {
@@ -207,8 +232,8 @@ export default {
         nodeID: -this.$store.state.mindmap.elements.nodes.length,
         type: this.$route.params.type,
         title: this.titleString,
-        startDate: this.startDate,
-        endDate: this.endDate,
+        startDate: this.date.start,
+        endDate: this.date.end,
         content: "이건 샘플 콘텐츠입니다!!", // 추후 처리 필요
         keyword: this.tags,
         webURL: this.linkURL,
