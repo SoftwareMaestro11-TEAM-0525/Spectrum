@@ -10,6 +10,7 @@ export class ShareMindmapController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -26,6 +27,7 @@ export class ShareMindmapController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -48,6 +50,7 @@ export class ShareMindmapController {
         });
       }
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -67,6 +70,7 @@ export class ShareMindmapController {
         });
       }
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };

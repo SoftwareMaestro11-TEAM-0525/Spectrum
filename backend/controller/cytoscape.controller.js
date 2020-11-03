@@ -5,13 +5,13 @@ export class CytoscapeController {
   static write = async (req, res, next) => {
     try {
       const result = await CytoscapeService.init(req.body);
-      console.log(result);
       return res.status(201).json({
         success: true,
         message: "create cytoscape Success",
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -26,6 +26,7 @@ export class CytoscapeController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -43,6 +44,7 @@ export class CytoscapeController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };

@@ -10,6 +10,7 @@ export class UserController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -23,6 +24,7 @@ export class UserController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -42,6 +44,7 @@ export class UserController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
