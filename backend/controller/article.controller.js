@@ -12,6 +12,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -26,6 +27,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -39,6 +41,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -53,6 +56,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -67,6 +71,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -81,6 +86,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
@@ -95,6 +101,7 @@ export class ArticleController {
         result: result,
       });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };
