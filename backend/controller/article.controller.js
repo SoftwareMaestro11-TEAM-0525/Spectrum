@@ -1,3 +1,4 @@
+import { async } from "crypto-random-string";
 import { ArticleService } from "../service/article.service";
 
 export class ArticleController {
