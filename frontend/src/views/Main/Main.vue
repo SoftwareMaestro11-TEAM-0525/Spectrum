@@ -7,10 +7,14 @@
     />
     <general-view
       v-if="showGeneralView"
+      v-bind:nodeID="curNodeId"
       @closeGeneralView="handleGeneralView"
     />
     <nav-bar :isMain="true"></nav-bar>
-    <mindmap @popupEvent="handlePopup" @generalViewEvent="handleGeneralView"></mindmap>
+    <mindmap
+      @popupEvent="handlePopup"
+      @generalViewEvent="handleGeneralView"
+    ></mindmap>
   </div>
 </template>
 

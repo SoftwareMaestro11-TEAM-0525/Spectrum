@@ -11,12 +11,12 @@
         <img src="~@/assets/image/close.png" alt="창 닫기" @click="closeView" />
       </div>
       <div class="content">
-        <div class="type">일반</div>
-        <div class="title">첫 번째 게시글</div>
+        <div class="type">{{ type }}</div>
+        <div class="title">{{ title }}</div>
         <div class="info">
-          <span class="isPublic">비공개</span>
+          <span class="isPublic">{{ isSecret }}</span>
           <div class="vDivider"></div>
-          <span class="date">2018. 07. 06 ~ 2018. 07. 20</span>
+          <span class="date">{{ date.start }} ~ {{ date.end }}</span>
         </div>
         <div class="keywords">
           <div class="keyword">키워드</div>
@@ -35,12 +35,64 @@
 </template>
 
 <script>
+import ArticleService from "@/services/article.service";
+
 export default {
   name: "GeneralView",
+  props: ["nodeID"],
   methods: {
     closeView() {
       this.$emit("closeGeneralView", false);
     }
+  },
+  data() {
+    return {
+      keywords: [],
+      type: "",
+      title: "",
+      date: {
+        start: "",
+        end: ""
+      },
+      content: null,
+      url: null,
+      file: null,
+      isSecret: null
+    };
+  },
+  mounted() {
+    ArticleService.getArticles({
+      userID: this.$store.state.auth.user.user_id,
+      nodeID: this.nodeID
+    }).then(
+      res => {
+        this.keywords = res.keyword;
+        console.log(this.keywords);
+        switch (res.type) {
+          case "general":
+            this.type = "일반";
+            break;
+          case "file":
+            this.type = "파일";
+            break;
+          case "link":
+            this.type = "링크";
+            break;
+        }
+        this.title = res.title;
+        this.date.start = res.start_date.toString().substring(0, 10);
+        this.date.end = res.end_date.toString().substring(0, 10);
+        this.content = res.content;
+        this.url = res.web_url;
+        this.file = res.file_url;
+        this.isSecret = res.secret ? "비공개" : "공개";
+        console.log("success!");
+      },
+      err => {
+        alert("에러!");
+        console.log(err);
+      }
+    );
   }
 };
 </script>
