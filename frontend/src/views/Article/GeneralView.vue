@@ -19,7 +19,9 @@
           <span class="date">{{ date.start }} ~ {{ date.end }}</span>
         </div>
         <div class="keywords">
-          <div class="keyword">키워드</div>
+          <div v-for="keyword in keywords" :key="keyword.text" class="keyword">
+            {{ keyword.text }}
+          </div>
         </div>
         <div class="copy">
           <img src="~@/assets/image/copy.png" alt="글 복사" />
