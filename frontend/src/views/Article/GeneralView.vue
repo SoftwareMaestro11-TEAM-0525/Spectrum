@@ -31,6 +31,7 @@
         <div class="hDivider"></div>
 
         <!--본문-->
+        <div class="body" v-html="content"></div>
       </div>
     </div>
   </div>
@@ -38,6 +39,7 @@
 
 <script>
 import ArticleService from "@/services/article.service";
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
 export default {
   name: "GeneralView",
@@ -84,10 +86,16 @@ export default {
         this.title = res.title;
         this.date.start = res.start_date.toString().substring(0, 10);
         this.date.end = res.end_date.toString().substring(0, 10);
-        this.content = res.content;
         this.url = res.web_url;
         this.file = res.file_url;
         this.isSecret = res.secret ? "비공개" : "공개";
+
+        let converter = new QuillDeltaToHtmlConverter(
+          JSON.parse(res.content).ops,
+          {}
+        );
+        this.content = converter.convert();
+
         console.log("success!");
       },
       err => {
@@ -216,5 +224,6 @@ export default {
   width: 100%;
   height: 1px;
   background-color: #ededed;
+  margin-bottom: 30px;
 }
 </style>
