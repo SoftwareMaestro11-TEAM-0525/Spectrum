@@ -167,7 +167,6 @@ export default {
           start: {
             dateFormat: "Y-m-d",
             locale: Korean,
-            minDate: new Date(),
             maxDate: null
           },
           end: {
