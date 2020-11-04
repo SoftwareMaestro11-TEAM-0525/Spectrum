@@ -6,7 +6,7 @@
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
 export default {
-  name: "general",
+  name: "GeneralType",
   props: ["content"],
   data() {
     return {

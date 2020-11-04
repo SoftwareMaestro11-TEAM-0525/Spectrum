@@ -32,7 +32,8 @@
 
         <!--본문-->
         <template v-if="isDataReady">
-          <general :content="content"></general>
+          <!--<general :content="content"></general>-->
+          <link-type></link-type>
         </template>
       </div>
     </div>
@@ -41,13 +42,14 @@
 
 <script>
 import ArticleService from "@/services/article.service";
-import general from "./general";
+// import GeneralType from "./GeneralType";
+import LinkType from "@/views/Article/LinkType";
 
 export default {
   name: "ArticleView",
   props: ["nodeID"],
   components: {
-    general
+    LinkType
   },
   methods: {
     closeView() {
@@ -67,7 +69,7 @@ export default {
       url: null,
       file: null,
       isSecret: null,
-      isDataReady: false,
+      isDataReady: false
     };
   },
   mounted() {
