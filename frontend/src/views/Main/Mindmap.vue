@@ -43,7 +43,7 @@ export default {
       this.$emit("popupEvent", true, id);
     },
     showArticleView(id) {
-      this.$emit("generalViewEvent", true, id);
+      this.$emit("articleViewEvent", true, id);
     }
     //cytoscape mindmap style feature
     //cxtmenu feature

@@ -31,7 +31,9 @@
         <div class="hDivider"></div>
 
         <!--본문-->
-        <div class="body" v-html="content"></div>
+        <template v-if="isDataReady">
+          <general :content="content"></general>
+        </template>
       </div>
     </div>
   </div>
@@ -39,14 +41,17 @@
 
 <script>
 import ArticleService from "@/services/article.service";
-import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+import general from "./general";
 
 export default {
-  name: "GeneralView",
+  name: "ArticleView",
   props: ["nodeID"],
+  components: {
+    general
+  },
   methods: {
     closeView() {
-      this.$emit("closeGeneralView", false);
+      this.$emit("closeArticleView", false);
     }
   },
   data() {
@@ -61,7 +66,8 @@ export default {
       content: null,
       url: null,
       file: null,
-      isSecret: null
+      isSecret: null,
+      isDataReady: false,
     };
   },
   mounted() {
@@ -89,14 +95,9 @@ export default {
         this.url = res.web_url;
         this.file = res.file_url;
         this.isSecret = res.secret ? "비공개" : "공개";
+        this.content = res.content;
 
-        let converter = new QuillDeltaToHtmlConverter(
-          JSON.parse(res.content).ops,
-          {}
-        );
-        this.content = converter.convert();
-
-        console.log("success!");
+        this.isDataReady = true;
       },
       err => {
         alert("에러!");
