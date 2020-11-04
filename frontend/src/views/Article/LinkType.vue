@@ -30,12 +30,13 @@ export default {
 
 .linkButton {
   width: 350px;
-  height: 65px;
+  height: 70px;
   border: 1px solid #ededed;
   cursor: pointer;
   padding: 20px;
   align-items: center;
   display: flex;
+  box-sizing: border-box;
 
   .icon {
     width: 32px;
