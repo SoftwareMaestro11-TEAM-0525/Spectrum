@@ -65,7 +65,7 @@ export class ShareMindmapService {
 
   static deleteSharedKey = async (req) => {
     try {
-      return (result = await Share.deleteShare("mindmap", req));
+      return await Share.deleteShare("mindmap", req);
     } catch (err) {
       console.log(err);
       err.message = "Delete Share Key fail";

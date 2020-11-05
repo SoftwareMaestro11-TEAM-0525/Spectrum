@@ -19,6 +19,7 @@ export const mindmap = {
         })
         .then(
           response => {
+            console.log(response.data.result.cyjson);
             commit("setCyjson", response.data.result.cyjson);
             return Promise.resolve(response.data.result.cyjson);
           },
@@ -34,13 +35,17 @@ export const mindmap = {
     addMindmapEdge({ commit }, data) {
       commit("addEdge", data);
     },
-    patchMindmapData({ commit, state }, data) {
-      const { userID } = data;
+    patchMindmapData({ commit }, data) {
+      const { userID, nodes, edges } = data;
+      const cyjson = {
+        nodes,
+        edges
+      };
       return axios
         .patch(
           `/api/cytoscape/${userID}`,
           {
-            cyjson: state.elements
+            cyjson: cyjson
           },
           {
             headers: authHeader()
@@ -55,9 +60,6 @@ export const mindmap = {
             return Promise.reject(error);
           }
         );
-    },
-    setCurrentID({ commit }, data) {
-      commit("setCurrentID", data);
     },
     patchSampleMindmapData({ commit }, data) {
       const { userID } = data;
@@ -158,7 +160,7 @@ export const mindmap = {
             return Promise.reject(error);
           }
         );
-    },
+    }
   },
   mutations: {
     setCyjson(state, cyjson) {
@@ -179,9 +181,6 @@ export const mindmap = {
       state.elements.edges.push({
         data: { id: id, source: source, target: target }
       });
-    },
-    setCurrentID(state, data) {
-      state.currentID = data;
     }
   }
 };
