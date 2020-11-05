@@ -4,6 +4,7 @@ import Home from "@/views/Home";
 import auth from "./auth";
 import Main from "@/views/Main/Main";
 import Input from "@/views/Input/Input";
+import ShareMindmap from "@/views/Share/ShareMindmap";
 
 import store from "@/store/index";
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/input/:type",
     name: "Input",
     component: Input
+  },
+  {
+    path: "/share/:share_key",
+    name: "Share",
+    component: ShareMindmap
   },
   ...auth
 ];
