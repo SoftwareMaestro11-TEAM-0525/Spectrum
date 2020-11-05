@@ -374,6 +374,9 @@ let Mindmap = {
       cy.cxtmenu({ selector: "node", openMenuEvents: 'cxttap', commands: nodeCommand });
       cy.cxtmenu({ selector: "edge", commands: edgeCommand });
       cy.cxtmenu({ selector: "core", commands: coreCommand });
+    },
+    bfs_test:function(){
+
     }
   }
 };
