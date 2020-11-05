@@ -54,6 +54,7 @@ export default {
     .fileName {
       font-size: 15px;
       color: #363636;
+      margin-bottom: 4px;
     }
 
     .fileSize {

@@ -34,7 +34,9 @@ export default {
           return res;
         },
         error => {
-          alert("알 수 없는 에러가 발생했습니다.1");
+          alert("인증이 만료되었습니다! 다시 로그인해 주세요.");
+          this.$store.dispatch("auth/logout");
+          this.$router.push({ name: "Login" });
           console.log(error);
         }
       );

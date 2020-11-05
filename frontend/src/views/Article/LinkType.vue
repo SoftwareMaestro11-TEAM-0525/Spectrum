@@ -30,7 +30,7 @@ export default {
 
 .linkButton {
   width: 350px;
-  height: 70px;
+  height: 90px;
   border: 1px solid #ededed;
   cursor: pointer;
   padding: 20px;
@@ -52,11 +52,12 @@ export default {
 
     .url {
       text-overflow: ellipsis;
-      width: 290px;
+      width: 270px;
       white-space: nowrap;
       font-size: 14px;
       color: #363636;
       overflow: hidden;
+      margin-bottom: 8px;
     }
 
     .tooltip {
