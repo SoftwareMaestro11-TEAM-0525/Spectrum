@@ -3,12 +3,12 @@ import { FileService } from "../service/file.service";
 export class FileController {
   static upload = async (req, res, next) => {
     try {
-      const result = await ArticleService.updateFileUrl(req);
+      //const result = await ArticleService.updateFileUrl(req);
 
       return res.status(200).json({
         success: true,
         message: "File upload success",
-        result: result,
+        result: "result",
       });
     } catch (err) {
       console.log(err);
