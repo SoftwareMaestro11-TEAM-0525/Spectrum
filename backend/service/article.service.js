@@ -69,7 +69,18 @@ export class ArticleService {
 
     return res;
   };
-
+  
+  static readAllContentByUserId = async (req)=>{
+    const {user_id} = req;
+    const tmp = await Article.findAllByUserId(user_id);
+    if(tmp == null){
+      let err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    return tmp;
+  }
   static readTimeline = async (req) => {
     const user_id = req;
     const existed = await Article.findTimelineArticles(user_id);
