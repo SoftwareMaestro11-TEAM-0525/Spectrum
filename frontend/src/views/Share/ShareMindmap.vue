@@ -11,7 +11,7 @@ export default {
   mixins: [MindmapShare],
   async mounted() {
     const userId = await this.getOwnerInfo().then(res => res.user_id);
-    const data = await this.getMindmapInfo(userId);
+    const data = await this.getMindmapInfo(userId).then(res => res.cyjson);
     this.cy_def(data);
     this.view_init();
     this.cxtmenu_def();

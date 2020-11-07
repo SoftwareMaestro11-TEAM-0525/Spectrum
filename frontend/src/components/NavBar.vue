@@ -64,8 +64,7 @@ export default {
   },
   async mounted() {
     // Get Share Key
-    const userEmail = this.$store.state.auth.user.user_email;
-    const userId = userEmail.split("@", 1)[0];
+    const userId = this.$store.state.auth.user.user_id;
 
     const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
       res => res.share_key
