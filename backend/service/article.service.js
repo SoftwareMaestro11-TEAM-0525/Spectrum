@@ -1,5 +1,6 @@
 import Article from "../models/Article";
-
+import User from "../models/User";
+import axios from "axios";
 export class ArticleService {
   static readArticle = async (req) => {
     const { user_id, node_id } = req;
@@ -68,6 +69,49 @@ export class ArticleService {
     }
 
     return res;
+  };
+
+  static readAllContentByUserId = async (req) => {
+    const { user_id, newContent } = req;
+    const userExsited = await User.findOneByUserId(user_id);
+
+    if (userExsited == null) {
+      let err = new Error();
+      err.message = "User not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const res = {
+      node_id: [],
+      content: [],
+    };
+
+    if (tmp == null) {
+      let err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      res.node_id.push(element.node_id);
+      res.content.push(element.content);
+    }
+
+    const result = axios.post("http:///ml/recommend/position", {
+      res,
+      newContent,
+    });
+    console.log(result);
+
+    if (result == null) {
+      let err = new Error();
+      err.message = "run recomment fail";
+      err.status = 400;
+      throw err;
+    }
+    return result;
   };
 
   static readTimeline = async (req) => {

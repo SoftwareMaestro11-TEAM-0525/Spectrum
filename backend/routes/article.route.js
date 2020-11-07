@@ -13,4 +13,10 @@ router.post("/", authMiddleware, ArticleController.write);
 router.patch("/:user_id/:node_id", authMiddleware, ArticleController.update);
 router.delete("/:user_id/:node_id", authMiddleware, ArticleController.delete);
 
+router.post(
+  "/recommend",
+  authMiddleware,
+  ArticleController.readArticlesContentByUserId
+);
+
 module.exports = router;
