@@ -211,7 +211,7 @@ def textfile_similarity():
     print('-'*50)
     # print(tfidfv.vocabulary_)
     # print(tfidfv.transform(texts_noun).toarray()[0])
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[1]))
+    print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[0]))
     print(cos_sim(tfidfv.transform(texts_noun).toarray()[1],tfidfv.transform(texts_noun).toarray()[2]))
     print(cos_sim(tfidfv.transform(texts_noun).toarray()[2],tfidfv.transform(texts_noun).toarray()[0]))
     print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[1]))
@@ -219,14 +219,15 @@ def textfile_similarity():
     print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[4]))
     return '문서 유사도 비교 테스트'
 
-@app.route('/ml/recommend/position', methods=['POST'])
-def textfile_similarity():
+# @app.route('/ml/recommend/position', methods=['POST'])
+# def textfile_similarity():
     okt = Okt()
     
     origin_data = []
     origin_node_id = []
     test_data=''
     test_data_num=0
+    test_data_id = -1
     data = request.get_json()
     for i in data :
         origin_data.append(i+'\n')
@@ -236,14 +237,14 @@ def textfile_similarity():
     origin_data.append(test_data)
     # test_data_num이 아마 
     test_data_num=len(origin_data)-1
-
+    origin_node_id.append(test_data_id)
     texts_noun = [' '.join(okt.nouns(text)) for text in origin_data]
     tfidfv = TfidfVectorizer().fit(texts)
-
+    sorted(zip(origin_node_id, origin_data), reverse=True)[:4]
     list_cos = []
     for i in origin_data:
         list.append(cos_sim(tfidfv.transform(text_noun).toarray()[test_data_num],tfidfv.transform(text_noun).toarray()[i]))
-    
+    origin_no
     if request.method == 'POST':
         word_list = list()
         test = {}
@@ -253,5 +254,8 @@ def textfile_similarity():
             test[word]=r 
         print(test)
         return json.dumps(test, ensure_ascii = False)
-
     return '문서 유사도 비교 테스트'
+
+@app.route('/ml/recommend/position', methods=['POST'])
+def test():
+    return 'hello world!'
