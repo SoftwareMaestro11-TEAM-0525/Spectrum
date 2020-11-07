@@ -98,7 +98,20 @@ export class ArticleService {
       res.node_id.push(element.node_id);
       res.content.push(element.content);
     }
-    return res;
+
+    const result = axios.post("http:///ml/recommend/position", {
+      res,
+      newContent,
+    });
+    console.log(result);
+
+    if (result == null) {
+      let err = new Error();
+      err.message = "run recomment fail";
+      err.status = 400;
+      throw err;
+    }
+    return result;
   };
 
   static readTimeline = async (req) => {
