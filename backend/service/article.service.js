@@ -1,5 +1,6 @@
 import Article from "../models/Article";
 import User from "../models/User";
+import axios from "axios";
 export class ArticleService {
   static readArticle = async (req) => {
     const { user_id, node_id } = req;
@@ -71,7 +72,7 @@ export class ArticleService {
   };
 
   static readAllContentByUserId = async (req) => {
-    const { user_id } = req;
+    const { user_id, newContent } = req;
     const userExsited = await User.findOneByUserId(user_id);
 
     if (userExsited == null) {
@@ -86,7 +87,7 @@ export class ArticleService {
       node_id: [],
       content: [],
     };
-    console.log(tmp);
+
     if (tmp == null) {
       let err = new Error();
       err.message = "Article not Found";
