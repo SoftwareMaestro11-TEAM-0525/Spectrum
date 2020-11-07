@@ -45,7 +45,7 @@ export class ArticleController {
       next(err);
     }
   };
-  
+
   static readArticlesContentByUserId = async (req, res, next) => {
     try {
       const result = await ArticleService.readAllContentByUserId(req.params);
