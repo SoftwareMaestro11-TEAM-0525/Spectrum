@@ -1,5 +1,5 @@
 import Article from "../models/Article";
-
+import User from "../models/User";
 export class ArticleService {
   static readArticle = async (req) => {
     const { user_id, node_id } = req;
@@ -67,6 +67,36 @@ export class ArticleService {
       throw err;
     }
 
+    return res;
+  };
+
+  static readAllContentByUserId = async (req) => {
+    const { user_id } = req;
+    const userExsited = await User.findOneByUserId(user_id);
+
+    if (userExsited == null) {
+      let err = new Error();
+      err.message = "User not Found";
+      err.status = 400;
+      throw err;
+    }
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const res = {
+      node_id: [],
+      content: [],
+    };
+    console.log(tmp);
+    if (tmp == null) {
+      let err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      res.node_id.push(element.node_id);
+      res.content.push(element.content);
+    }
     return res;
   };
 

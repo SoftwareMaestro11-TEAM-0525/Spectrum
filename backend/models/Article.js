@@ -50,6 +50,19 @@ Article.statics.findOneByUserIdNodeId = function (user_id, node_id) {
   });
 };
 
+Article.statics.findAllByUserId = function (user_id) {
+  return this.find({ user_id, type: "experience" }).select({
+    type: 0,
+    keyword: 0,
+    user_id: 0,
+    start_date: 0,
+    end_date: 0,
+    web_url: 0,
+    secret: 0,
+    file_url: 0,
+  });
+};
+
 Article.statics.findTimelineArticles = function (user_id) {
   return this.find({
     user_id,

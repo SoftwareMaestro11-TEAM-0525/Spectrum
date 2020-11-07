@@ -46,6 +46,20 @@ export class ArticleController {
     }
   };
 
+  static readArticlesContentByUserId = async (req, res, next) => {
+    try {
+      const result = await ArticleService.readAllContentByUserId(req.params);
+      return res.status(200).json({
+        success: true,
+        message: "Get Articles Contents success",
+        result: result,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
+
   static readTimeline = async (req, res, next) => {
     try {
       const result = await ArticleService.readTimeline(req.params.user_id);
