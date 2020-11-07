@@ -22,8 +22,6 @@ const Share = new Schema({
   },
   node_id: {
     type: String,
-    index: true,
-    unique: true,
   },
   created_date: {
     type: String,
