@@ -1,6 +1,5 @@
 <template>
-  <div id="cy">
-  </div>
+  <div id="cy"></div>
 </template>
 
 <script>
@@ -10,12 +9,10 @@ export default {
   name: "Mindmap",
   mixins: [Mindmap],
   components: {},
-  created: function() {},
   data: function() {
     return {
       input: "",
       output: "",
-      msg: "vue to cytoscape",
       count: 0
     };
   },
@@ -91,15 +88,5 @@ export default {
 #cy {
   height: calc(100% - 64px);
   margin-top: 64px;
-  button {
-    position: absolute;
-    width: 100px;
-    height: 40px;
-    top: 30px;
-    left: 50%;
-    margin-left: -50px;
-    cursor: pointer;
-    z-index: 1;
-  }
 }
 </style>

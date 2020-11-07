@@ -35,11 +35,7 @@
           <div></div>
         </div>
         <div class="share">
-          <input
-            type="text"
-            value="https://wizardly-pasteur-8018f7.net"
-            readonly
-          />
+          <input type="text" :value="shareURL" readonly />
           <button>복사</button>
         </div>
       </div>
@@ -48,11 +44,14 @@
 </template>
 
 <script>
+import ShareMindmapService from "@/services/share.mindmap.service";
+
 export default {
   name: "NavBar",
   data() {
     return {
-      expCount: -100
+      expCount: this.$store.state.mindmap.elements.nodes.length,
+      shareURL: ""
     };
   },
   computed: {
@@ -62,6 +61,17 @@ export default {
   },
   props: {
     isMain: Boolean
+  },
+  async mounted() {
+    // Get Share Key
+    const userEmail = this.$store.state.auth.user.user_email;
+    const userId = userEmail.split("@", 1)[0];
+
+    const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
+      res => res.share_key
+    );
+
+    this.shareURL = `http://localhost:8080/share/${ShareKey}`;
   },
   methods: {
     popupEvent: function() {
@@ -111,23 +121,28 @@ export default {
   box-sizing: border-box;
   border-bottom: 1px solid #e5e5e5;
   z-index: 1;
+
   &:after {
     content: "";
     display: block;
     clear: both;
   }
+
   .top_logo {
     height: 100%;
     display: inline-flex;
     align-items: center;
+
     img {
       height: 32px;
     }
   }
+
   .item {
     width: 115px;
     float: right;
     line-height: normal;
+
     > button {
       width: 100%;
       height: 63px;
@@ -137,18 +152,23 @@ export default {
       background-color: white;
       outline: none;
       cursor: pointer;
+
       &:hover {
         font-weight: bold;
       }
     }
+
     button:hover + div {
       display: block;
     }
+
     .dropdown {
       display: none;
+
       &:hover {
         display: block;
       }
+
       .options {
         width: 232px;
         background-color: white;
@@ -156,45 +176,55 @@ export default {
         border-radius: 6px;
         box-shadow: 0 0 12px 0 rgba(134, 134, 134, 0.15);
         overflow: auto;
+
         div {
           text-align: center;
           line-height: normal;
           position: static;
         }
+
         .status {
           overflow: auto;
           border-bottom: 1px solid #f0f0f0;
+
           div:first-child {
             margin: 28px 0 12px 0;
             font-size: 20px;
           }
+
           div:last-child {
             margin: 0 0 27px 0;
             font-size: 15px;
           }
         }
+
         .menu {
           border-bottom: 1px solid #f0f0f0;
+
           div {
             height: 52.5px;
             font-size: 15px;
             line-height: 52.5px;
             cursor: pointer;
+
             &:hover {
               background-color: #f6f6f6;
             }
           }
         }
+
         .logout {
           line-height: 52.5px;
           font-size: 13px;
           cursor: pointer;
           color: #969696;
+
           &:hover {
             background-color: #f6f6f6;
           }
         }
       }
+
       .share {
         width: 360px;
         height: 80px;
@@ -204,6 +234,7 @@ export default {
         border-radius: 6px;
         box-shadow: 0 0 12px 0 rgba(134, 134, 134, 0.15);
         padding: 18px 14px;
+
         input {
           width: 244px;
           height: 44px;
@@ -217,6 +248,7 @@ export default {
           color: #363636;
           font-size: 14px;
         }
+
         button {
           width: 76px;
           height: 44px;
@@ -233,21 +265,26 @@ export default {
       }
     }
   }
+
   .wrap_rect {
     &.short {
       width: 232px;
       margin-left: -116px;
+
       div {
         margin: 1px 0 0 168px;
       }
     }
+
     &.long {
       width: 360px;
       margin-left: -232.5px;
+
       div {
         margin: 1px 0 0 280px;
       }
     }
+
     div {
       position: relative;
       width: 0;

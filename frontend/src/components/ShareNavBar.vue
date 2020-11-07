@@ -10,8 +10,8 @@
 
 <script>
 export default {
-name: "ShareNavBar"
-}
+  name: "ShareNavBar"
+};
 </script>
 
 <style scoped lang="scss">
@@ -29,6 +29,7 @@ name: "ShareNavBar"
   height: 100%;
   display: inline-flex;
   align-items: center;
+
   img {
     height: 32px;
   }

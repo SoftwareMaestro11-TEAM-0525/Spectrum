@@ -4,7 +4,7 @@ import Home from "@/views/Home";
 import auth from "./auth";
 import Main from "@/views/Main/Main";
 import Input from "@/views/Input/Input";
-import ShareMindmap from "@/views/Share/ShareMindmap";
+import ShareMindmap from "@/views/Share/ShareMain";
 
 import store from "@/store/index";
 
@@ -41,7 +41,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["Login", "Join", "Password", "Home"];
+  const publicPages = ["Login", "Join", "Password", "Home", "Share"];
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = store.state.auth.status.loggedIn;
 
