@@ -199,63 +199,69 @@ def textfile_similarity():
 
     # print(tfidfv.vocabulary_)
     # print(tfidfv.transform(texts).toarray()[0])
-    print(cos_sim(tfidfv.transform(texts).toarray()[0],tfidfv.transform(texts).toarray()[1]))
-    print(cos_sim(tfidfv.transform(texts).toarray()[1],tfidfv.transform(texts).toarray()[2]))
-    print(cos_sim(tfidfv.transform(texts).toarray()[2],tfidfv.transform(texts).toarray()[0]))
-    print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[1]))
-    print(cos_sim(tfidfv.transform(texts).toarray()[4],tfidfv.transform(texts).toarray()[2]))
-    print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[4]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[0],tfidfv.transform(texts).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[1],tfidfv.transform(texts).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[2],tfidfv.transform(texts).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[4],tfidfv.transform(texts).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[4]))
     print('-'*50)
     tfidfv = TfidfVectorizer().fit(texts_noun)
     # print(tfidfv.transform(texts_noun).toarray())
     print('-'*50)
     # print(tfidfv.vocabulary_)
     # print(tfidfv.transform(texts_noun).toarray()[0])
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[0]))
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[1],tfidfv.transform(texts_noun).toarray()[2]))
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[2],tfidfv.transform(texts_noun).toarray()[0]))
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[1]))
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[4],tfidfv.transform(texts_noun).toarray()[2]))
-    print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[4]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[1],tfidfv.transform(texts_noun).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[2],tfidfv.transform(texts_noun).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[4],tfidfv.transform(texts_noun).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[4]))
+    list_num = []
+    for i in tfidfv.transform(texts_noun).toarray():
+        print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],i))
+        list_num.append(cos_sim(tfidfv.transform(texts_noun).toarray()[0],i))
+    print(sorted(zip(list_num), reverse=True)[:3])
     return '문서 유사도 비교 테스트'
 
-# @app.route('/ml/recommend/position', methods=['POST'])
-# def textfile_similarity():
-    okt = Okt()
-    
-    origin_data = []
-    origin_node_id = []
-    test_data=''
-    test_data_num=0
-    test_data_id = -1
-    data = request.get_json()
-    for i in data :
-        origin_data.append(i+'\n')
-
-    #이 상태 까지 넘어오면 기본 노드에 있던 데이터 전체 추가 완료 상태
-
-    origin_data.append(test_data)
-    # test_data_num이 아마 
-    test_data_num=len(origin_data)-1
-    origin_node_id.append(test_data_id)
-    texts_noun = [' '.join(okt.nouns(text)) for text in origin_data]
-    tfidfv = TfidfVectorizer().fit(texts)
-    sorted(zip(origin_node_id, origin_data), reverse=True)[:4]
-    list_cos = []
-    for i in origin_data:
-        list.append(cos_sim(tfidfv.transform(text_noun).toarray()[test_data_num],tfidfv.transform(text_noun).toarray()[i]))
-    origin_no
-    if request.method == 'POST':
-        word_list = list()
-        test = {}
-        r_list = list()
-        for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
-            print('%8s:\t%.4f' % (word, r))
-            test[word]=r 
-        print(test)
-        return json.dumps(test, ensure_ascii = False)
-    return '문서 유사도 비교 테스트'
-
+def text_parse(lines):
+    temp = ''
+    for line in lines:
+        if line==' ':
+            temp = temp + ' '
+        elif line=="\n":
+            temp = temp + '.'
+        else:
+            # print(line)
+            temp = temp + line
+    # print('*'*50)
+    return temp
 @app.route('/ml/recommend/position', methods=['POST'])
 def test():
+    okt = Okt()
+    data = request.get_json()
+    origin_node_id = data["node_id"]
+    origin_data = data["content"]
+    test_data = data["test"]
+    use_data = []
+    print(origin_data)
+    #일단 먼저 각각의 문서 배열에 있는 애들을 한문장으로 만들어주고 만든 다음에 문서 저장하는 파일에다가 넣어주면 됨
+    for i in range(len(origin_data)):
+        temp = text_parse(origin_data[i])
+        use_data.append(temp+'\n')
+    test_id = len(use_data)
+    use_data.append(text_parse(test_data))
+
+    origin_node_id.append(0)
+    texts_noun = [' '.join(okt.nouns(text)) for text in use_data]
+    tfidfv = TfidfVectorizer().fit(texts_noun)
+    result=[]
+    for i in tfidfv.transform(texts_noun).toarray():
+        print(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
+        result.append(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
+    print(sorted(zip(result,origin_node_id), reverse=True)[:4])
+    print('use_data 안의 값:')
+    print(use_data)
+    if request.method == 'POST':
+        return json.dumps(sorted(zip(result,origin_node_id), reverse=True)[:4],ensure_ascii = False)
     return 'hello world!'
