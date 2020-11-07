@@ -160,23 +160,32 @@ def new_fileReader(fname):
 @app.route('/')
 def textfile_similarity():
     okt = Okt()
-    data = ''
+    data = []
     fname='./test_docs2/textfile1.txt'
     fname1='./test_docs2/textfile2.txt'
     fname2='./test_docs2/textfile3.txt'
     fname3='./test_docs2/textfile4.txt'
     fname4='./test_docs2/textfile5.txt'
     # 텍스트 파일 읽어와서 한문장으로 이어주는 함수 만들기
-    data += new_fileReader(fname) + '\n'
-    data += new_fileReader(fname1) + '\n'
-    data += new_fileReader(fname2) + '\n'
-    data += new_fileReader(fname3) + '\n'
-    data += new_fileReader(fname4) + '\n'
+    data.append(new_fileReader(fname) + '\n')
+    data.append(new_fileReader(fname1) + '\n')
+    data.append(new_fileReader(fname2) + '\n')
+    data.append(new_fileReader(fname3) + '\n')
+    data.append(new_fileReader(fname4))
+    # 위에 내용 for 문으로 만들어주기
+    # for i in temp.len; :
+        
     print(data)
-   
+    print(type(data))
+    list_data = str.split('\n')
+    print(type(list_data))
     #기존 함수 사용해서 읽어 오는 방식
     
     texts= get_texts_scores('./test_docs/test1.txt')
+    print(type(texts))
+    print(texts)
+    print('*'*100)
+    texts = data
     # texts+= get_texts_scores(fname1)
     # texts+= get_texts_scores(fname2)
     # texts+= get_texts_scores(fname3)
@@ -210,3 +219,39 @@ def textfile_similarity():
     print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[4]))
     return '문서 유사도 비교 테스트'
 
+@app.route('/ml/recommend/position', methods=['POST'])
+def textfile_similarity():
+    okt = Okt()
+    
+    origin_data = []
+    origin_node_id = []
+    test_data=''
+    test_data_num=0
+    data = request.get_json()
+    for i in data :
+        origin_data.append(i+'\n')
+
+    #이 상태 까지 넘어오면 기본 노드에 있던 데이터 전체 추가 완료 상태
+
+    origin_data.append(test_data)
+    # test_data_num이 아마 
+    test_data_num=len(origin_data)-1
+
+    texts_noun = [' '.join(okt.nouns(text)) for text in origin_data]
+    tfidfv = TfidfVectorizer().fit(texts)
+
+    list_cos = []
+    for i in origin_data:
+        list.append(cos_sim(tfidfv.transform(text_noun).toarray()[test_data_num],tfidfv.transform(text_noun).toarray()[i]))
+    
+    if request.method == 'POST':
+        word_list = list()
+        test = {}
+        r_list = list()
+        for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
+            print('%8s:\t%.4f' % (word, r))
+            test[word]=r 
+        print(test)
+        return json.dumps(test, ensure_ascii = False)
+
+    return '문서 유사도 비교 테스트'
