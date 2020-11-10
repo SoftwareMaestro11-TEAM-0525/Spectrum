@@ -8,6 +8,7 @@ import ShareMindmap from "@/views/Share/ShareMain";
 import ShareArticle from "@/views/ShareArticle/ArticleView";
 
 import store from "@/store/index";
+import Mypage from "@/views/Mypage/Mypage";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,11 @@ const routes = [
     path: "/share/article/:share_key",
     name: "ShareArticle",
     component: ShareArticle
+  },
+  {
+    path: "/mypage",
+    name: "Mypage",
+    component: Mypage
   },
   ...auth
 ];

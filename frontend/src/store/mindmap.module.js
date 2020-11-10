@@ -37,11 +37,20 @@ export const mindmap = {
     },
     patchMindmapData({ commit, state }, data) {
       const { userID } = data;
-      const { nodes, edges } = state.elements;
+      let nodes, edges;
+      if (data.nodes && data.edges) {
+        nodes = data.nodes;
+        edges = data.edges;
+      } else {
+        nodes = state.elements.nodes;
+        edges = state.elements.edges;
+      }
       const cyjson = {
         nodes,
         edges
       };
+
+      console.log(cyjson);
 
       return axios
         .patch(
@@ -183,6 +192,6 @@ export const mindmap = {
       state.elements.edges.push({
         data: { id: id, source: source, target: target }
       });
-    }
+    },
   }
 };
