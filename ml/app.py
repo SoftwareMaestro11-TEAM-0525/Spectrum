@@ -6,8 +6,6 @@ sys.path.append('../')
 from krwordrank.word import KRWordRank
 from krwordrank.hangle import normalize
 import krwordrank
-import pandas as pd # 데이터프레임 사용을 위해
-from math import log # IDF 계산을 위해
 from sklearn.feature_extraction.text import TfidfVectorizer
 from numpy import dot
 from numpy.linalg import norm
@@ -120,6 +118,7 @@ def sentence_extract():
     return 'hello world'
 @app.route('/ml/keyword', methods=['POST'])
 def keyword_extract():
+    okt = Okt()
     data = request.get_json()
     texts = data
     wordrank_extractor = KRWordRank(
@@ -137,8 +136,13 @@ def keyword_extract():
         r_list = list()
         for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
             print('%8s:\t%.4f' % (word, r))
+            word_list.append(word)
             test[word]=r 
+        word_list = [' '.join(okt.nouns(word)) for word in word_list]
+        while '' in word_list:    
+	        word_list.remove('')
         print(test)
+        print(word_list)
         return json.dumps(test, ensure_ascii = False)
     return 'hello worlsdsd'
 
@@ -238,30 +242,32 @@ def text_parse(lines):
     return temp
 @app.route('/ml/recommend/position', methods=['POST'])
 def test():
-    okt = Okt()
-    data = request.get_json()
-    origin_node_id = data["node_id"]
-    origin_data = data["content"]
-    test_data = data["test"]
-    use_data = []
-    print(origin_data)
-    #일단 먼저 각각의 문서 배열에 있는 애들을 한문장으로 만들어주고 만든 다음에 문서 저장하는 파일에다가 넣어주면 됨
-    for i in range(len(origin_data)):
-        temp = text_parse(origin_data[i])
-        use_data.append(temp+'\n')
-    test_id = len(use_data)
-    use_data.append(text_parse(test_data))
+    # okt = Okt()
+    # data = request.get_json()
+    # origin_node_id = data["node_id"]
+    # origin_data = data["content"]
+    # test_data = data["test"]
+    # use_data = []
+    # print(origin_data)
+    # #일단 먼저 각각의 문서 배열에 있는 애들을 한문장으로 만들어주고 만든 다음에 문서 저장하는 파일에다가 넣어주면 됨
+    # for i in range(len(origin_data)):
+    #     temp = text_parse(origin_data[i])
+    #     use_data.append(temp+'\n')
+    # test_id = len(use_data)
+    # use_data.append(text_parse(test_data))
 
-    origin_node_id.append(0)
-    texts_noun = [' '.join(okt.nouns(text)) for text in use_data]
-    tfidfv = TfidfVectorizer().fit(texts_noun)
-    result=[]
-    for i in tfidfv.transform(texts_noun).toarray():
-        print(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
-        result.append(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
-    print(sorted(zip(result,origin_node_id), reverse=True)[:4])
-    print('use_data 안의 값:')
-    print(use_data)
-    if request.method == 'POST':
-        return json.dumps(sorted(zip(result,origin_node_id), reverse=True)[:4],ensure_ascii = False)
+    # origin_node_id.append(0)
+    # texts_noun = [' '.join(okt.nouns(text)) for text in use_data]
+    # tfidfv = TfidfVectorizer().fit(texts_noun)
+    # result=[]
+    # for i in tfidfv.transform(texts_noun).toarray():
+    #     print(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
+    #     result.append(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
+    # print(sorted(zip(result,origin_node_id), reverse=True)[:4])
+    # print('use_data 안의 값:')
+    # print(use_data)
+    # if request.method == 'POST':
+    #     return json.dumps(sorted(zip(result,origin_node_id), reverse=True)[:4],ensure_ascii = False)
+    if request.metho == 'POST':
+        return 'hello world'
     return 'hello world!'
