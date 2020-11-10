@@ -93,7 +93,7 @@ export default {
       if (type.isGeneralSelected) {
         this.$router.push({
           name: "Input",
-          params: { type: "general" },
+          params: { type: "experience" },
           query: {
             isStart: this.isChecked ? "true" : "false",
             nodeID: this.nodeID

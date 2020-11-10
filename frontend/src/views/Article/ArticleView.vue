@@ -96,7 +96,7 @@ export default {
         this.keywords = res.keyword;
         console.log(this.keywords);
         switch (res.type) {
-          case "general":
+          case "experience":
             this.type = "일반";
             break;
           case "file":
