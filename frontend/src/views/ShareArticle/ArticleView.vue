@@ -2,11 +2,6 @@
   <div class="blurPage" @click.self="closeView">
     <div class="container">
       <div class="header">
-        <!--전체화면 버튼-->
-        <div class="toggleWide">
-          <img src="~@/assets/image/fullscreen.png" alt="전체화면" />
-          <div class="tooltip">전체화면</div>
-        </div>
         <!--창 닫기 버튼-->
         <img src="~@/assets/image/close.png" alt="창 닫기" @click="closeView" />
       </div>
@@ -23,10 +18,6 @@
             {{ keyword.text }}
           </div>
         </div>
-        <div class="copy">
-          <img src="~@/assets/image/copy.png" alt="글 복사" />
-          <span>글 복사</span>
-        </div>
 
         <div class="hDivider"></div>
 
@@ -42,10 +33,10 @@
 </template>
 
 <script>
-import ArticleService from "@/services/article.service";
+import ArticleShareService from "@/services/share.article.service";
 import GeneralType from "./GeneralType";
-import LinkType from "@/views/Article/LinkType";
-import FileType from "@/views/Article/FileType";
+import LinkType from "./LinkType";
+import FileType from "./FileType";
 
 export default {
   name: "ArticleView",
@@ -55,9 +46,47 @@ export default {
     GeneralType,
     LinkType
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
     closeView() {
       this.$emit("closeArticleView", false);
+    },
+    async fetchData() {
+      const { user_id, node_id } = await ArticleShareService.getArticle(
+        this.$route.params.share_key
+      );
+      ArticleShareService.getArticleInfo(user_id, node_id).then(
+        res => {
+          this.keywords = res.keyword;
+          console.log(this.keywords);
+          switch (res.type) {
+            case "general":
+              this.type = "일반";
+              break;
+            case "file":
+              this.type = "파일";
+              break;
+            case "link":
+              this.type = "링크";
+              break;
+          }
+          this.title = res.title;
+          this.date.start = res.start_date.toString().substring(0, 10);
+          this.date.end = res.end_date.toString().substring(0, 10);
+          this.url = res.web_url;
+          this.file = res.file_url;
+          this.isSecret = res.secret ? "비공개" : "공개";
+          this.content = res.content;
+
+          this.isDataReady = true;
+        },
+        err => {
+          alert("에러!");
+          console.log(err);
+        }
+      );
     }
   },
   data() {
@@ -75,41 +104,6 @@ export default {
       isSecret: null,
       isDataReady: false
     };
-  },
-  mounted() {
-    ArticleService.getArticles({
-      userID: this.$store.state.auth.user.user_id,
-      nodeID: this.nodeID
-    }).then(
-      res => {
-        this.keywords = res.keyword;
-        console.log(this.keywords);
-        switch (res.type) {
-          case "general":
-            this.type = "일반";
-            break;
-          case "file":
-            this.type = "파일";
-            break;
-          case "link":
-            this.type = "링크";
-            break;
-        }
-        this.title = res.title;
-        this.date.start = res.start_date.toString().substring(0, 10);
-        this.date.end = res.end_date.toString().substring(0, 10);
-        this.url = res.web_url;
-        this.file = res.file_url;
-        this.isSecret = res.secret ? "비공개" : "공개";
-        this.content = res.content;
-
-        this.isDataReady = true;
-      },
-      err => {
-        alert("에러!");
-        console.log(err);
-      }
-    );
   }
 };
 </script>
@@ -118,7 +112,7 @@ export default {
 .blurPage {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #f2f2f2;
   z-index: 2;
   position: absolute;
   top: 0;
@@ -200,15 +194,8 @@ export default {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-
-  .tooltip {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 4px;
-    color: #a3a3a3;
-  }
 
   img {
     vertical-align: middle;

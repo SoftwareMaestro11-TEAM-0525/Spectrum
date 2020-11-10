@@ -36,7 +36,8 @@
         </div>
         <div class="share">
           <input type="text" :value="shareURL" readonly />
-          <button>복사</button>
+          <button v-on:click="copyShareLink">복사</button>
+          <button v-on:click="generateShareLink">링크 생성</button>
         </div>
       </div>
     </div>
@@ -63,16 +64,27 @@ export default {
     isMain: Boolean
   },
   async mounted() {
-    // Get Share Key
-    const userId = this.$store.state.auth.user.user_id;
-
-    const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
-      res => res.share_key
-    );
-
-    this.shareURL = `http://localhost:8080/share/${ShareKey}`;
+    const shareKey = localStorage.getItem("shareKey");
+    if (!shareKey) {
+      this.shareURL = "공유 링크를 생성해주세요.";
+    } else {
+      this.shareURL = `http://localhost:8080/share/${shareKey}`;
+    }
   },
   methods: {
+    copyShareLink() {
+      navigator.clipboard.writeText(this.shareURL).then(() => {
+        alert("복사 완료!");
+      });
+    },
+    async generateShareLink() {
+      const userId = this.$store.state.auth.user.user_id;
+      const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
+        res => res.share_key
+      );
+      this.shareURL = `http://localhost:8080/share/${ShareKey}`;
+      localStorage.setItem("shareKey", ShareKey);
+    },
     popupEvent: function() {
       this.$emit("popupEvent");
     },
@@ -225,7 +237,7 @@ export default {
       }
 
       .share {
-        width: 360px;
+        width: 460px;
         height: 80px;
         box-sizing: border-box;
         margin: 0 0 0 -232px;
@@ -260,6 +272,11 @@ export default {
           cursor: pointer;
           color: white;
           font-size: 15px;
+          margin-right: 12px;
+        }
+
+        button:last-child {
+          margin-right: 0;
         }
       }
     }

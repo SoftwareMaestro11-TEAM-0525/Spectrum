@@ -1,5 +1,5 @@
 <template>
-  <div class="body" v-html="convertedContent"></div>
+    <div class="body" v-html="convertedContent"></div>
 </template>
 
 <script>
@@ -24,4 +24,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.body {
+  overflow: scroll;
+  height: 450px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+</style>

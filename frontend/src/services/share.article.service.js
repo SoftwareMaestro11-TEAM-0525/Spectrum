@@ -3,9 +3,9 @@ import authHeader from "@/services/auth-header";
 
 const shareURL = "/api/share";
 
-class ShareMindmapService {
-  getMindmap(shareKey) {
-    return axios.get(`${shareURL}/mindmap/${shareKey}`).then(
+class ShareArticleService {
+  getArticle(shareKey) {
+    return axios.get(`${shareURL}/article/${shareKey}`).then(
       res => {
         return Promise.resolve(res.data.result);
       },
@@ -23,8 +23,8 @@ class ShareMindmapService {
     );
   }
 
-  getMindmapInfo(userId) {
-    return axios.get(`${shareURL}/mindmapinfo/${userId}`).then(
+  getArticleInfo(userId, nodeId) {
+    return axios.get(`${shareURL}/articleinfo/${userId}/${nodeId}`).then(
       res => {
         return Promise.resolve(res.data.result);
       },
@@ -40,11 +40,11 @@ class ShareMindmapService {
     );
   }
 
-  makeShareLink(userId) {
+  makeArticleShareLink(userId, nodeId) {
     return axios
       .post(
-        `${shareURL}/mindmap`,
-        { user_id: userId },
+        `${shareURL}/article`,
+        { user_id: userId, node_id: nodeId },
         { headers: authHeader() }
       )
       .then(
@@ -59,7 +59,7 @@ class ShareMindmapService {
   }
 
   patchHits(shareKey) {
-    return axios.patch(`${shareURL}/mindmap/${shareKey}`).then(
+    return axios.patch(`${shareURL}/article/${shareKey}`).then(
       res => {
         return Promise.resolve(res.data.result);
       },
@@ -76,4 +76,4 @@ class ShareMindmapService {
   }
 }
 
-export default new ShareMindmapService();
+export default new ShareArticleService();

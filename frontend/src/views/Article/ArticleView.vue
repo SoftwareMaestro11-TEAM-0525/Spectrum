@@ -23,9 +23,9 @@
             {{ keyword.text }}
           </div>
         </div>
-        <div class="copy">
-          <img src="~@/assets/image/copy.png" alt="글 복사" />
-          <span>글 복사</span>
+        <div class="copy" v-on:click="generateShareLink">
+          <img src="~@/assets/image/copy.png" alt="공유 링크 복사" />
+          <span>공유 링크 복사</span>
         </div>
 
         <div class="hDivider"></div>
@@ -33,8 +33,8 @@
         <!--본문-->
         <template v-if="isDataReady">
           <general-type :content="content"></general-type>
-          <link-type></link-type>
-          <file-type></file-type>
+          <link-type v-if="false"></link-type>
+          <file-type v-if="false"></file-type>
         </template>
       </div>
     </div>
@@ -43,6 +43,7 @@
 
 <script>
 import ArticleService from "@/services/article.service";
+import ArticleShareService from "@/services/share.article.service";
 import GeneralType from "./GeneralType";
 import LinkType from "@/views/Article/LinkType";
 import FileType from "@/views/Article/FileType";
@@ -58,6 +59,15 @@ export default {
   methods: {
     closeView() {
       this.$emit("closeArticleView", false);
+    },
+    generateShareLink() {
+      ArticleShareService.makeArticleShareLink(
+        this.$store.state.auth.user.user_id,
+        this.nodeID
+      ).then(res => {
+        this.shareURL = `http://localhost:8080/share/article/${res.share_key}`;
+        console.log(this.shareURL);
+      });
     }
   },
   data() {
@@ -73,7 +83,8 @@ export default {
       url: null,
       file: null,
       isSecret: null,
-      isDataReady: false
+      isDataReady: false,
+      shareURL: null
     };
   },
   mounted() {

@@ -5,6 +5,7 @@ import auth from "./auth";
 import Main from "@/views/Main/Main";
 import Input from "@/views/Input/Input";
 import ShareMindmap from "@/views/Share/ShareMain";
+import ShareArticle from "@/views/ShareArticle/ArticleView";
 
 import store from "@/store/index";
 
@@ -31,6 +32,11 @@ const routes = [
     name: "Share",
     component: ShareMindmap
   },
+  {
+    path: "/share/article/:share_key",
+    name: "ShareArticle",
+    component: ShareArticle
+  },
   ...auth
 ];
 
@@ -41,7 +47,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["Login", "Join", "Password", "Home", "Share"];
+  const publicPages = [
+    "Login",
+    "Join",
+    "Password",
+    "Home",
+    "Share",
+    "ShareArticle"
+  ];
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = store.state.auth.status.loggedIn;
 
