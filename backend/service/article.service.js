@@ -75,12 +75,12 @@ export class ArticleService {
     const { user_id, newContent } = req;
     const userExsited = await User.findOneByUserId(user_id);
 
-    if (userExsited == null) {
-      let err = new Error();
-      err.message = "User not Found";
-      err.status = 400;
-      throw err;
-    }
+    // if (userExsited == null) {
+    //   let err = new Error();
+    //   err.message = "User not Found";
+    //   err.status = 400;
+    //   throw err;
+    // }
 
     const tmp = await Article.findAllByUserId(user_id);
     const res = {
@@ -99,7 +99,7 @@ export class ArticleService {
       res.content.push(element.content);
     }
 
-    const result = axios.post("http:///ml/recommend/position", {
+    const result = axios.post("http://localhost/ml/recommend/position", {
       res,
       newContent,
     });
