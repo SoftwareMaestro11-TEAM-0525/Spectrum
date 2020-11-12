@@ -15,7 +15,6 @@ Deploy_Code_in_ui_branch:
     - chmod 400 ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
   script:
-    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cp ~/.env && cd ~/0525"
     - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && cp ~/.env ~/0525/backend && docker restart frontend backend"
 
 Deploy_Code_in_cicd_branch:
