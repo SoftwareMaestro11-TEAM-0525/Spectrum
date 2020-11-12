@@ -5,12 +5,16 @@
       v-bind:nodeID="curNodeId"
       @closePopup="handlePopup"
     />
-    <general-view
-      v-if="showGeneralView"
-      @closeGeneralView="handleGeneralView"
+    <article-view
+      v-if="showArticleView"
+      v-bind:nodeID="curNodeId"
+      @closeArticleView="handleArticleView"
     />
     <nav-bar :isMain="true"></nav-bar>
-    <mindmap @popupEvent="handlePopup" @generalViewEvent="handleGeneralView"></mindmap>
+    <mindmap
+      @popupEvent="handlePopup"
+      @articleViewEvent="handleArticleView"
+    ></mindmap>
   </div>
 </template>
 
@@ -18,7 +22,7 @@
 import NavBar from "@/components/NavBar";
 import mindmap from "@/views/Main/Mindmap.vue";
 import InputPopup from "@/views/Input/InputPopup";
-import GeneralView from "@/views/Article/GeneralView";
+import ArticleView from "@/views/Article/ArticleView";
 
 export default {
   name: "Main",
@@ -26,12 +30,12 @@ export default {
     NavBar,
     mindmap,
     InputPopup,
-    GeneralView
+    ArticleView
   },
   data() {
     return {
       showPopup: false,
-      showGeneralView: false,
+      showArticleView: false,
       curNodeId: ""
     };
   },
@@ -40,9 +44,9 @@ export default {
       this.curNodeId = id;
       this.showPopup = value;
     },
-    handleGeneralView(value, id) {
+    handleArticleView(value, id) {
       this.curNodeId = id;
-      this.showGeneralView = value;
+      this.showArticleView = value;
     }
   }
 };

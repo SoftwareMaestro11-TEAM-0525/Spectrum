@@ -11,36 +11,116 @@
         <img src="~@/assets/image/close.png" alt="창 닫기" @click="closeView" />
       </div>
       <div class="content">
-        <div class="type">일반</div>
-        <div class="title">첫 번째 게시글</div>
+        <div class="type">{{ type }}</div>
+        <div class="title">{{ title }}</div>
         <div class="info">
-          <span class="isPublic">비공개</span>
+          <span class="isPublic">{{ isSecret }}</span>
           <div class="vDivider"></div>
-          <span class="date">2018. 07. 06 ~ 2018. 07. 20</span>
+          <span class="date">{{ date.start }} ~ {{ date.end }}</span>
         </div>
         <div class="keywords">
-          <div class="keyword">키워드</div>
+          <div v-for="keyword in keywords" :key="keyword.text" class="keyword">
+            {{ keyword.text }}
+          </div>
         </div>
-        <div class="copy">
-          <img src="~@/assets/image/copy.png" alt="글 복사" />
-          <span>글 복사</span>
+        <div class="copy" v-on:click="generateShareLink">
+          <img src="~@/assets/image/copy.png" alt="공유 링크 복사" />
+          <span>공유 링크 복사</span>
         </div>
 
         <div class="hDivider"></div>
 
         <!--본문-->
+        <template v-if="isDataReady">
+          <general-type :content="content"></general-type>
+          <link-type v-if="false"></link-type>
+          <file-type v-if="false"></file-type>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ArticleService from "@/services/article.service";
+import ArticleShareService from "@/services/share.article.service";
+import GeneralType from "./GeneralType";
+import LinkType from "@/views/Article/LinkType";
+import FileType from "@/views/Article/FileType";
+
 export default {
-  name: "GeneralView",
+  name: "ArticleView",
+  props: ["nodeID"],
+  components: {
+    FileType,
+    GeneralType,
+    LinkType
+  },
   methods: {
     closeView() {
-      this.$emit("closeGeneralView", false);
+      this.$emit("closeArticleView", false);
+    },
+    generateShareLink() {
+      ArticleShareService.makeArticleShareLink(
+        this.$store.state.auth.user.user_id,
+        this.nodeID
+      ).then(res => {
+        this.shareURL = `http://localhost:8080/share/article/${res.share_key}`;
+        console.log(this.shareURL);
+      });
     }
+  },
+  data() {
+    return {
+      keywords: [],
+      type: "",
+      title: "",
+      date: {
+        start: "",
+        end: ""
+      },
+      content: null,
+      url: null,
+      file: null,
+      isSecret: null,
+      isDataReady: false,
+      shareURL: null
+    };
+  },
+  mounted() {
+    ArticleService.getArticles({
+      userID: this.$store.state.auth.user.user_id,
+      nodeID: this.nodeID
+    }).then(
+      res => {
+        this.keywords = res.keyword;
+        console.log(this.keywords);
+        switch (res.type) {
+          case "experience":
+            this.type = "일반";
+            break;
+          case "file":
+            this.type = "파일";
+            break;
+          case "link":
+            this.type = "링크";
+            break;
+        }
+        this.title = res.title;
+        this.date.start = res.start_date.toString().substring(0, 10);
+        this.date.end = res.end_date.toString().substring(0, 10);
+        this.url = res.web_url;
+        this.file = res.file_url;
+        this.isSecret = res.secret ? "비공개" : "공개";
+        this.content = res.content;
+
+        this.isDataReady = true;
+      },
+      err => {
+        alert("에러!");
+        console.log(err);
+      }
+    );
   }
 };
 </script>
@@ -162,5 +242,6 @@ export default {
   width: 100%;
   height: 1px;
   background-color: #ededed;
+  margin-bottom: 30px;
 }
 </style>

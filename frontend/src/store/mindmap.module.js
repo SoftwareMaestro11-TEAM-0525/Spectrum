@@ -35,12 +35,14 @@ export const mindmap = {
     addMindmapEdge({ commit }, data) {
       commit("addEdge", data);
     },
-    patchMindmapData({ commit }, data) {
-      const { userID, nodes, edges } = data;
+    patchMindmapData({ commit, state }, data) {
+      const { userID } = data;
+      const { nodes, edges } = state.elements;
       const cyjson = {
         nodes,
         edges
       };
+
       return axios
         .patch(
           `/api/cytoscape/${userID}`,

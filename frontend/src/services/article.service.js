@@ -8,8 +8,8 @@ class ArticleService {
         headers: authHeader()
       })
       .then(
-        () => {
-          //추후 수정
+        res => {
+          return Promise.resolve(res.data.result);
         },
         err => {
           return Promise.reject(err);
