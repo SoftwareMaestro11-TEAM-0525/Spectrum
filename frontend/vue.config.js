@@ -4,9 +4,9 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@import "~@/assets/scss/main.scss";`,
-      },
-    },
+        additionalData: `@import "~@/assets/scss/main.scss";`
+      }
+    }
   },
   //publicPath: process.env.NODE_ENV === "development" ? "/" : "/backend",
   publicPath: "/",
@@ -19,14 +19,14 @@ module.exports = {
       }
     },
     compress: true,
-    disableHostCheck: true,
+    disableHostCheck: true
   },
   configureWebpack: {
     resolve: {
       alias: {
-        "@": path.join(__dirname, "src/"),
+        "@": path.join(__dirname, "src/")
       },
-      extensions: [".js", ".vue"],
-    },
-  },
+      extensions: [".js", ".vue"]
+    }
+  }
 };

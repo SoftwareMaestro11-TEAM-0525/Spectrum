@@ -55,7 +55,7 @@
         </div>
         <div><b>Create</b>{{ tagString }}</div>
       </div>
-      <div class="content" v-if="$route.params.type === 'general'">
+      <div class="content" v-if="$route.params.type === 'experience'">
         <div><b>내용</b></div>
         <div class="editor" ref="editor"></div>
       </div>
@@ -115,7 +115,7 @@ export default {
     flatPickr
   },
   mounted() {
-    if (this.$route.params.type !== "general") return;
+    if (this.$route.params.type !== "experience") return;
     let options = {
       modules: {
         toolbar: [
@@ -167,7 +167,6 @@ export default {
           start: {
             dateFormat: "Y-m-d",
             locale: Korean,
-            minDate: new Date(),
             maxDate: null
           },
           end: {
@@ -219,7 +218,7 @@ export default {
         return;
       }
 
-      if (this.$route.params.type === "general") {
+      if (this.$route.params.type === "experience") {
         // Content 검증
       }
 

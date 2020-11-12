@@ -91,11 +91,26 @@ export default {
       const type = this.nowSelected;
 
       if (type.isGeneralSelected) {
-        this.$router.push({ name: "Input", params: { type: "general"}, query: { isStart: (this.isChecked ? 'true' : 'false'), nodeID: this.nodeID }});
+        this.$router.push({
+          name: "Input",
+          params: { type: "experience" },
+          query: {
+            isStart: this.isChecked ? "true" : "false",
+            nodeID: this.nodeID
+          }
+        });
       } else if (type.isFileSelected) {
-        this.$router.push({ name: "Input", params: { type: "file" }, query: { isStart: (this.isChecked ? 'true' : 'false') } });
+        this.$router.push({
+          name: "Input",
+          params: { type: "file" },
+          query: { isStart: this.isChecked ? "true" : "false" }
+        });
       } else if (type.isLinkSelected) {
-        this.$router.push({ name: "Input", params: { type: "link"}, query: { isStart: (this.isChecked ? 'true' : 'false') } });
+        this.$router.push({
+          name: "Input",
+          params: { type: "link" },
+          query: { isStart: this.isChecked ? "true" : "false" }
+        });
       } else {
         alert("노드 종류를 선택해 주세요.");
       }
@@ -116,20 +131,24 @@ export default {
   background-color: #ffffff;
   z-index: 1;
   border: 1px solid #ededed;
+
   .header {
     display: flex;
     justify-content: space-between;
     margin: 64px 100px 64px 100px;
+
     > span {
       font-size: 23px;
       font-weight: bold;
       color: #363636;
     }
+
     .checkbox-wrapper {
       display: flex;
       align-items: center;
       font-size: 15px;
       font-weight: bold;
+
       .checkbox {
         width: 24px;
         height: 24px;
@@ -139,9 +158,11 @@ export default {
         background-image: url("../../assets/image/icon-unchecked.svg");
         cursor: pointer;
       }
+
       .checked {
         background-image: url("../../assets/image/icon-checked.svg");
       }
+
       .tooltip {
         font-size: 12px;
         font-weight: normal;
@@ -149,10 +170,12 @@ export default {
       }
     }
   }
+
   .select {
     display: flex;
     justify-content: space-around;
     margin: 0 64px 72px 64px;
+
     .item {
       width: 170px;
       height: 170px;
@@ -164,6 +187,7 @@ export default {
       text-align: center;
       cursor: pointer;
       font-weight: bold;
+
       i {
         display: block;
         width: 45px;
@@ -174,14 +198,17 @@ export default {
         margin-bottom: 8px;
       }
     }
+
     .selected {
       background-color: #363636;
       color: white;
     }
   }
+
   .buttons {
     display: flex;
     justify-content: center;
+
     button {
       width: 76px;
       height: 44px;
@@ -193,30 +220,38 @@ export default {
       cursor: pointer;
       font-weight: bold;
     }
+
     .cancel {
       background-color: #d7d7d9;
       margin-right: 12px;
     }
+
     .confirm {
       background-color: #524fff;
     }
   }
 }
+
 .icon-general {
   background-image: url("../../assets/image/icon-nodetype/icon-general.svg");
 }
+
 .selected .icon-general {
   background-image: url("../../assets/image/icon-nodetype/icon-general-white.svg");
 }
+
 .icon-file {
   background-image: url("../../assets/image/icon-nodetype/icon-file.svg");
 }
+
 .selected .icon-file {
   background-image: url("../../assets/image/icon-nodetype/icon-file-white.svg");
 }
+
 .icon-link {
   background-image: url("../../assets/image/icon-nodetype/icon-link.svg");
 }
+
 .selected .icon-link {
   background-image: url("../../assets/image/icon-nodetype/icon-link-white.svg");
 }
