@@ -1,14 +1,12 @@
 FROM python:3.8
 WORKDIR /app 
 ADD . /app 
-# RUN source myvenv/bin/activate
 RUN pip install numpy
 RUN pip install textrankr
-# RUN pip install scipy
 RUN pip install -r requirements.txt
-# RUN apt install python3-scipy
-# RUN apt-get install gfortran libopenblas-dev liblapack-dev
-# RUN pip3 install scipy==1.2.1
+ENV JAVA_HOME /usr/lib/jvm/java-1.7-openjdk/jre
+RUN apt-get update && apt-get install -y g++ default-jdk
+RUN pip install konlpy
 RUN pip install uWSGI
+EXPOSE 5000
 CMD ["uwsgi","uwsgi.ini"]
-# CMD ["flask","run"]
