@@ -3,6 +3,7 @@ WORKDIR /app
 ADD . /app 
 # RUN source myvenv/bin/activate
 RUN pip install numpy
+RUN pip install testrankr
 # RUN pip install scipy
 RUN pip install -r requirements.txt
 # RUN apt install python3-scipy
