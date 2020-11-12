@@ -1,0 +1,31 @@
+version: "3"
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    container_name: frontend
+    stdin_open: true
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: backend
+
+  mongo:
+    build:
+      dockerfile: Dockerfile
+      context: ./mongo
+    container_name: mongo
+    volumes:
+      - /var/lib/mongodb:/var/lib/mongodb

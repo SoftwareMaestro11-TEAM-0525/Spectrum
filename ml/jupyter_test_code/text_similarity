@@ -1,0 +1,64 @@
+@app.route('/')
+def textfile_similarity():
+    okt = Okt()
+    data = []
+    fname='./test_docs2/textfile1.txt'
+    fname1='./test_docs2/textfile2.txt'
+    fname2='./test_docs2/textfile3.txt'
+    fname3='./test_docs2/textfile4.txt'
+    fname4='./test_docs2/textfile5.txt'
+    # 텍스트 파일 읽어와서 한문장으로 이어주는 함수 만들기
+    data.append(new_fileReader(fname) + '\n')
+    data.append(new_fileReader(fname1) + '\n')
+    data.append(new_fileReader(fname2) + '\n')
+    data.append(new_fileReader(fname3) + '\n')
+    data.append(new_fileReader(fname4))
+        
+    print(data)
+    print(type(data))
+    list_data = str.split('\n')
+    print(type(list_data))
+    #기존 함수 사용해서 읽어 오는 방식
+    
+    texts= get_texts_scores('./test_docs/test1.txt')
+    print(type(texts))
+    print(texts)
+    print('*'*100)
+    texts = data
+    # texts+= get_texts_scores(fname1)
+    # texts+= get_texts_scores(fname2)
+    # texts+= get_texts_scores(fname3)
+    # texts+= get_texts_scores(fname4)
+    texts_noun = [' '.join(okt.nouns(text)) for text in texts]
+    print(texts_noun)
+    print('-'*50)
+    tfidfv = TfidfVectorizer().fit(texts)
+    print(tfidfv.transform(texts).toarray())
+    print('-'*50)
+
+    # print(tfidfv.vocabulary_)
+    # print(tfidfv.transform(texts).toarray()[0])
+    # print(cos_sim(tfidfv.transform(texts).toarray()[0],tfidfv.transform(texts).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[1],tfidfv.transform(texts).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[2],tfidfv.transform(texts).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[4],tfidfv.transform(texts).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts).toarray()[3],tfidfv.transform(texts).toarray()[4]))
+    print('-'*50)
+    tfidfv = TfidfVectorizer().fit(texts_noun)
+    # print(tfidfv.transform(texts_noun).toarray())
+    print('-'*50)
+    # print(tfidfv.vocabulary_)
+    # print(tfidfv.transform(texts_noun).toarray()[0])
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],tfidfv.transform(texts_noun).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[1],tfidfv.transform(texts_noun).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[2],tfidfv.transform(texts_noun).toarray()[0]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[1]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[4],tfidfv.transform(texts_noun).toarray()[2]))
+    # print(cos_sim(tfidfv.transform(texts_noun).toarray()[3],tfidfv.transform(texts_noun).toarray()[4]))
+    list_num = []
+    for i in tfidfv.transform(texts_noun).toarray():
+        print(cos_sim(tfidfv.transform(texts_noun).toarray()[0],i))
+        list_num.append(cos_sim(tfidfv.transform(texts_noun).toarray()[0],i))
+    print(sorted(zip(list_num), reverse=True)[:3])
+    return '문서 유사도 비교 테스트'
