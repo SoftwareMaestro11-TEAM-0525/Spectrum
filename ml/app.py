@@ -29,9 +29,15 @@ def get_texts_scores(fname):
         
         texts = zip(*docs)
         return docs
-@app.route('/')
+
+
+@app.route('/ml/hello', methods=['POST'])
 def hello():
+    if request.method == 'POST':
+        return 'hollo world!'
     return 'hello world!'
+
+
 # @app.route('/ml/sentence', methods=['POST'])
 # def sentence_extract():
 #     data = request.get_json()

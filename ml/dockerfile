@@ -1,12 +1,11 @@
 FROM python:3.8
 WORKDIR /app 
 ADD . /app 
-RUN pip install numpy
-RUN pip install textrankr
+# RUN pip install numpy
+# RUN pip install textrankr
 RUN pip install -r requirements.txt
 ENV JAVA_HOME /usr/lib/jvm/java-1.7-openjdk/jre
 RUN apt-get update && apt-get install -y g++ default-jdk
-RUN pip install konlpy
-RUN pip install uWSGI
-EXPOSE 5000
+# RUN pip install konlpy
+# RUN pip install uWSGI
 CMD ["uwsgi","uwsgi.ini"]
