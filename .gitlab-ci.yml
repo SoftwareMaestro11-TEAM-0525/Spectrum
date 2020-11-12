@@ -1,0 +1,46 @@
+stages:
+  - Deploy_Code_in_ui_branch
+  - Deploy_Code_in_develop_branch
+  - Deploy_Code_in_cicd_branch
+
+Deploy_Code_in_ui_branch:
+  only:
+    - ui
+  stage: Deploy_Code_in_ui_branch
+  image: docker:latest
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/ui && git pull origin ui && cp ~/.env ~/0525/backend && docker restart frontend backend"
+
+Deploy_Code_in_cicd_branch:
+  only:
+    - cicd
+  stage: Deploy_Code_in_cicd_branch
+  image: docker:latest
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/cicd && git pull origin cicd && cp ~/.env ~/0525/backend && docker restart frontend backend"
+
+Deploy_Code_in_develop_branch:
+  only:
+    - develop
+  stage: Deploy_Code_in_develop_branch
+  image: docker:latest
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config' 
+  script:
+    - ssh -i ~/.ssh/id_rsa ubuntu@$DEPLOY_SERVER "cd ~/0525 && git reset --hard HEAD && git checkout origin/develop && git pull origin develop && cp ~/.env ~/0525/backend && docker restart frontend backend"

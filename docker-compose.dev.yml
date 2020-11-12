@@ -1,0 +1,51 @@
+version: "3"
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    container_name: frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    stdin_open: true
+
+  ml:
+    build:
+      dockerfile: Dockerfile
+      context: ./ml
+    container_name: ml
+    expose:
+        - 5000
+        - 5010
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    container_name: backend
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+
+  mongo:
+    build:
+      dockerfile: Dockerfile
+      context: ./mongo
+    container_name: mongo
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+
+volumes:
+    mongodb:
+    mongodb_config:
