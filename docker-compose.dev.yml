@@ -17,6 +17,7 @@ services:
     container_name: ml
     expose:
         - 5000
+        - 5010
 
   nginx:
     restart: always
@@ -42,4 +43,9 @@ services:
       context: ./mongo
     container_name: mongo
     volumes:
-      - /var/lib/mongodb:/var/lib/mongodb
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+
+volumes:
+    mongodb:
+    mongodb_config:
