@@ -89,7 +89,7 @@ export class ArticleService {
     };
 
     if (tmp == null) {
-      let err = new Error();
+      var err = new Error();
       err.message = "Article not Found";
       err.status = 400;
       throw err;
@@ -99,19 +99,18 @@ export class ArticleService {
       res.content.push(element.content);
     }
 
-    // const result = axios.post("http://localhost/ml/recommend/position", {
-    //   res,
-    //   newContent,
-    // });
-    const result = await axios.post("http://nginx/ml/hello");
-
-    if (result.status != 200) {
-      let err = new Error();
+    try {
+      const result = axios.post("http://localhost/ml/recommend/position", {
+        res,
+        newContent,
+      });
+      return result.data;
+    } catch (err) {
+      var err = new Error();
       err.message = "run recomment fail";
       err.status = 400;
-      throw err;
+      throw error;
     }
-    return result.data;
   };
 
   static readTimeline = async (req) => {
