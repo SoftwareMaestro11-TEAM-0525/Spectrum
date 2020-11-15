@@ -1,6 +1,5 @@
 <template>
-  <div id="cy">
-  </div>
+  <div id="cy"></div>
 </template>
 
 <script>
@@ -10,12 +9,10 @@ export default {
   name: "Mindmap",
   mixins: [Mindmap],
   components: {},
-  created: function() {},
   data: function() {
     return {
       input: "",
       output: "",
-      msg: "vue to cytoscape",
       count: 0
     };
   },
@@ -34,7 +31,9 @@ export default {
           return res;
         },
         error => {
-          alert("알 수 없는 에러가 발생했습니다.1");
+          alert("인증이 만료되었습니다! 다시 로그인해 주세요.");
+          this.$store.dispatch("auth/logout");
+          this.$router.push({ name: "Login" });
           console.log(error);
         }
       );
@@ -43,7 +42,7 @@ export default {
       this.$emit("popupEvent", true, id);
     },
     showArticleView(id) {
-      this.$emit("generalViewEvent", true, id);
+      this.$emit("articleViewEvent", true, id);
     }
     //cytoscape mindmap style feature
     //cxtmenu feature
@@ -89,15 +88,5 @@ export default {
 #cy {
   height: calc(100% - 64px);
   margin-top: 64px;
-  button {
-    position: absolute;
-    width: 100px;
-    height: 40px;
-    top: 30px;
-    left: 50%;
-    margin-left: -50px;
-    cursor: pointer;
-    z-index: 1;
-  }
 }
 </style>
