@@ -73,6 +73,19 @@ export class ArticleService {
 
   static readArticlesContentByUserIdForRecommend = async (req) => {
     const { user_id, newContent } = req;
+       try{
+      const existed = await User.findOneByUserId(user_id);
+      if(existed == null){
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status=400;
+        throw err;
+      }
+    }catch(err){
+      err.message = "User not found";
+      err.status=400;
+      throw err;
+    }
 
     const tmp = await Article.findAllByUserId(user_id);
     const res = {
@@ -110,6 +123,20 @@ export class ArticleService {
   static readArticlesContentByUserIdForKeyword = async (req) => {
     const { user_id } = req;
 
+        try{
+      const existed = await User.findOneByUserId(user_id);
+      if(existed == null){
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status=400;
+        throw err;
+      }
+    }catch(err){
+      err.message = "User not found";
+      err.status=400;
+      throw err;
+    }
+
     const tmp = await Article.findAllByUserId(user_id);
     const content = [];
 
@@ -126,12 +153,13 @@ export class ArticleService {
     }
 
     console.log({
-      content,
+      content
     });
 
     try {
-      const result = await axios.post("http://nginx/ml/keyword", {
-        content,
+      console.log('try')
+      const result = await axios.post("http://nginx/ml/hello", {
+        content
       });
       return result.data;
     } catch (err) {
@@ -143,6 +171,21 @@ export class ArticleService {
 
   static readArticlesContentByUserIdForSentence = async (req) => {
     const { user_id } = req;
+
+
+        try{
+      const existed = await User.findOneByUserId(user_id);
+      if(existed == null){
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status=400;
+        throw err;
+      }
+    }catch(err){
+      err.message = "User not found";
+      err.status=400;
+      throw err;
+    }
 
     const tmp = await Article.findAllByUserId(user_id);
     const content = [];
