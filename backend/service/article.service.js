@@ -90,21 +90,20 @@ export class ArticleService {
       res.node_id.push(element.node_id);
       res.content.push(element.content);
     }
-
+    console.log({
+      res,
+      newContent,
+    });
     try {
-      const result = await axios.post(
-        "http://localhost/ml/recommend/position",
-        {
-          res,
-          newContent,
-        }
-      );
+      const result = await axios.post("http://nginx/ml/recommend/position", {
+        res,
+        newContent,
+      });
       return result.data;
     } catch (err) {
-      var err = new Error();
       err.message = "run recomment fail";
       err.status = 400;
-      throw error;
+      throw err;
     }
   };
 
@@ -126,16 +125,19 @@ export class ArticleService {
       content.push(element.content);
     }
 
+    console.log({
+      content,
+    });
+
     try {
-      const result = await axios.post("http://localhost/ml/keyword", {
+      const result = await axios.post("http://nginx/ml/keyword", {
         content,
       });
       return result.data;
     } catch (err) {
-      var err = new Error();
       err.message = "run recomment fail";
       err.status = 400;
-      throw error;
+      throw err;
     }
   };
 
@@ -155,17 +157,16 @@ export class ArticleService {
       content.push(element.title);
       content.push(element.content);
     }
-
+    console.log(content);
     try {
-      const result = await axios.post("http://localhost/ml/sentence", {
+      const result = await axios.post("http://nginx/ml/sentence", {
         content,
       });
       return result.data;
     } catch (err) {
-      var err = new Error();
       err.message = "run recomment fail";
       err.status = 400;
-      throw error;
+      throw err;
     }
   };
 
