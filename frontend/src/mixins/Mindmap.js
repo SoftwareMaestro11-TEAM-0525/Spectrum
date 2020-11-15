@@ -313,24 +313,24 @@ let Mindmap = {
       const store = this.$store;
       const nodeCommand = [
         {
-          content: "Add",
+          content: "추가하기",
           select: function(element) {
             popupEvent(element.id());
           }
         },
+        // {
+        //   content: "Start",
+        //   select: function() {
+        //     if (cy.json().elements.nodes.length > 1) {
+        //       eh.enabled = true;
+        //       cy.on("tapdragout", "edge", () => {
+        //         eh.enabled = false;
+        //       });
+        //     }
+        //   }
+        // },
         {
-          content: "Start",
-          select: function() {
-            if (cy.json().elements.nodes.length > 1) {
-              eh.enabled = true;
-              cy.on("tapdragout", "edge", () => {
-                eh.enabled = false;
-              });
-            }
-          }
-        },
-        {
-          content: "Delete",
+          content: "삭제하기",
           select: function(element) {
             if (window.confirm("노드를 삭제하시겠습니까?")) {
               const targetID = element.id();
@@ -373,7 +373,7 @@ let Mindmap = {
           }
         },
         {
-          content: "View",
+          content: "보기",
           select: function(element) {
             showArticleView(element.id());
           }
@@ -389,7 +389,7 @@ let Mindmap = {
       ];
       const coreCommand = [
         {
-          content: "Add",
+          content: "추가하기",
           select: function() {
             let x = 1000;
             let y = 500;
@@ -422,14 +422,14 @@ let Mindmap = {
       cy.cxtmenu({ selector: "edge", commands: edgeCommand });
       cy.cxtmenu({ selector: "core", commands: coreCommand });
     },
-    bfs_test:function(){
-      var bfs = cy.elements().bfs('#a', function(){}, true);
+    bfs_test: function() {
+      var bfs = cy.elements().bfs("#a", function() {}, true);
 
       var i = 0;
-      var highlightNextEle = function(){
-        if( i < bfs.path.length ){
-          bfs.path[i].addClass('highlighted');
-        
+      var highlightNextEle = function() {
+        if (i < bfs.path.length) {
+          bfs.path[i].addClass("highlighted");
+
           i++;
           setTimeout(highlightNextEle, 1000);
         }
