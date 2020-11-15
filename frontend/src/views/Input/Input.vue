@@ -255,8 +255,8 @@ export default {
           this.$store
             .dispatch("mindmap/patchMindmapData", {
               userID: this.$store.state.auth.user.user_id,
-              edges:this.$store.state.mindmap.elements.edges,
-              nodes:this.$store.state.mindmap.elements.nodes
+              edges: this.$store.state.mindmap.elements.edges,
+              nodes: this.$store.state.mindmap.elements.nodes
             })
             .then(
               () => {

@@ -168,7 +168,6 @@ export const mindmap = {
     },
     addNode(state, data) {
       const { id, name } = data;
-      //{ data: { id: "-23", name: "CES2018" } }
       state.elements.nodes.push({
         data: {
           id: id,
