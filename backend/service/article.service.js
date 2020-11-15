@@ -71,16 +71,8 @@ export class ArticleService {
     return res;
   };
 
-  static readAllContentByUserId = async (req) => {
+  static readArticlesContentByUserIdForRecommend = async (req) => {
     const { user_id, newContent } = req;
-    const userExsited = await User.findOneByUserId(user_id);
-
-    // if (userExsited == null) {
-    //   let err = new Error();
-    //   err.message = "User not Found";
-    //   err.status = 400;
-    //   throw err;
-    // }
 
     const tmp = await Article.findAllByUserId(user_id);
     const res = {
@@ -100,9 +92,73 @@ export class ArticleService {
     }
 
     try {
-      const result = axios.post("http://localhost/ml/recommend/position", {
-        res,
-        newContent,
+      const result = await axios.post(
+        "http://localhost/ml/recommend/position",
+        {
+          res,
+          newContent,
+        }
+      );
+      return result.data;
+    } catch (err) {
+      var err = new Error();
+      err.message = "run recomment fail";
+      err.status = 400;
+      throw error;
+    }
+  };
+
+  static readArticlesContentByUserIdForKeyword = async (req) => {
+    const { user_id } = req;
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const content = [];
+
+    if (tmp == null) {
+      var err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      content.push(element.title);
+      content.push(element.keyword);
+      content.push(element.content);
+    }
+
+    try {
+      const result = await axios.post("http://localhost/ml/keyword", {
+        content,
+      });
+      return result.data;
+    } catch (err) {
+      var err = new Error();
+      err.message = "run recomment fail";
+      err.status = 400;
+      throw error;
+    }
+  };
+
+  static readArticlesContentByUserIdForSentence = async (req) => {
+    const { user_id } = req;
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const content = [];
+
+    if (tmp == null) {
+      var err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      content.push(element.title);
+      content.push(element.content);
+    }
+
+    try {
+      const result = await axios.post("http://localhost/ml/sentence", {
+        content,
       });
       return result.data;
     } catch (err) {

@@ -16,7 +16,19 @@ router.delete("/:user_id/:node_id", authMiddleware, ArticleController.delete);
 router.post(
   "/recommend",
   authMiddleware,
-  ArticleController.readArticlesContentByUserId
+  ArticleController.readArticlesContentByUserIdForRecommend
+);
+
+router.post(
+  "/keyword",
+  authMiddleware,
+  ArticleController.readArticlesContentByUserIdForKeyword
+);
+
+router.post(
+  "/sentence",
+  authMiddleware,
+  ArticleController.readArticlesContentByUserIdForSentence
 );
 
 module.exports = router;
