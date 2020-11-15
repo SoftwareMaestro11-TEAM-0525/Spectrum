@@ -200,8 +200,9 @@ def textfile_similarity():
 def test():
     okt = Okt()
     data = request.get_json()
-    origin_node_id = data["node_id"]
-    origin_data = data["content"]
+    origin = data["res"]
+    origin_node_id = origin["node_id"]
+    origin_data = origin["content"]
     test_data = data["newContent"]
     use_data = []
     for i in range(len(origin_data)):
