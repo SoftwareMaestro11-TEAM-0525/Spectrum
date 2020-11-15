@@ -1,5 +1,5 @@
 <template>
-    <div class="body" v-html="convertedContent"></div>
+  <div class="body" v-html="convertedContent"></div>
 </template>
 
 <script>
