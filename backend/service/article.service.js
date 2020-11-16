@@ -73,17 +73,17 @@ export class ArticleService {
 
   static readArticlesContentByUserIdForRecommend = async (req) => {
     const { user_id, newContent } = req;
-       try{
+    try {
       const existed = await User.findOneByUserId(user_id);
-      if(existed == null){
+      if (existed == null) {
         var err = new Error();
         err.message = "User Not Found";
-        err.status=400;
+        err.status = 400;
         throw err;
       }
-    }catch(err){
+    } catch (err) {
       err.message = "User not found";
-      err.status=400;
+      err.status = 400;
       throw err;
     }
 
@@ -114,7 +114,7 @@ export class ArticleService {
       });
       return result.data;
     } catch (err) {
-      err.message = "run recomment fail";
+      err.message = "ML Position Recommend fail";
       err.status = 400;
       throw err;
     }
@@ -123,17 +123,17 @@ export class ArticleService {
   static readArticlesContentByUserIdForKeyword = async (req) => {
     const { user_id } = req;
 
-        try{
+    try {
       const existed = await User.findOneByUserId(user_id);
-      if(existed == null){
+      if (existed == null) {
         var err = new Error();
         err.message = "User Not Found";
-        err.status=400;
+        err.status = 400;
         throw err;
       }
-    }catch(err){
+    } catch (err) {
       err.message = "User not found";
-      err.status=400;
+      err.status = 400;
       throw err;
     }
 
@@ -153,17 +153,17 @@ export class ArticleService {
     }
 
     console.log({
-      content
+      content,
     });
 
     try {
-      console.log('try')
+      console.log("try");
       const result = await axios.post("http://nginx/ml/hello", {
-        content
+        content,
       });
       return result.data;
     } catch (err) {
-      err.message = "run recomment fail";
+      err.message = "ML Extract Keyword fail";
       err.status = 400;
       throw err;
     }
@@ -172,18 +172,17 @@ export class ArticleService {
   static readArticlesContentByUserIdForSentence = async (req) => {
     const { user_id } = req;
 
-
-        try{
+    try {
       const existed = await User.findOneByUserId(user_id);
-      if(existed == null){
+      if (existed == null) {
         var err = new Error();
         err.message = "User Not Found";
-        err.status=400;
+        err.status = 400;
         throw err;
       }
-    }catch(err){
+    } catch (err) {
       err.message = "User not found";
-      err.status=400;
+      err.status = 400;
       throw err;
     }
 
@@ -207,7 +206,7 @@ export class ArticleService {
       });
       return result.data;
     } catch (err) {
-      err.message = "run recomment fail";
+      err.message = "ML Extract Sentence fail";
       err.status = 400;
       throw err;
     }
