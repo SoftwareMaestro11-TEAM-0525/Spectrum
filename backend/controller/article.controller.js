@@ -46,9 +46,43 @@ export class ArticleController {
     }
   };
 
-  static readArticlesContentByUserId = async (req, res, next) => {
+  static readArticlesContentByUserIdForRecommend = async (req, res, next) => {
     try {
-      const result = await ArticleService.readAllContentByUserId(req.body);
+      const result = await ArticleService.readArticlesContentByUserIdForRecommend(
+        req.body
+      );
+      return res.status(200).json({
+        success: true,
+        message: "Get Articles Contents success",
+        result: result,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
+
+  static readArticlesContentByUserIdForKeyword = async (req, res, next) => {
+    try {
+      const result = await ArticleService.readArticlesContentByUserIdForKeyword(
+        req.body
+      );
+      return res.status(200).json({
+        success: true,
+        message: "Get Articles Contents success",
+        result: result,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
+
+  static readArticlesContentByUserIdForSentence = async (req, res, next) => {
+    try {
+      const result = await ArticleService.readArticlesContentByUserIdForSentence(
+        req.body
+      );
       return res.status(200).json({
         success: true,
         message: "Get Articles Contents success",
