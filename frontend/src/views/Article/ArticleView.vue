@@ -65,10 +65,13 @@ export default {
         this.$store.state.auth.user.user_id,
         this.nodeID
       ).then(res => {
-        this.shareURL = `http://localhost:8080/share/article/${res.share_key}`;
+        this.shareURL = `http://localhost/share/article/${res.share_key}`;
+        navigator.clipboard.writeText(this.shareURL).then(() => {
+        alert("복사 완료!");
+      });
         console.log(this.shareURL);
       });
-    }
+    },
   },
   data() {
     return {
