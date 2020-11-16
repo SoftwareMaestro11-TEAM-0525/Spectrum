@@ -2,7 +2,7 @@ import cytoscape from "cytoscape";
 import cxtmenu from "cytoscape-cxtmenu";
 import eh from "cytoscape-edgehandles";
 import coseBilkent from "cytoscape-cose-bilkent";
-import Axios from "axios";
+import ArticleService from "@/services/article.service";
 
 cytoscape.use(coseBilkent);
 cytoscape.use(cxtmenu);
@@ -358,22 +358,21 @@ let Mindmap = {
                   edges
                 })
                 .then(
-                  async () => {
-                    try {
-                      const res = await Axios.delete(`/api/article/${userID}/${targetID}`);
-                      console.log(res);
-                      console.log("성공");
-                      cy.remove("#" + element.id());
-                      targetEdgesID.forEach(id => {
-                        cy.remove("#" + id);
-                      });
-                    } catch (err) {
-                      console.log(err);
-                    }
+                  () => {
+                    return ArticleService.deleteArticles({
+                      userID: userID,
+                      nodeID: targetID
+                    }).then(
+                      res => {
+                        return Promise.resolve(res);
+                      },
+                      err => {
+                        return Promise.reject(err);
+                      }
+                    );
                   },
-                  error => {
-                    alert("데이터 삭제에 실패했습니다.");
-                    console.log(error);
+                  err => {
+                    console.log(err);
                   }
                 );
             }
