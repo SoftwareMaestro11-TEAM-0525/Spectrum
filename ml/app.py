@@ -29,9 +29,15 @@ def get_texts_scores(fname):
         
         texts = zip(*docs)
         return docs
-@app.route('/')
+
+
+@app.route('/ml/hello', methods=['POST'])
 def hello():
+    if request.method == 'POST':
+        return 'hollo world!'
     return 'hello world!'
+
+
 # @app.route('/ml/sentence', methods=['POST'])
 # def sentence_extract():
 #     data = request.get_json()
@@ -94,35 +100,36 @@ def hello():
 
     
 #     return 'hello world'
-# @app.route('/ml/keyword', methods=['POST'])
-# def keyword_extract():
-#     okt = Okt()
-#     data = request.get_json()
-#     texts = data
-#     wordrank_extractor = KRWordRank(
-#     min_count = 4, # 단어의 최소 출현 빈도수 (그래프 생성 시)
-#     max_length = 12, # 단어의 최대 길이
-#     verbose = True
-#     )
+@app.route('/ml/keyword', methods=['POST'])
+def keyword_extract():
+    okt = Okt()
+    data = request.get_json()
+    texts = data
+    wordrank_extractor = KRWordRank(
+    min_count = 4, # 단어의 최소 출현 빈도수 (그래프 생성 시)
+    max_length = 12, # 단어의 최대 길이
+    verbose = True
+    )
     
-#     beta = 0.5   # PageRank의 decaying factor beta
-#     max_iter = 10
-#     keywords, rank, graph = wordrank_extractor.extract(texts, beta, max_iter)
-#     if request.method == 'POST':
-#         word_list = list()
-#         test = {}
-#         r_list = list()
-#         for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
-#             print('%8s:\t%.4f' % (word, r))
-#             word_list.append(word)
-#             test[word]=r 
-#         word_list = [' '.join(okt.nouns(word)) for word in word_list]
-#         while '' in word_list:    
-# 	        word_list.remove('')
-#         print(test)
-#         print(word_list)
-#         return json.dumps(test, ensure_ascii = False)
-#     return 'hello worlsdsd'
+    beta = 0.5   # PageRank의 decaying factor beta
+    max_iter = 10
+    keywords, rank, graph = wordrank_extractor.extract(texts, beta, max_iter)
+    if request.method == 'POST':
+        word_list = list()
+        test = {}
+        r_list = list()
+        for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:30]:
+            # print('%8s:\t%.4f' % (word, r))  
+            word_list.append(word)
+            r_list.append(r)
+            test[word]=r 
+        word_list = [' '.join(okt.nouns(word)) for word in word_list]
+        while '' in word_list:    
+	        word_list.remove('')
+        # print(test)
+        # print(word_list)
+        return json.dumps(test, ensure_ascii = False)
+    return 'wordExtract'
 
 def cos_sim(A, B):
     return dot(A, B)/(norm(A)*norm(B))
@@ -168,7 +175,7 @@ def text_parse(lines):
         else:
             temp = temp + line
     return temp
-@app.route('/ml/test',methods=['POST'])
+@app.route('/ml/sentence',methods=['POST'])
 def textfile_similarity():
     data = request.get_json()
     data = text_parse_sen(data)
@@ -178,24 +185,25 @@ def textfile_similarity():
     k: int = 3  # num sentences in the resulting summary
 
     summarized: str = textrank.summarize(data, k)
-    print(summarized)  # gives you some text
+    # print(summarized)  # gives you some text
 
     # if verbose=False, it returns a list
     summaries: List[str] = textrank.summarize(data, k, verbose=False)
-    for summary in summaries:
-        print(summary)
+    # for summary in summaries:
+    #     print(summary)
     if request.method == 'POST':
         return json.dumps(summaries,ensure_ascii = False)
-    return 'hello world!'
+    return '3sentence'
 
 
 @app.route('/ml/recommend/position', methods=['POST'])
 def test():
     okt = Okt()
     data = request.get_json()
-    origin_node_id = data["node_id"]
-    origin_data = data["content"]
-    test_data = data["test"]
+    origin = data["res"]
+    origin_node_id = origin["node_id"]
+    origin_data = origin["content"]
+    test_data = data["newContent"]
     use_data = []
     for i in range(len(origin_data)):
         temp = text_parse(origin_data[i])
@@ -210,4 +218,4 @@ def test():
         result.append(cos_sim(tfidfv.transform(texts_noun).toarray()[test_id],i))
     if request.method == 'POST':
         return json.dumps(sorted(zip(result,origin_node_id), reverse=True)[:4],ensure_ascii = False)
-    return 'hello world!'
+    return 'recommend/position'

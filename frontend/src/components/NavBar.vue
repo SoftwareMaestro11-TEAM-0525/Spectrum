@@ -68,7 +68,7 @@ export default {
     if (!shareKey) {
       this.shareURL = "공유 링크를 생성해주세요.";
     } else {
-      this.shareURL = `http://localhost:8080/share/${shareKey}`;
+      this.shareURL = `http://localhost/share/${shareKey}`;
     }
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
       const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
         res => res.share_key
       );
-      this.shareURL = `http://localhost:8080/share/${ShareKey}`;
+      this.shareURL = `http://localhost/share/${ShareKey}`;
       localStorage.setItem("shareKey", ShareKey);
     },
     popupEvent: function() {
