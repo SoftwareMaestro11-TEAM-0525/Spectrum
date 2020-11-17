@@ -28,10 +28,10 @@ let Mindmap = {
             style: {
               content: "data(name)",
               "text-valign": "center",
-              color: "#57606f",
-              "text-outline-width": 2,
-              "text-outline-color": "white",
-              "background-color": "#57606f",
+              color: "#000000",
+              "text-outline-width": 0.7,
+              "text-outline-color": "black",
+              "background-color": "#000000",
               "text-wrap": "wrap",
 
               label: "data(name)"
@@ -140,9 +140,9 @@ let Mindmap = {
 
       //mouseOn, mouseOut 등등의 관련 상수들
       // const nodeMaxSize = 50;
-      const nodeMaxSize = 15;
+      const nodeMaxSize = 18;
       // // const nodeMinSize = 5;
-      const nodeMinSize = 1;
+      const nodeMinSize = 2;
       const nodeActiveSize = 22;
       // const fontMaxSize = 8;
       const fontMaxSize = 3;
@@ -160,7 +160,9 @@ let Mindmap = {
 
       const dimColor = "#dfe4ea";
       const edgeColor = "#ced6e0";
-      const nodeColor = "#57606f";
+      // const nodeColor = "#57606f";
+      const nodeColor = "#fff";
+      
       const nodeActiveColor = "#ffa502";
 
       // //상위 노드, 엣지 색
