@@ -123,9 +123,11 @@ def keyword_extract():
             word_list.append(word)
             r_list.append(r)
             test[word]=r 
-        word_list = [' '.join(okt.nouns(word)) for word in word_list]
-        while '' in word_list:    
-	        word_list.remove('')
+        new_word_list = [' '.join(okt.nouns(word)) for word in test]
+        while '' in new_word_list:    
+	        new_word_list.remove('')
+        print(new_word_list)
+        print(test.keys())
         # print(test)
         # print(word_list)
         return json.dumps(test, ensure_ascii = False)

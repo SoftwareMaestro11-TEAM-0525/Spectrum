@@ -29,11 +29,14 @@ let Mindmap = {
               content: "data(name)",
               "text-valign": "center",
               color: "#000000",
-              "text-outline-width": 0.7,
+              "text-outline-width": 0.01,
               "text-outline-color": "black",
-              "background-color": "#000000",
+              "background-color": "#fff",
               "text-wrap": "wrap",
-
+              "border-color" : "black",
+              "border-width" : "0.1",
+              "border-style" : "solid",
+              
               label: "data(name)"
             }
           },
@@ -147,7 +150,7 @@ let Mindmap = {
       // const fontMaxSize = 8;
       const fontMaxSize = 3;
       // // const fontMinSize = 5;
-      const fontMinSize = 1;
+      const fontMinSize = 2;
       const fontActiveSize = 7;
 
       // //엣지, 화살표 크기 값
@@ -161,7 +164,7 @@ let Mindmap = {
       const dimColor = "#dfe4ea";
       const edgeColor = "#ced6e0";
       // const nodeColor = "#57606f";
-      const nodeColor = "#fff";
+      const nodeColor = "#000000";
       
       const nodeActiveColor = "#ffa502";
 
@@ -243,7 +246,7 @@ let Mindmap = {
 
       function setResetFocus(target_cy) {
         target_cy.nodes().forEach(function(target) {
-          target.style("background-color", nodeColor);
+          target.style("background-color", "#fff");
           target.style(
             "width",
             nodeMaxSize *
@@ -274,7 +277,7 @@ let Mindmap = {
                   .rank("#" + target.id())) +
               fontMinSize
           );
-          target.style("color", nodeColor);
+          target.style("color", "#000000");
           target.style("opacity", 1);
         });
         target_cy.edges().forEach(function(target) {
