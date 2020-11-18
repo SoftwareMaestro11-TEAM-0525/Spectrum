@@ -59,7 +59,8 @@ router.beforeEach((to, from, next) => {
     "Password",
     "Home",
     "Share",
-    "ShareArticle"
+    "ShareArticle",
+    "Mypage",
   ];
   const authRequired = !publicPages.includes(to.name);
   const loggedIn = store.state.auth.status.loggedIn;
