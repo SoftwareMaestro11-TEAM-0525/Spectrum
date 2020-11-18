@@ -421,6 +421,22 @@ let Mindmap = {
       });
       cy.cxtmenu({ selector: "edge", commands: edgeCommand });
       cy.cxtmenu({ selector: "core", commands: coreCommand });
+    },
+    bfs_test:function(){
+      var bfs = cy.elements().bfs('#a', function(){}, true);
+
+      var i = 0;
+      var highlightNextEle = function(){
+        if( i < bfs.path.length ){
+          bfs.path[i].addClass('highlighted');
+        
+          i++;
+          setTimeout(highlightNextEle, 1000);
+        }
+      };
+
+      // kick off first highlight
+      highlightNextEle();
     }
   }
 };
