@@ -21,7 +21,9 @@
             </div>
           </div>
           <div class="menu">
-            <div @click="setSample">마이페이지</div>
+            <router-link to="Mypage">
+              <div>마이페이지</div>
+            </router-link>
             <div @click="setEmpty">설정</div>
           </div>
           <div class="logout" @click="handleLogout">로그아웃</div>

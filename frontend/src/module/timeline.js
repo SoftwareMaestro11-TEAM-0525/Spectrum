@@ -1,10 +1,3 @@
-/**
- * Timeline - a horizontal / vertical timeline component
- * v. 1.2.0
- * Copyright Mike Collins
- * MIT License
- */
-"use strict";
 var _slicedToArray = function(e, t) {
   if (Array.isArray(e)) return e;
   if (Symbol.iterator in Object(e))
@@ -25,6 +18,7 @@ var _slicedToArray = function(e, t) {
         try {
           !n && r.return && r.return();
         } finally {
+          // eslint-disable-next-line no-unsafe-finally
           if (l) throw s;
         }
       }
@@ -32,6 +26,7 @@ var _slicedToArray = function(e, t) {
     })(e, t);
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
 };
+
 function timeline(e, v) {
   var g = [],
     p = "Timeline:",
@@ -39,7 +34,10 @@ function timeline(e, v) {
     i = void 0,
     o = 0,
     b = {
-      forceVerticalMode: { type: "integer", defaultValue: 600 },
+      forceVerticalMode: {
+        type: "integer",
+        defaultValue: 600
+      },
       horizontalStartPosition: {
         type: "string",
         acceptedValues: ["bottom", "top"],
@@ -50,20 +48,38 @@ function timeline(e, v) {
         acceptedValues: ["horizontal", "vertical"],
         defaultValue: "vertical"
       },
-      moveItems: { type: "integer", defaultValue: 1 },
-      rtlMode: { type: "boolean", acceptedValues: [!0, !1], defaultValue: !1 },
-      startIndex: { type: "integer", defaultValue: 0 },
+      moveItems: {
+        type: "integer",
+        defaultValue: 1
+      },
+      rtlMode: {
+        type: "boolean",
+        acceptedValues: [!0, !1],
+        defaultValue: !1
+      },
+      startIndex: {
+        type: "integer",
+        defaultValue: 0
+      },
       verticalStartPosition: {
         type: "string",
         acceptedValues: ["left", "right"],
         defaultValue: "left"
       },
-      verticalTrigger: { type: "string", defaultValue: "15%" },
-      visibleItems: { type: "integer", defaultValue: 3 }
+      verticalTrigger: {
+        type: "string",
+        defaultValue: "15%"
+      },
+      visibleItems: {
+        type: "integer",
+        defaultValue: 3
+      }
     };
+
   function n(e, t, i) {
     t.classList.add(i), e.parentNode.insertBefore(t, e), t.appendChild(e);
   }
+
   function l(e, t) {
     var i = e.getBoundingClientRect(),
       n = window.innerHeight || document.documentElement.clientHeight,
@@ -88,15 +104,18 @@ function timeline(e, v) {
         0 <= i.left + i.width
     );
   }
+
   function d(e, t) {
     (e.style.webkitTransform = t),
       (e.style.msTransform = t),
       (e.style.transform = t);
   }
+
   function c(e) {
     var t = "translate3d(-" + e.items[o].offsetLeft + "px, 0, 0)";
     d(e.scroller, t);
   }
+
   function s(e) {
     var s, t, i, n, l, a, r;
     (o = e.settings.rtlMode
@@ -184,6 +203,7 @@ function timeline(e, v) {
         });
       });
   }
+
   function a() {
     g.forEach(function(e) {
       (e.timelineEl.style.opacity = 0),
@@ -252,6 +272,7 @@ function timeline(e, v) {
         }, 500);
     });
   }
+
   e.length &&
     [].forEach.call(e, function(e) {
       var t = e.id ? "#" + e.id : "." + e.className,
@@ -340,7 +361,10 @@ function timeline(e, v) {
         var h = _slicedToArray(o, 3);
         (m = h[1]), (u = h[2]);
       }
-      (r.verticalTrigger = { unit: u, value: m }),
+      (r.verticalTrigger = {
+        unit: u,
+        value: m
+      }),
         r.moveItems > r.visibleItems &&
           (console.warn(
             p +
@@ -375,7 +399,13 @@ function timeline(e, v) {
                 " for this timeline. The value of 0 has been used instead."
             ),
             (r.startIndex = 0)),
-        g.push({ timelineEl: e, wrap: l, scroller: s, items: a, settings: r });
+        g.push({
+          timelineEl: e,
+          wrap: l,
+          scroller: s,
+          items: a,
+          settings: r
+        });
     }),
     a(),
     window.addEventListener("resize", function() {
@@ -386,7 +416,5 @@ function timeline(e, v) {
         }, 250));
     });
 }
-window.jQuery &&
-  (window.jQuery.fn.timeline = function(e) {
-    return timeline(this, e), this;
-  });
+
+export default timeline;

@@ -35,8 +35,16 @@ export const mindmap = {
     addMindmapEdge({ commit }, data) {
       commit("addEdge", data);
     },
-    patchMindmapData({ commit }, data) {
-      const { userID, nodes, edges } = data;
+    patchMindmapData({ commit, state }, data) {
+      const { userID } = data;
+      let nodes, edges;
+      if (data.nodes && data.edges) {
+        nodes = data.nodes;
+        edges = data.edges;
+      } else {
+        nodes = state.elements.nodes;
+        edges = state.elements.edges;
+      }
       const cyjson = {
         nodes,
         edges
@@ -180,6 +188,6 @@ export const mindmap = {
       state.elements.edges.push({
         data: { id: id, source: source, target: target }
       });
-    }
+    },
   }
 };
