@@ -5,11 +5,9 @@ const Schema = mongoose.Schema;
 const Article = new Schema({
   user_id: {
     type: String,
-    required: true,
   },
   node_id: {
     type: String,
-    required: true,
   },
   type: {
     type: String,
