@@ -5,7 +5,9 @@ const initialState = {
   elements: {
     nodes: [],
     edges: []
-  }
+  },
+  nextNodeID: 1,
+  nextEdgeID: 1
 };
 
 export const mindmap = {
@@ -182,12 +184,14 @@ export const mindmap = {
           name: name
         }
       });
+      state.nextNodeID += 1;
     },
     addEdge(state, data) {
       const { id, source, target } = data;
       state.elements.edges.push({
         data: { id: id, source: source, target: target }
       });
-    },
+      state.nextEdgeID += 1;
+    }
   }
 };

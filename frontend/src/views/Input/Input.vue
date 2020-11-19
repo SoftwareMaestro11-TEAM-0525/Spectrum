@@ -235,9 +235,12 @@ export default {
       // if (this.$route.params.type === "file") {
       // }
 
+      const nextNodeID = this.$store.state.mindmap.nextNodeID;
+      const nextEdgeId = this.$store.state.mindmap.nextEdgeID;
+
       await ArticleService.postArticles({
         userID: this.$store.state.auth.user.user_id,
-        nodeID: -this.$store.state.mindmap.elements.nodes.length,
+        nodeID: -nextNodeID,
         type: this.$route.params.type,
         title: this.titleString,
         startDate: this.date.start,
@@ -252,16 +255,14 @@ export default {
         isSecret: this.isLock
       }).then(
         () => {
-          const targetNodeId = (-this.$store.state.mindmap.elements.nodes
-            .length).toString();
+          const targetNodeId = (-nextNodeID).toString();
+          const targetEdgeId = nextEdgeId.toString();
           this.$store.dispatch("mindmap/addMindmapNode", {
             id: targetNodeId,
             name: this.titleString
           });
           this.$store.dispatch("mindmap/addMindmapEdge", {
-            id: (
-              this.$store.state.mindmap.elements.edges.length + 1
-            ).toString(),
+            id: targetEdgeId,
             target: targetNodeId,
             source: this.$route.query.nodeID
           });
@@ -286,8 +287,6 @@ export default {
           console.log(err);
         }
       );
-
-      await this.$store.dispatch("mindmap/addMindmapNode", {});
     },
     onStartDateChange(selectedDates, dateStr) {
       this.date.config.end.minDate = dateStr;
