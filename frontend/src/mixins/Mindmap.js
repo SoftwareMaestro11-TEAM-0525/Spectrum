@@ -23,20 +23,18 @@ let Mindmap = {
         autounselectify: true,
         // cytoscape style 코드
         style: [
-          {
+         {
             selector: "node",
             style: {
               content: "data(name)",
               "text-valign": "center",
-              color: "#000000",
-              "text-outline-width": 0.01,
-              "text-outline-color": "black",
-              "background-color": "#fff",
+              "text-halign":"center",
+              color: "#57606f",
+              "text-outline-width": 1,
+              "text-outline-color": "white",
+              "background-color": "#57606f",
               "text-wrap": "wrap",
-              "border-color" : "black",
-              "border-width" : "0.1",
-              "border-style" : "solid",
-              
+
               label: "data(name)"
             }
           },
@@ -122,7 +120,7 @@ let Mindmap = {
         layout: {
           name: "cose-bilkent",
           roots: "#0",
-          padding: 50,
+          padding: 0,
           animate: false
         }
       });
@@ -138,19 +136,19 @@ let Mindmap = {
         this.clearTimeout(resizeTimer);
         resizeTimer = this.setTimeout(function() {
           cy.fit();
-        }, 200);
+        }, 100);
       });
 
-      //mouseOn, mouseOut 등등의 관련 상수들
+     //mouseOn, mouseOut 등등의 관련 상수들
       // const nodeMaxSize = 50;
-      const nodeMaxSize = 18;
+      const nodeMaxSize = 15;
       // // const nodeMinSize = 5;
-      const nodeMinSize = 2;
+      const nodeMinSize = 1;
       const nodeActiveSize = 22;
       // const fontMaxSize = 8;
       const fontMaxSize = 3;
       // // const fontMinSize = 5;
-      const fontMinSize = 2;
+      const fontMinSize = 1;
       const fontActiveSize = 7;
 
       // //엣지, 화살표 크기 값
@@ -163,9 +161,7 @@ let Mindmap = {
 
       const dimColor = "#dfe4ea";
       const edgeColor = "#ced6e0";
-      // const nodeColor = "#57606f";
-      const nodeColor = "#000000";
-      
+      const nodeColor = "#57606f";
       const nodeActiveColor = "#ffa502";
 
       // //상위 노드, 엣지 색
@@ -246,7 +242,7 @@ let Mindmap = {
 
       function setResetFocus(target_cy) {
         target_cy.nodes().forEach(function(target) {
-          target.style("background-color", "#fff");
+          target.style("background-color", nodeColor);
           target.style(
             "width",
             nodeMaxSize *
@@ -277,8 +273,10 @@ let Mindmap = {
                   .rank("#" + target.id())) +
               fontMinSize
           );
-          target.style("color", "#000000");
+          target.style("color", nodeColor);
           target.style("opacity", 1);
+          target.style("text-valign", "center");
+          target.style("text-halign", "center");
         });
         target_cy.edges().forEach(function(target) {
           target.style("line-color", edgeColor);

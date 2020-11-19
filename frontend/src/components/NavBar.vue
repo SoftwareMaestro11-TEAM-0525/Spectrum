@@ -70,7 +70,7 @@ export default {
     if (!shareKey) {
       this.shareURL = "공유 링크를 생성해주세요.";
     } else {
-      this.shareURL = `http://localhost/share/${shareKey}`;
+      this.shareURL = `https://www.seokseok.me/share/${shareKey}`;
     }
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
       const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
         res => res.share_key
       );
-      this.shareURL = `http://localhost/share/${ShareKey}`;
+      this.shareURL = `https://www.seokseok.me/share/${ShareKey}`;
       localStorage.setItem("shareKey", ShareKey);
     },
     popupEvent: function() {

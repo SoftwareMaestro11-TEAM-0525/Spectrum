@@ -65,7 +65,7 @@ export default {
         this.$store.state.auth.user.user_id,
         this.nodeID
       ).then(res => {
-        this.shareURL = `http://localhost:8080/share/article/${res.share_key}`;
+        this.shareURL = `https://www.seokseok.me/share/article/${res.share_key}`;
         console.log(this.shareURL);
       });
     }
