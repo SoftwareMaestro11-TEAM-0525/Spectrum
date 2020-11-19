@@ -103,13 +103,19 @@ export default {
         this.$router.push({
           name: "Input",
           params: { type: "file" },
-          query: { isStart: this.isChecked ? "true" : "false" }
+          query: {
+            isStart: this.isChecked ? "true" : "false",
+            nodeID: this.nodeID
+          }
         });
       } else if (type.isLinkSelected) {
         this.$router.push({
           name: "Input",
           params: { type: "link" },
-          query: { isStart: this.isChecked ? "true" : "false" }
+          query: {
+            isStart: this.isChecked ? "true" : "false",
+            nodeID: this.nodeID
+          }
         });
       } else {
         alert("노드 종류를 선택해 주세요.");

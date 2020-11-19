@@ -23,12 +23,12 @@ let Mindmap = {
         autounselectify: true,
         // cytoscape style 코드
         style: [
-         {
+          {
             selector: "node",
             style: {
               content: "data(name)",
               "text-valign": "center",
-              "text-halign":"center",
+              "text-halign": "center",
               color: "#57606f",
               "text-outline-width": 1,
               "text-outline-color": "white",
@@ -139,7 +139,7 @@ let Mindmap = {
         }, 100);
       });
 
-     //mouseOn, mouseOut 등등의 관련 상수들
+      //mouseOn, mouseOut 등등의 관련 상수들
       // const nodeMaxSize = 50;
       const nodeMaxSize = 15;
       // // const nodeMinSize = 5;
@@ -367,6 +367,10 @@ let Mindmap = {
                       nodeID: targetID
                     }).then(
                       res => {
+                        cy.remove("#" + element.id());
+                        targetEdgesID.forEach(id => {
+                          cy.remove("#" + id);
+                        });
                         return Promise.resolve(res);
                       },
                       err => {
