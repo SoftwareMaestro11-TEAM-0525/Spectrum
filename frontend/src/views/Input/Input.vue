@@ -243,7 +243,7 @@ export default {
         startDate: this.date.start,
         endDate: this.date.end,
         content:
-          this.$route.params.type === "일반"
+          this.$route.params.type === "experience"
             ? JSON.stringify(this.editor.getContents())
             : null,
         keyword: this.tags,
