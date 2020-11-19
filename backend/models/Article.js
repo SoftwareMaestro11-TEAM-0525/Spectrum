@@ -10,8 +10,6 @@ const Article = new Schema({
   node_id: {
     type: String,
     required: true,
-    index: true,
-    unique: true,
   },
   type: {
     type: String,
