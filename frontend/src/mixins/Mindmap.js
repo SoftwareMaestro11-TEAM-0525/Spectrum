@@ -340,6 +340,9 @@ let Mindmap = {
               const targetID = element.id();
               const targetEdgesID = [];
               const nodes = store.state.mindmap.elements.nodes.filter(ele => {
+                if (!("data" in ele) || !("id" in ele.data)) {
+                  return false;
+                }
                 return ele.data.id !== targetID;
               });
 
