@@ -21,12 +21,17 @@
 ![image](https://user-images.githubusercontent.com/43382559/99718803-ccb61480-2aee-11eb-8fc4-108bd9b43561.png)
 
 
-# 설치 방법
+# 실행 방법(Docker-compose)
+`cp .env.test ./backend`
+`docker-compose -f docker-compose.dev.yaml up -d --build`
+
+# 실행 방법(개별 실행)
 
 ## FRONTEND
 
 ### Project Setup 
 
+`cd frontend`
 `npm install`
 
 ### Compiles and hot-reloads for development
@@ -37,12 +42,17 @@
 
 ### Project Setup
 
+`cd backend`
 `npm install`
 
 ### Compiles and hot-reloads for development
 
 `yarn serve`
 
+## ML
+
+`cd ml`
+`flask run`
 
 
 
