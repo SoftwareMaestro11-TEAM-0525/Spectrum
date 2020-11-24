@@ -15,9 +15,8 @@ services:
       dockerfile: Dockerfile
       context: ./ml
     container_name: ml
-    expose:
-        - 5000
-        - 5010
+    ports:
+      - "5000:5000"
 
   nginx:
     restart: always

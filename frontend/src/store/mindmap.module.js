@@ -5,7 +5,9 @@ const initialState = {
   elements: {
     nodes: [],
     edges: []
-  }
+  },
+  nextNodeID: 1,
+  nextEdgeID: 1
 };
 
 export const mindmap = {
@@ -37,12 +39,18 @@ export const mindmap = {
     },
     patchMindmapData({ commit, state }, data) {
       const { userID } = data;
-      const { nodes, edges } = state.elements;
+      let nodes, edges;
+      if (data.nodes && data.edges) {
+        nodes = data.nodes;
+        edges = data.edges;
+      } else {
+        nodes = state.elements.nodes;
+        edges = state.elements.edges;
+      }
       const cyjson = {
         nodes,
         edges
       };
-
       return axios
         .patch(
           `/api/cytoscape/${userID}`,
@@ -170,19 +178,20 @@ export const mindmap = {
     },
     addNode(state, data) {
       const { id, name } = data;
-      //{ data: { id: "-23", name: "CES2018" } }
       state.elements.nodes.push({
         data: {
           id: id,
           name: name
         }
       });
+      state.nextNodeID += 1;
     },
     addEdge(state, data) {
       const { id, source, target } = data;
       state.elements.edges.push({
         data: { id: id, source: source, target: target }
       });
+      state.nextEdgeID += 1;
     }
   }
 };

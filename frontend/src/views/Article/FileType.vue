@@ -3,8 +3,8 @@
     <div class="fileButton">
       <img src="~@/assets/image/file.png" alt="파일 아이콘" class="fileIcon" />
       <div class="content">
-        <div class="fileName">file_name.exe</div>
-        <div class="fileSize">1MB</div>
+        <div class="fileName">{{ filestring }}</div>
+        <!--<div class="fileSize">52kb</div>-->
       </div>
       <img
         src="~@/assets/image/download.png"
@@ -17,7 +17,8 @@
 
 <script>
 export default {
-  name: "FileType"
+  name: "FileType",
+  props: ["filestring"]
 };
 </script>
 

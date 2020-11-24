@@ -23,9 +23,12 @@
 
         <!--본문-->
         <template v-if="isDataReady">
-          <general-type :content="content"></general-type>
-          <link-type></link-type>
-          <file-type></file-type>
+          <general-type
+            v-if="type === '일반'"
+            :content="content"
+          ></general-type>
+          <link-type v-if="type === '링크'" :urlstring="url"></link-type>
+          <file-type v-if="type === '파일'"></file-type>
         </template>
       </div>
     </div>

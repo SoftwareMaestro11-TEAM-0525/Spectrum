@@ -71,16 +71,21 @@ export class ArticleService {
     return res;
   };
 
-  static readAllContentByUserId = async (req) => {
+  static readArticlesContentByUserIdForRecommend = async (req) => {
     const { user_id, newContent } = req;
-    const userExsited = await User.findOneByUserId(user_id);
-
-    // if (userExsited == null) {
-    //   let err = new Error();
-    //   err.message = "User not Found";
-    //   err.status = 400;
-    //   throw err;
-    // }
+    try {
+      const existed = await User.findOneByUserId(user_id);
+      if (existed == null) {
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status = 400;
+        throw err;
+      }
+    } catch (err) {
+      err.message = "User not found";
+      err.status = 400;
+      throw err;
+    }
 
     const tmp = await Article.findAllByUserId(user_id);
     const res = {
@@ -89,7 +94,7 @@ export class ArticleService {
     };
 
     if (tmp == null) {
-      let err = new Error();
+      var err = new Error();
       err.message = "Article not Found";
       err.status = 400;
       throw err;
@@ -98,20 +103,113 @@ export class ArticleService {
       res.node_id.push(element.node_id);
       res.content.push(element.content);
     }
-
-    const result = axios.post("http://localhost/ml/recommend/position", {
+    console.log({
       res,
       newContent,
     });
-    console.log(result);
-
-    if (result == null) {
-      let err = new Error();
-      err.message = "run recomment fail";
+    try {
+      const result = await axios.post("http://nginx/ml/recommend/position", {
+        res,
+        newContent,
+      });
+      return result.data;
+    } catch (err) {
+      err.message = "ML Position Recommend fail";
       err.status = 400;
       throw err;
     }
-    return result;
+  };
+
+  static readArticlesContentByUserIdForKeyword = async (req) => {
+    const { user_id } = req;
+
+    try {
+      const existed = await User.findOneByUserId(user_id);
+      if (existed == null) {
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status = 400;
+        throw err;
+      }
+    } catch (err) {
+      err.message = "User not found";
+      err.status = 400;
+      throw err;
+    }
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const content = [];
+
+    if (tmp == null) {
+      var err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      content.push(element.title);
+      content.push(element.keyword);
+      content.push(element.content);
+    }
+
+    console.log({
+      content,
+    });
+
+    try {
+      console.log("try");
+      const result = await axios.post("http://nginx/ml/hello", {
+        content,
+      });
+      return result.data;
+    } catch (err) {
+      err.message = "ML Extract Keyword fail";
+      err.status = 400;
+      throw err;
+    }
+  };
+
+  static readArticlesContentByUserIdForSentence = async (req) => {
+    const { user_id } = req;
+
+    try {
+      const existed = await User.findOneByUserId(user_id);
+      if (existed == null) {
+        var err = new Error();
+        err.message = "User Not Found";
+        err.status = 400;
+        throw err;
+      }
+    } catch (err) {
+      err.message = "User not found";
+      err.status = 400;
+      throw err;
+    }
+
+    const tmp = await Article.findAllByUserId(user_id);
+    const content = [];
+
+    if (tmp == null) {
+      var err = new Error();
+      err.message = "Article not Found";
+      err.status = 400;
+      throw err;
+    }
+    for (let element of tmp) {
+      content.push(element.title);
+      content.push(element.content);
+    }
+    console.log(content);
+    try {
+      const result = await axios.post("http://nginx/ml/sentence", {
+        content,
+      });
+      return result.data;
+    } catch (err) {
+      err.message = "ML Extract Sentence fail";
+      err.status = 400;
+      throw err;
+    }
   };
 
   static readTimeline = async (req) => {

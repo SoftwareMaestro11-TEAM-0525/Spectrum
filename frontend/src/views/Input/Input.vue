@@ -40,7 +40,7 @@
         <div><b>태그</b></div>
         <div class="tagInput" :class="{ focus: isTagFocus }">
           <ul>
-            <li v-for="(tag, index) in tags" :key="tag.text">
+            <li v-for="(tag, index) in tags" :key="index">
               {{ tag.text }}<span @click="removeTagItem(index)">&#x2715;</span>
             </li>
           </ul>
@@ -63,12 +63,16 @@
         <div><b>첨부파일</b></div>
         <div>
           <input
+            class="attachInput"
             type="text"
             readonly
             placeholder="선택된 파일 없음"
             v-model="fileURL"
           />
-          <button @click="attachFile"><b>파일 추가</b></button>
+          <label for="file" class="attachButton" @click="attachFile">
+            <b>파일 추가</b>
+          </label>
+          <input type="file" id="file" @change="filechange"/>
         </div>
       </div>
       <div class="link" v-if="$route.params.type === 'link'">
@@ -159,6 +163,7 @@ export default {
   },
   data() {
     return {
+      filedata: null,
       titleString: "",
       date: {
         start: null,
@@ -202,6 +207,11 @@ export default {
     };
   },
   methods: {
+    filechange(e) {
+      this.filedata = e.target.files[0];
+      console.log(this.filedata);
+      this.fileURL = this.filedata.name;
+    },
     submit: async function() {
       if (!this.titleString) {
         alert("제목을 입력해 주세요.");
@@ -225,36 +235,42 @@ export default {
       // if (this.$route.params.type === "file") {
       // }
 
+      const nextNodeID = this.$store.state.mindmap.nextNodeID;
+      const nextEdgeId = this.$store.state.mindmap.nextEdgeID;
+
       await ArticleService.postArticles({
         userID: this.$store.state.auth.user.user_id,
-        nodeID: -this.$store.state.mindmap.elements.nodes.length,
+        nodeID: -nextNodeID,
         type: this.$route.params.type,
         title: this.titleString,
         startDate: this.date.start,
         endDate: this.date.end,
-        content: JSON.stringify(this.editor.getContents()),
+        content:
+          this.$route.params.type === "experience"
+            ? JSON.stringify(this.editor.getContents())
+            : null,
         keyword: this.tags,
         webURL: this.linkURL,
         fileURL: this.fileURL,
         isSecret: this.isLock
       }).then(
         () => {
-          const targetNodeId = (-this.$store.state.mindmap.elements.nodes
-            .length).toString();
+          const targetNodeId = (-nextNodeID).toString();
+          const targetEdgeId = nextEdgeId.toString();
           this.$store.dispatch("mindmap/addMindmapNode", {
             id: targetNodeId,
             name: this.titleString
           });
           this.$store.dispatch("mindmap/addMindmapEdge", {
-            id: (
-              this.$store.state.mindmap.elements.edges.length + 1
-            ).toString(),
+            id: targetEdgeId,
             target: targetNodeId,
             source: this.$route.query.nodeID
           });
           this.$store
             .dispatch("mindmap/patchMindmapData", {
-              userID: this.$store.state.auth.user.user_id
+              userID: this.$store.state.auth.user.user_id,
+              edges: this.$store.state.mindmap.elements.edges,
+              nodes: this.$store.state.mindmap.elements.nodes
             })
             .then(
               () => {
@@ -271,8 +287,6 @@ export default {
           console.log(err);
         }
       );
-
-      await this.$store.dispatch("mindmap/addMindmapNode", {});
     },
     onStartDateChange(selectedDates, dateStr) {
       this.date.config.end.minDate = dateStr;
@@ -339,6 +353,10 @@ export default {
 .container {
   height: auto;
   min-height: 100vh;
+}
+
+#file {
+  display: none;
 }
 
 .wrapper {
@@ -539,7 +557,7 @@ export default {
     div:nth-child(2) {
       font-size: 13px;
 
-      input {
+      .attachInput {
         width: 294px;
         height: 36px;
         box-sizing: border-box;
@@ -551,7 +569,7 @@ export default {
         color: #363636;
       }
 
-      button {
+      .attachButton {
         width: 72px;
         height: 36px;
         vertical-align: middle;
@@ -560,6 +578,9 @@ export default {
         background-color: #f0f0f0;
         outline: none;
         cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

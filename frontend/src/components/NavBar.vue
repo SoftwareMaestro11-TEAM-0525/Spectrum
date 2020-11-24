@@ -21,7 +21,9 @@
             </div>
           </div>
           <div class="menu">
-            <div @click="setSample">마이페이지</div>
+            <router-link to="Mypage">
+              <div>마이페이지</div>
+            </router-link>
             <div @click="setEmpty">설정</div>
           </div>
           <div class="logout" @click="handleLogout">로그아웃</div>
@@ -68,7 +70,7 @@ export default {
     if (!shareKey) {
       this.shareURL = "공유 링크를 생성해주세요.";
     } else {
-      this.shareURL = `http://localhost:8080/share/${shareKey}`;
+      this.shareURL = `https://www.seokseok.me/share/${shareKey}`;
     }
   },
   methods: {
@@ -82,7 +84,7 @@ export default {
       const ShareKey = await ShareMindmapService.makeShareLink(userId).then(
         res => res.share_key
       );
-      this.shareURL = `http://localhost:8080/share/${ShareKey}`;
+      this.shareURL = `https://www.seokseok.me/share/${ShareKey}`;
       localStorage.setItem("shareKey", ShareKey);
     },
     popupEvent: function() {

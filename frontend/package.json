@@ -23,6 +23,7 @@
     "vue": "^2.6.11",
     "vue-flatpickr-component": "^8.1.6",
     "vue-router": "^3.2.0",
+    "vuewordcloud": "^18.7.12",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^3.1.0"
   },

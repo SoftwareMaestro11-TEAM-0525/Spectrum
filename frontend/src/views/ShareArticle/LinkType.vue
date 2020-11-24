@@ -1,10 +1,10 @@
 <template>
   <div class="body">
-    <div class="linkButton">
+    <div class="linkButton" @click="open">
       <img src="~@/assets/image/link.png" alt="링크 아이콘" class="icon" />
       <div class="content">
         <span class="url">
-          https://notefolio.net/?work_categories=&orderrrrrrrrrrrrr
+          {{ urlstring }}
         </span>
         <div class="tooltip">
           링크로 이동
@@ -17,7 +17,13 @@
 
 <script>
 export default {
-  name: "LinkType"
+  name: "LinkType",
+  props: ["urlstring"],
+  methods: {
+    open() {
+      window.open(this.urlstring);
+    }
+  }
 };
 </script>
 

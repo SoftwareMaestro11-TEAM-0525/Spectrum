@@ -18,7 +18,10 @@
         @input="typing"
         v-bind:value="passwordString"
       />
-      <button :class="{ disable: isButtonDisable }" @click.prevent="handleLogin">
+      <button
+        :class="{ disable: isButtonDisable }"
+        @click.prevent="handleLogin"
+      >
         로그인
       </button>
     </form>

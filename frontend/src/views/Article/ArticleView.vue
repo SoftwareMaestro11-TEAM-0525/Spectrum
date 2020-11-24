@@ -32,9 +32,12 @@
 
         <!--본문-->
         <template v-if="isDataReady">
-          <general-type :content="content"></general-type>
-          <link-type v-if="false"></link-type>
-          <file-type v-if="false"></file-type>
+          <general-type
+            v-if="type === '일반'"
+            :content="content"
+          ></general-type>
+          <link-type v-if="type === '링크'" :urlstring="url"></link-type>
+          <file-type v-if="type === '파일'" :filestring="file"></file-type>
         </template>
       </div>
     </div>
@@ -65,8 +68,10 @@ export default {
         this.$store.state.auth.user.user_id,
         this.nodeID
       ).then(res => {
-        this.shareURL = `http://localhost:8080/share/article/${res.share_key}`;
-        console.log(this.shareURL);
+        this.shareURL = `https://www.seokseok.me/share/article/${res.share_key}`;
+        navigator.clipboard.writeText(this.shareURL).then(() => {
+          alert("복사 완료!");
+        });
       });
     }
   },
@@ -88,6 +93,13 @@ export default {
     };
   },
   mounted() {
+    console.log(this.nodeID);
+    if (this.nodeID === "0") {
+      alert("루트 노드는 조회가 불가능합니다.");
+      this.$emit("closeArticleView", false);
+      return;
+    }
+
     ArticleService.getArticles({
       userID: this.$store.state.auth.user.user_id,
       nodeID: this.nodeID
